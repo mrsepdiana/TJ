@@ -715,7 +715,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         </button>
         <button class="sb-sub-item" onclick="goPage('bt-journal',this)">
           <div class="mode-dot" style="background:var(--vio)"></div>
-          <span>Trade Log</span>
+          <span data-i18n="bt.journal">Trade Log</span>
         </button>
         <button class="sb-sub-item" onclick="goPage('bt-analysis',this)">
           <div class="mode-dot" style="background:var(--vio)"></div>
@@ -739,7 +739,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         </button>
         <button class="sb-sub-item" onclick="goPage('pt-journal',this)">
           <div class="mode-dot" style="background:var(--ora)"></div>
-          <span>Trade Log</span>
+          <span data-i18n="pt.journal">Trade Log</span>
         </button>
         <button class="sb-sub-item" onclick="goPage('pt-analysis',this)">
           <div class="mode-dot" style="background:var(--ora)"></div>
@@ -751,7 +751,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Single items -->
     <div class="sb-section" style="margin-top:4px" data-i18n-key="other">Lainnya</div>
     <div class="sb-group">
-      <button class="sb-nav-item" data-tip="Checklist Harian" id="nav-checklist" onclick="goSinglePage('checklist',this)">
+      <button class="sb-nav-item" id="nav-checklist" onclick="goSinglePage('checklist',this)">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         <span class="nav-label" data-i18n="nav.checklist">Checklist Harian</span>
         <span class="sb-badge" id="cl-badge" style="display:none">!</span>
@@ -769,7 +769,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   <!-- Equity footer -->
   <div class="sb-foot">
     <div class="sb-eq">
-      <div class="sb-eq-lbl">Equity</div>
+      <div class="sb-eq-lbl" data-i18n="sidebar.equity">Equity</div>
       <div class="sb-eq-row">
         <span class="sb-eq-sym">$</span>
         <span class="sb-eq-val" id="sb-equity-val">0.00</span>
@@ -826,13 +826,13 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="sec-lbl" data-i18n="dashboard.psychology">Psikologi</div>
     <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-live"><span style="font-size:12px;color:var(--tx-faint)">—</span></div></div></div>
     <div class="sec-lbl" data-i18n="dashboard.sessions">Sesi Trading</div>
-    <div id="sess-live" style="margin-bottom:32px"><div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d">Isi jam entry untuk melihat analisis sesi</div></div></div>
+    <div id="sess-live" style="margin-bottom:32px"><div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d"><span data-i18n="empty.noSession">Isi jam entry untuk melihat analisis sesi</span></div></div></div>
   </div>
 
   <!-- ══ LIVE JOURNAL ══ -->
   <div class="pg" id="pg-live-journal">
     <div class="pg-hd">
-      <div class="pg-hd-l"><div class="pg-title" data-i18n="nav.journal">Jurnal</div><div class="pg-sub">Trade live yang sudah dieksekusi</div></div>
+      <div class="pg-hd-l"><div class="pg-title" data-i18n="nav.journal">Jurnal</div><div class="pg-sub" data-i18n="page.liveJournalSub">Trade live yang sudah dieksekusi</div></div>
       <button class="btn btn-primary" onclick="openAddTrade('live')">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
         <span data-i18n="trade.addTrade">Tambah Trade</span>
@@ -841,7 +841,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Journal table -->
     <div class="csv-bar">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span class="csv-txt">Import / Export</span>
+          <span class="csv-txt" data-i18n="csv.importExport">Import / Export</span>
           <button class="btn btn-outline btn-sm" onclick="exportCSV('live')">Export CSV</button>
           <button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-live').click()">Import CSV</button>
           <input type="file" id="csvFile-live" accept=".csv" style="display:none" onchange="importCSV(event,'live')">
@@ -855,51 +855,51 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
           </div>
         </div>
         <div class="tbl-wrap">
-          <table class="main-tbl"><thead><tr><th>#</th><th>Tanggal</th><th>Jam</th><th>Sesi</th><th>Pair</th><th>Setup</th><th>Arah</th><th>Entry</th><th>SL</th><th>TP</th><th>Close</th><th>Lot</th><th>P&L</th><th>Hasil</th><th>R:R</th><th>Psikologi</th><th></th></tr></thead><tbody id="jBody-live"></tbody></table>
-          <div id="jEmpty-live" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t">Jurnal kosong</div><div class="empty-d">Klik "Tambah Trade" untuk mulai</div></div>
+          <table class="main-tbl"><thead><tr><th data-i18n="table.no">#</th><th data-i18n="table.date">Tanggal</th><th data-i18n="table.time">Jam</th><th data-i18n="table.session">Sesi</th><th data-i18n="table.pair">Pair</th><th data-i18n="table.setup">Setup</th><th data-i18n="table.direction">Arah</th><th data-i18n="table.entry">Entry</th><th data-i18n="table.sl">SL</th><th data-i18n="table.tp">TP</th><th data-i18n="table.close">Close</th><th data-i18n="table.lot">Lot</th><th data-i18n="table.pnl">P&L</th><th data-i18n="table.result">Hasil</th><th data-i18n="table.rr">R:R</th><th data-i18n="table.psych">Psikologi</th><th></th></tr></thead><tbody id="jBody-live"></tbody></table>
+          <div id="jEmpty-live" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t" data-i18n="empty.noJournal">Jurnal kosong</div><div class="empty-d" data-i18n="empty.noJournalDesc">Klik "Tambah Trade" untuk mulai</div></div>
         </div>
   </div>
 
   <!-- ══ LIVE ANALYSIS ══ -->
   <div class="pg" id="pg-live-analysis">
-    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="nav.analysis">Analisis Setup</div><div class="pg-sub">Performa strategi entry — Live Trading</div></div></div>
+    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="nav.analysis">Analisis Setup</div><div class="pg-sub" data-i18n="page.liveAnalysisSub">Performa strategi entry — Live Trading</div></div></div>
     <div id="analysis-live"></div>
   </div>
 
   <!-- ══ LIVE TRANSACTIONS ══ -->
   <div class="pg" id="pg-live-transactions">
     <div class="pg-hd">
-      <div class="pg-hd-l"><div class="pg-title" data-i18n="nav.transactions">Transaksi</div><div class="pg-sub">Riwayat deposit & penarikan equity</div></div>
+      <div class="pg-hd-l"><div class="pg-title" data-i18n="nav.transactions">Transaksi</div><div class="pg-sub" data-i18n="page.liveTransactionsSub">Riwayat deposit & penarikan equity</div></div>
       <button class="btn btn-primary" onclick="openAddTransaction()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-        Tambah Transaksi
+        <span data-i18n="btn.addTransaction">Tambah Transaksi</span>
       </button>
     </div>
     <!-- Summary cards -->
     <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
-      <div class="stat-card"><div class="stat-lbl">Modal Awal</div><div class="stat-val mono" id="tx-initial">$0.00</div><div class="stat-hint">Set di Pengaturan</div></div>
-      <div class="stat-card"><div class="stat-lbl">Total Deposit</div><div class="stat-val up mono" id="tx-total-dep">$0.00</div><div class="stat-hint" id="tx-dep-count">0 transaksi</div></div>
-      <div class="stat-card"><div class="stat-lbl">Total Penarikan</div><div class="stat-val dn mono" id="tx-total-wd">$0.00</div><div class="stat-hint" id="tx-wd-count">0 transaksi</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="tx.initialCapital">Modal Awal</div><div class="stat-val mono" id="tx-initial">$0.00</div><div class="stat-hint">Set di Pengaturan</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="tx.totalDeposit">Total Deposit</div><div class="stat-val up mono" id="tx-total-dep">$0.00</div><div class="stat-hint" id="tx-dep-count">0 transaksi</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="tx.totalWithdrawal">Total Penarikan</div><div class="stat-val dn mono" id="tx-total-wd">$0.00</div><div class="stat-hint" id="tx-wd-count">0 transaksi</div></div>
     </div>
     <div class="tbl-wrap">
       <table class="main-tbl">
-        <thead><tr><th>#</th><th>Tanggal</th><th>Tipe</th><th>Jumlah</th><th>Catatan</th><th>Equity Setelah</th><th></th></tr></thead>
+        <thead><tr><th data-i18n="table.no">#</th><th data-i18n="table.date">Tanggal</th><th data-i18n="tx.type">Tipe</th><th data-i18n="tx.amount">Jumlah</th><th data-i18n="tx.note">Catatan</th><th data-i18n="tx.equityAfter">Equity Setelah</th><th></th></tr></thead>
         <tbody id="tx-body"></tbody>
       </table>
-      <div id="tx-empty" class="empty" style="display:none"><div class="empty-ico">💰</div><div class="empty-t">Belum ada transaksi</div><div class="empty-d">Tambahkan deposit atau penarikan</div></div>
+      <div id="tx-empty" class="empty" style="display:none"><div class="empty-ico">💰</div><div class="empty-t" data-i18n="empty.noTransaction">Belum ada transaksi</div><div class="empty-d" data-i18n="empty.noTransactionDesc">Tambahkan deposit atau penarikan</div></div>
     </div>
   </div>
 
   <!-- ══ LIVE ASSETS ══ -->
   <div class="pg" id="pg-live-assets">
-    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="nav.assets">Aset / Pair</div><div class="pg-sub">Kontribusi setiap pair terhadap equity</div></div></div>
+    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="nav.assets">Aset / Pair</div><div class="pg-sub" data-i18n="page.liveAssetsSub">Kontribusi setiap pair terhadap equity</div></div></div>
     <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
-      <div class="stat-card"><div class="stat-lbl">Total Pair Diperdagangkan</div><div class="stat-val mono" id="asset-pairs-count">0</div></div>
-      <div class="stat-card"><div class="stat-lbl">Best Pair</div><div class="stat-val" id="asset-best-pair">—</div><div class="stat-hint" id="asset-best-pnl">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Worst Pair</div><div class="stat-val" id="asset-worst-pair">—</div><div class="stat-hint" id="asset-worst-pnl">—</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="asset.totalPairs">Total Pair Diperdagangkan</div><div class="stat-val mono" id="asset-pairs-count">0</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="asset.bestPair">Best Pair</div><div class="stat-val" id="asset-best-pair">—</div><div class="stat-hint" id="asset-best-pnl">—</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="asset.worstPair">Worst Pair</div><div class="stat-val" id="asset-worst-pair">—</div><div class="stat-hint" id="asset-worst-pnl">—</div></div>
     </div>
-    <div class="sec-lbl">Performa Per Pair</div>
-    <div id="asset-content"><div class="empty" style="padding:48px 0"><div class="empty-ico">📊</div><div class="empty-t">Belum ada data</div><div class="empty-d">Tambahkan trade untuk melihat analisis pair</div></div></div>
+    <div class="sec-lbl" data-i18n="asset.perfPerPair">Performa Per Pair</div>
+    <div id="asset-content"><div class="empty" style="padding:48px 0"><div class="empty-ico">📊</div><div class="empty-t" data-i18n="empty.noAsset">Belum ada data</div><div class="empty-d" data-i18n="empty.noAssetDesc">Tambahkan trade untuk melihat analisis pair</div></div></div>
   </div>
 
   <!-- ══ BT DASHBOARD ══ -->
@@ -912,31 +912,31 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="stat-card"><div class="stat-lbl">Avg R:R</div><div class="stat-val" id="sRR-bt">—</div><div class="stat-hint">per trade</div></div>
     </div>
     <div class="g-eq">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title">Equity Curve</div><div class="card-desc" id="eqRange-bt">—</div></div><span class="badge b-sec mono" id="eqDelta-bt" style="font-size:10px">—</span></div><div id="eqWrap-bt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-bt"></div></div>
-      <div class="card"><div class="card-hd"><div class="card-title">Distribusi Hasil</div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-bt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-bt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-bt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-w"></span><span class="dl-n" id="lw-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-l"></span><span class="dl-n" id="ll-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-be"></span><span class="dl-n" id="lbe-bt">0</span></div></div></div></div></div></div>
+      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title"><span data-i18n="dashboard.equityCurve">Equity Curve</span></div><div class="card-desc" id="eqRange-bt">—</div></div><span class="badge b-sec mono" id="eqDelta-bt" style="font-size:10px">—</span></div><div id="eqWrap-bt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-bt"></div></div>
+      <div class="card"><div class="card-hd"><div class="card-title"><span data-i18n="dashboard.distribution">Distribusi Hasil</span></div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-bt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-bt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-bt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-w"></span><span class="dl-n" id="lw-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-l"></span><span class="dl-n" id="ll-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-be"></span><span class="dl-n" id="lbe-bt">0</span></div></div></div></div></div></div>
     </div>
-    <div class="sec-lbl">Performa</div>
+    <div class="sec-lbl" data-i18n="dashboard.performance">Performa</div>
     <div class="g2">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title">Harian</div></div><div class="perf-chart"><div id="dBars-bt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-bt"></tbody></table></div>
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title">Bulanan</div></div><div class="perf-chart"><div id="mBars-bt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-bt"></tbody></table></div>
+      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.daily">Harian</div></div><div class="perf-chart"><div id="dBars-bt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-bt"></tbody></table></div>
+      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.monthly">Bulanan</div></div><div class="perf-chart"><div id="mBars-bt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-bt"></tbody></table></div>
     </div>
-    <div class="sec-lbl">Psikologi</div>
+    <div class="sec-lbl" data-i18n="dashboard.psychology">Psikologi</div>
     <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-bt"><span style="font-size:12px;color:var(--tx-faint)">—</span></div></div></div>
-    <div class="sec-lbl">Sesi Trading</div>
+    <div class="sec-lbl" data-i18n="dashboard.sessions">Sesi Trading</div>
     <div id="sess-bt" style="margin-bottom:32px"></div>
   </div>
 
   <!-- ══ BT JOURNAL ══ -->
   <div class="pg" id="pg-bt-journal">
-    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title">Trade Log — Backtest</div></div><button class="btn btn-primary" onclick="openAddTrade('bt')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Tambah Trade</button></div>
-    <div class="csv-bar"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="csv-txt">Import / Export</span><button class="btn btn-outline btn-sm" onclick="exportCSV('bt')">Export CSV</button><button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-bt').click()">Import CSV</button><input type="file" id="csvFile-bt" accept=".csv" style="display:none" onchange="importCSV(event,'bt')"></div>
+    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="bt.journal">Trade Log — Backtest</div></div><button class="btn btn-primary" onclick="openAddTrade('bt')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="trade.addTrade">Tambah Trade</span></button></div>
+    <div class="csv-bar"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="csv-txt">Import / Export</span><button class="btn btn-outline btn-sm" onclick="exportCSV('bt')" data-i18n="common.export">Export CSV</button><button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-bt').click()" data-i18n="common.import">Import CSV</button><input type="file" id="csvFile-bt" accept=".csv" style="display:none" onchange="importCSV(event,'bt')"></div>
     <div class="toolbar"><div class="tl"><div class="srch"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="srch-bt" placeholder="Cari pair, setup..." oninput="renderJournal('bt')"></div><select class="fsel" id="fDir-bt" onchange="renderJournal('bt')"><option value="">Arah</option><option value="BUY">BUY</option><option value="SELL">SELL</option></select><select class="fsel" id="fRes-bt" onchange="renderJournal('bt')"><option value="">Hasil</option><option value="WIN">WIN</option><option value="LOSS">LOSS</option><option value="BE">BE</option></select><select class="fsel" id="fStp-bt" onchange="renderJournal('bt')"><option value="">Setup</option></select></div></div>
-    <div class="tbl-wrap"><table class="main-tbl"><thead><tr><th>#</th><th>Tanggal</th><th>Jam</th><th>Sesi</th><th>Pair</th><th>Setup</th><th>Arah</th><th>Entry</th><th>SL</th><th>TP</th><th>Close</th><th>Lot</th><th>P&L</th><th>Hasil</th><th>R:R</th><th>Psikologi</th><th></th></tr></thead><tbody id="jBody-bt"></tbody></table><div id="jEmpty-bt" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t">Belum ada trade</div></div></div>
+    <div class="tbl-wrap"><table class="main-tbl"><thead><tr><th data-i18n="table.no">#</th><th data-i18n="table.date">Tanggal</th><th data-i18n="table.time">Jam</th><th data-i18n="table.session">Sesi</th><th data-i18n="table.pair">Pair</th><th data-i18n="table.setup">Setup</th><th data-i18n="table.direction">Arah</th><th data-i18n="table.entry">Entry</th><th data-i18n="table.sl">SL</th><th data-i18n="table.tp">TP</th><th data-i18n="table.close">Close</th><th data-i18n="table.lot">Lot</th><th data-i18n="table.pnl">P&L</th><th data-i18n="table.result">Hasil</th><th data-i18n="table.rr">R:R</th><th data-i18n="table.psych">Psikologi</th><th></th></tr></thead><tbody id="jBody-bt"></tbody></table><div id="jEmpty-bt" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t" data-i18n="empty.noTrade">Belum ada trade</div></div></div>
   </div>
 
   <!-- ══ BT ANALYSIS ══ -->
   <div class="pg" id="pg-bt-analysis">
-    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title">Analisis Setup — Backtest</div></div></div>
+    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="bt.analysis">Analisis Setup — Backtest</div></div></div>
     <div id="analysis-bt"></div>
   </div>
 
@@ -950,13 +950,13 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="stat-card"><div class="stat-lbl">Avg R:R</div><div class="stat-val" id="sRR-pt">—</div><div class="stat-hint">per trade</div></div>
     </div>
     <div class="g-eq">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title">Equity Curve</div><div class="card-desc" id="eqRange-pt">—</div></div><span class="badge b-sec mono" id="eqDelta-pt" style="font-size:10px">—</span></div><div id="eqWrap-pt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-pt"></div></div>
-      <div class="card"><div class="card-hd"><div class="card-title">Distribusi Hasil</div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-pt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-pt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-pt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-w"></span><span class="dl-n" id="lw-pt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-l"></span><span class="dl-n" id="ll-pt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-be"></span><span class="dl-n" id="lbe-pt">0</span></div></div></div></div></div></div>
+      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title"><span data-i18n="dashboard.equityCurve">Equity Curve</span></div><div class="card-desc" id="eqRange-pt">—</div></div><span class="badge b-sec mono" id="eqDelta-pt" style="font-size:10px">—</span></div><div id="eqWrap-pt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-pt"></div></div>
+      <div class="card"><div class="card-hd"><div class="card-title"><span data-i18n="dashboard.distribution">Distribusi Hasil</span></div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-pt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-pt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-pt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-w"></span><span class="dl-n" id="lw-pt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-l"></span><span class="dl-n" id="ll-pt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-be"></span><span class="dl-n" id="lbe-pt">0</span></div></div></div></div></div></div>
     </div>
     <div class="sec-lbl">Performa</div>
     <div class="g2">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title">Harian</div></div><div class="perf-chart"><div id="dBars-pt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-pt"></tbody></table></div>
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title">Bulanan</div></div><div class="perf-chart"><div id="mBars-pt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-pt"></tbody></table></div>
+      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.daily">Harian</div></div><div class="perf-chart"><div id="dBars-pt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-pt"></tbody></table></div>
+      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.monthly">Bulanan</div></div><div class="perf-chart"><div id="mBars-pt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-pt"></tbody></table></div>
     </div>
     <div class="sec-lbl">Psikologi</div>
     <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-pt"><span style="font-size:12px;color:var(--tx-faint)">—</span></div></div></div>
@@ -966,15 +966,15 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 
   <!-- ══ PT JOURNAL ══ -->
   <div class="pg" id="pg-pt-journal">
-    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title">Trade Log — Paper Trading</div></div><button class="btn btn-primary" onclick="openAddTrade('pt')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Tambah Trade</button></div>
-    <div class="csv-bar"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="csv-txt">Import / Export</span><button class="btn btn-outline btn-sm" onclick="exportCSV('pt')">Export CSV</button><button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-pt').click()">Import CSV</button><input type="file" id="csvFile-pt" accept=".csv" style="display:none" onchange="importCSV(event,'pt')"></div>
+    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="pt.journal">Trade Log — Paper Trading</div></div><button class="btn btn-primary" onclick="openAddTrade('pt')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="trade.addTrade">Tambah Trade</span></button></div>
+    <div class="csv-bar"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="csv-txt">Import / Export</span><button class="btn btn-outline btn-sm" onclick="exportCSV('pt')" data-i18n="common.export">Export CSV</button><button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-pt').click()" data-i18n="common.import">Import CSV</button><input type="file" id="csvFile-pt" accept=".csv" style="display:none" onchange="importCSV(event,'pt')"></div>
     <div class="toolbar"><div class="tl"><div class="srch"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="srch-pt" placeholder="Cari pair, setup..." oninput="renderJournal('pt')"></div><select class="fsel" id="fDir-pt" onchange="renderJournal('pt')"><option value="">Arah</option><option value="BUY">BUY</option><option value="SELL">SELL</option></select><select class="fsel" id="fRes-pt" onchange="renderJournal('pt')"><option value="">Hasil</option><option value="WIN">WIN</option><option value="LOSS">LOSS</option><option value="BE">BE</option></select><select class="fsel" id="fStp-pt" onchange="renderJournal('pt')"><option value="">Setup</option></select></div></div>
-    <div class="tbl-wrap"><table class="main-tbl"><thead><tr><th>#</th><th>Tanggal</th><th>Jam</th><th>Sesi</th><th>Pair</th><th>Setup</th><th>Arah</th><th>Entry</th><th>SL</th><th>TP</th><th>Close</th><th>Lot</th><th>P&L</th><th>Hasil</th><th>R:R</th><th>Psikologi</th><th></th></tr></thead><tbody id="jBody-pt"></tbody></table><div id="jEmpty-pt" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t">Belum ada trade</div></div></div>
+    <div class="tbl-wrap"><table class="main-tbl"><thead><tr><th data-i18n="table.no">#</th><th data-i18n="table.date">Tanggal</th><th data-i18n="table.time">Jam</th><th data-i18n="table.session">Sesi</th><th data-i18n="table.pair">Pair</th><th data-i18n="table.setup">Setup</th><th data-i18n="table.direction">Arah</th><th data-i18n="table.entry">Entry</th><th data-i18n="table.sl">SL</th><th data-i18n="table.tp">TP</th><th data-i18n="table.close">Close</th><th data-i18n="table.lot">Lot</th><th data-i18n="table.pnl">P&L</th><th data-i18n="table.result">Hasil</th><th data-i18n="table.rr">R:R</th><th data-i18n="table.psych">Psikologi</th><th></th></tr></thead><tbody id="jBody-pt"></tbody></table><div id="jEmpty-pt" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t" data-i18n="empty.noTrade">Belum ada trade</div></div></div>
   </div>
 
   <!-- ══ PT ANALYSIS ══ -->
   <div class="pg" id="pg-pt-analysis">
-    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title">Analisis Setup — Paper Trading</div></div></div>
+    <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="pt.analysis">Analisis Setup — Paper Trading</div></div></div>
     <div id="analysis-pt"></div>
   </div>
 
@@ -1008,7 +1008,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="settings.title">Pengaturan</div></div></div>
     <!-- Appearance -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-hd"><div class="card-title">Tampilan</div></div>
+      <div class="card-hd"><div class="card-title" data-i18n="settings.appearance">Tampilan</div></div>
       <div class="card-body">
         <div class="settings-row">
           <div><div class="settings-row-label" data-i18n="settings.theme">Tema</div></div>
@@ -1028,10 +1028,10 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     </div>
     <!-- Capital -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-hd"><div class="card-title">Modal & Equity</div></div>
+      <div class="card-hd"><div class="card-title" data-i18n="settings.capitalSection">Modal & Equity</div></div>
       <div class="card-body">
         <div class="settings-row">
-          <div><div class="settings-row-label" data-i18n="transaction.initialCapital">Modal Awal</div><div class="settings-row-desc">Equity awal sebelum trading dimulai</div></div>
+          <div><div class="settings-row-label" data-i18n="transaction.initialCapital">Modal Awal</div><div class="settings-row-desc" data-i18n="settings.capitalDesc">Equity awal sebelum trading dimulai</div></div>
           <div style="display:flex;align-items:center;gap:8px">
             <span style="color:var(--tx-muted);font-size:13px">$</span>
             <input class="fi" type="number" id="settings-capital" style="width:120px" min="0" step="1" onchange="saveCapital()" value="1000">
@@ -1041,24 +1041,24 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     </div>
     <!-- Data management -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-hd"><div class="card-title">Data</div></div>
+      <div class="card-hd"><div class="card-title" data-i18n="settings.dataSection">Data</div></div>
       <div class="card-body">
         <div class="settings-row">
-          <div><div class="settings-row-label" data-i18n="settings.exportAll">Export Semua Data</div><div class="settings-row-desc">Backup semua trade, transaksi, dan pengaturan</div></div>
-          <button class="btn btn-outline btn-sm" onclick="exportAllData()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export JSON</button>
+          <div><div class="settings-row-label" data-i18n="settings.exportAll">Export Semua Data</div><div class="settings-row-desc" data-i18n="settings.exportDesc">Backup semua trade, transaksi, dan pengaturan</div></div>
+          <button class="btn btn-outline btn-sm" onclick="exportAllData()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg data-i18n="settings.exportBtn">Export JSON</button>
         </div>
         <div class="settings-row">
-          <div><div class="settings-row-label" data-i18n="settings.importAll">Import Data</div><div class="settings-row-desc">Restore dari backup JSON</div></div>
-          <button class="btn btn-outline btn-sm" onclick="document.getElementById('importAllFile').click()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Import JSON</button>
+          <div><div class="settings-row-label" data-i18n="settings.importAll">Import Data</div><div class="settings-row-desc" data-i18n="settings.importDesc">Restore dari backup JSON</div></div>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('importAllFile').click()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg data-i18n="settings.importBtn">Import JSON</button>
           <input type="file" id="importAllFile" accept=".json" style="display:none" onchange="importAllData(event)">
         </div>
         <div class="settings-row">
-          <div><div class="settings-row-label" style="color:var(--red)" data-i18n="settings.clearData">Hapus Semua Data</div><div class="settings-row-desc">Permanen, tidak bisa di-undo</div></div>
+          <div><div class="settings-row-label" style="color:var(--red)" data-i18n="settings.clearData">Hapus Semua Data</div><div class="settings-row-desc" data-i18n="settings.clearDesc">Permanen, tidak bisa di-undo</div></div>
           <button class="btn btn-sm" style="background:var(--red-muted);color:var(--red)" onclick="clearAllData()">Hapus Semua</button>
         </div>
       </div>
     </div>
-    <div style="text-align:center;padding:20px;color:var(--tx-faint);font-size:12px">TradeLog v2.0 — localStorage edition</div>
+    <div style="text-align:center;padding:20px;color:var(--tx-faint);font-size:12px" data-i18n="settings.version">TradeLog v2.0 — localStorage edition</div>
   </div>
 
 </div><!-- /content -->
@@ -1095,7 +1095,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 <!-- Add Transaction Modal -->
 <div class="ov" id="mTransaction">
   <div class="modal modal-sm">
-    <div class="m-hd"><div class="m-title">Tambah Transaksi</div><button class="btn btn-ghost btn-icon" onclick="closeMod('mTransaction')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="m-hd"><div class="m-title" data-i18n="tx.addModal">Tambah Transaksi</div><button class="btn btn-ghost btn-icon" onclick="closeMod('mTransaction')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="m-body">
       <div class="fgrid" style="grid-template-columns:1fr">
         <div class="fg">
@@ -1130,7 +1130,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="alert-modal-icon" style="background:var(--vio-muted);border:2px solid var(--vio-border)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--vio)"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
       </div>
-      <div class="alert-modal-title" data-i18n="backtest.alertTitle">Target Backtest Belum Tercapai</div>
+      <div class="alert-modal-title" data-i18n="alert.btTitle">Target Backtest Belum Tercapai</div>
       <div class="alert-modal-desc" id="alert-bt-desc">Kamu belum menyelesaikan backtest hari ini. Terus semangat!</div>
       <div class="alert-modal-prog">
         <div class="alert-prog-track"><div class="alert-prog-fill" id="alert-bt-fill" style="background:var(--vio)"></div></div>
@@ -1138,7 +1138,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       </div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:10px">
-      <button class="btn btn-outline" onclick="closeMod('mAlertBT')">Nanti Saja</button>
+      <button class="btn btn-outline" onclick="closeMod('mAlertBT')" data-i18n="alert.later">Nanti Saja</button>
       <button class="btn btn-primary" style="background:var(--vio)" onclick="closeMod('mAlertBT');goPage('bt-journal',document.querySelector('[onclick*=bt-journal]'))">Mulai Backtest</button>
     </div>
   </div>
@@ -1151,7 +1151,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="alert-modal-icon" style="background:var(--ora-muted);border:2px solid var(--ora-border)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ora)"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       </div>
-      <div class="alert-modal-title" data-i18n="paperTrading.alertTitle">Target Paper Trading Belum Tercapai</div>
+      <div class="alert-modal-title" data-i18n="alert.ptTitle">Target Paper Trading Belum Tercapai</div>
       <div class="alert-modal-desc" id="alert-pt-desc">Kamu belum menyelesaikan 5 paper trade hari ini. Terus berlatih!</div>
       <div class="alert-modal-prog">
         <div class="alert-prog-track"><div class="alert-prog-fill" id="alert-pt-fill" style="background:var(--ora)"></div></div>
@@ -1159,7 +1159,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       </div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:10px">
-      <button class="btn btn-outline" onclick="closeMod('mAlertPT')">Nanti Saja</button>
+      <button class="btn btn-outline" onclick="closeMod('mAlertPT')" data-i18n="alert.later">Nanti Saja</button>
       <button class="btn btn-primary" style="background:var(--ora)" onclick="closeMod('mAlertPT');goPage('pt-journal',document.querySelector('[onclick*=pt-journal]'))">Mulai Paper Trading</button>
     </div>
   </div>
@@ -1215,7 +1215,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 <div class="ov" id="mImport">
   <div class="modal modal-sm">
     <div class="m-hd">
-      <div class="m-title" id="mImportTitle">Import CSV</div>
+      <div class="m-title" id="mImportTitle" data-i18n="import.title">Import CSV</div>
       <button class="btn btn-ghost btn-icon" onclick="closeMod('mImport')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="m-body">
@@ -1228,22 +1228,22 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:background .1s" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background=''">
           <input type="radio" name="importMode" value="merge" checked style="margin-top:2px;flex-shrink:0">
           <div>
-            <div style="font-size:13px;font-weight:500">Gabung</div>
-            <div style="font-size:11px;color:var(--tx-muted);margin-top:2px">Tambahkan trade baru, lewati yang sudah ada (aman)</div>
+            <div style="font-size:13px;font-weight:500" data-i18n="import.merge">Gabung</div>
+            <div style="font-size:11px;color:var(--tx-muted);margin-top:2px" data-i18n="import.mergeDesc">Tambahkan trade baru, lewati yang sudah ada (aman)</div>
           </div>
         </label>
         <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:background .1s" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background=''">
           <input type="radio" name="importMode" value="overwrite" style="margin-top:2px;flex-shrink:0">
           <div>
-            <div style="font-size:13px;font-weight:500;color:var(--red)">Timpa Semua</div>
-            <div style="font-size:11px;color:var(--tx-muted);margin-top:2px">Hapus semua data mode ini dan ganti dengan file import</div>
+            <div style="font-size:13px;font-weight:500;color:var(--red)" data-i18n="import.overwrite">Timpa Semua</div>
+            <div style="font-size:11px;color:var(--tx-muted);margin-top:2px" data-i18n="import.overwriteDesc">Hapus semua data mode ini dan ganti dengan file import</div>
           </div>
         </label>
       </div>
     </div>
     <div class="m-ft" style="gap:8px">
       <button class="btn btn-outline" onclick="closeMod('mImport')">Batal</button>
-      <button class="btn btn-primary" id="mImportConfirmBtn">Import</button>
+      <button class="btn btn-primary" id="mImportConfirmBtn" data-i18n="import.btn">Import</button>
     </div>
   </div>
 </div>
@@ -1280,37 +1280,56 @@ const MODE_CFG = {
   pt:   { label:'🟠 Paper Trading',chip:'● Paper',    bg:'var(--ora-muted)', fg:'var(--ora-fg)', bdr:'var(--ora-border)', badgeClass:'b-ora', accentColor:'var(--ora)'  },
 };
 
+const CHECKLIST_ITEMS_TEXT = {
+  id: {
+    mentalStable:    { title:'Kondisi mental stabil',                   desc:'Tidak sedang emosional, stress berat, atau terburu-buru' },
+    enoughSleep:     { title:'Cukup tidur & istirahat',                  desc:'Fisik segar, fokus tidak terganggu' },
+    acceptLoss:      { title:'Siap menerima loss',                       desc:'Risk sudah dihitung, mental siap kalau trade gagal' },
+    checkNews:       { title:'Cek berita & kalender ekonomi',            desc:'Hindari entry saat high-impact news (NFP, CPI, FOMC)' },
+    topdown:         { title:'Top-down analysis selesai',                desc:'Daily → H4 → H1 sudah dibaca, bias harian sudah jelas' },
+    srMapped:        { title:'SR zone sudah dipetakan lengkap',          desc:'Tidak ada SR penting yang terlewat di semua TF' },
+    bslSsl:          { title:'Identifikasi BSL / SSL hari ini',          desc:'Tahu di mana likuiditas yang kemungkinan disweep' },
+    tfAligned:       { title:'Semua TF aligned (tidak konflik)',         desc:'Daily, H4, H1 menunjukkan arah yang sama' },
+    waitChoch:       { title:'Tunggu konfirmasi CHoCH (minimal 2x)',     desc:'Jangan entry sebelum struktur berubah terkonfirmasi' },
+    obFvg:           { title:'Ada OB / FVG yang valid di area entry',    desc:'Order Block atau Fair Value Gap sudah diidentifikasi' },
+    premiumDiscount: { title:'Harga di area premium/discount yang tepat',desc:'Buy di discount zone, sell di premium zone' },
+    sessionCheck:    { title:'Sesi trading sesuai (London / NY)',        desc:'Prioritas London session, hindari Asia session untuk XAUUSD' },
+    lotCalc:         { title:'Lot size sudah dihitung (max 2% risk)',    desc:'Gunakan GoldSizer / kalkulator position sizing' },
+    slTpSet:         { title:'SL & TP sudah ditentukan sebelum entry',   desc:'RR minimal 1:2, SL di area yang logis (bukan feeling)' },
+  },
+  en: {
+    mentalStable:    { title:'Stable mental condition',                  desc:'Not emotional, under heavy stress, or rushing' },
+    enoughSleep:     { title:'Adequate sleep & rest',                    desc:'Physically fresh, focus undisturbed' },
+    acceptLoss:      { title:'Ready to accept a loss',                   desc:'Risk calculated, mentally prepared if trade fails' },
+    checkNews:       { title:'Check economic news & calendar',           desc:'Avoid entry during high-impact news (NFP, CPI, FOMC)' },
+    topdown:         { title:'Top-down analysis complete',               desc:'Daily → H4 → H1 read, daily bias established' },
+    srMapped:        { title:'SR zones fully mapped',                    desc:'No important SR zones missed on all TFs' },
+    bslSsl:          { title:'BSL / SSL identified for today',           desc:'Know where liquidity may be swept' },
+    tfAligned:       { title:'All TFs aligned (no conflict)',            desc:'Daily, H4, H1 showing same direction' },
+    waitChoch:       { title:'Wait for CHoCH confirmation (min 2x)',     desc:'Don\'t enter before structure change is confirmed' },
+    obFvg:           { title:'Valid OB / FVG at entry area',             desc:'Order Block or Fair Value Gap identified' },
+    premiumDiscount: { title:'Price at correct premium/discount area',   desc:'Buy at discount zone, sell at premium zone' },
+    sessionCheck:    { title:'Trading session correct (London / NY)',    desc:'Prioritize London session, avoid Asia session for XAUUSD' },
+    lotCalc:         { title:'Lot size calculated (max 2% risk)',        desc:'Use GoldSizer / position sizing calculator' },
+    slTpSet:         { title:'SL & TP set before entry',                 desc:'Minimum RR 1:2, SL at logical area (not feeling)' },
+  },
+};
+
 const CHECKLIST_SECTIONS = [
-  { key: 'mental', items: [
-    { id:'mentalStable', title:'Kondisi mental stabil', desc:'Tidak sedang emosional, stress berat, atau terburu-buru' },
-    { id:'enoughSleep',  title:'Cukup tidur & istirahat', desc:'Fisik segar, fokus tidak terganggu' },
-    { id:'acceptLoss',   title:'Siap menerima loss', desc:'Risk sudah dihitung, mental siap kalau trade gagal' },
-  ]},
-  { key: 'market', items: [
-    { id:'checkNews',     title:'Cek berita & kalender ekonomi', desc:'Hindari entry saat high-impact news (NFP, CPI, FOMC)' },
-    { id:'topdown',       title:'Top-down analysis selesai', desc:'Daily → H4 → H1 sudah dibaca, bias harian sudah jelas' },
-    { id:'srMapped',      title:'SR zone sudah dipetakan lengkap', desc:'Tidak ada SR penting yang terlewat di semua TF' },
-    { id:'bslSsl',        title:'Identifikasi BSL / SSL hari ini', desc:'Tahu di mana likuiditas yang kemungkinan disweep' },
-    { id:'tfAligned',     title:'Semua TF aligned (tidak konflik)', desc:'Daily, H4, H1 menunjukkan arah yang sama' },
-  ]},
-  { key: 'setup', items: [
-    { id:'waitChoch',       title:'Tunggu konfirmasi CHoCH (minimal 2x)', desc:'Jangan entry sebelum struktur berubah terkonfirmasi' },
-    { id:'obFvg',           title:'Ada OB / FVG yang valid di area entry', desc:'Order Block atau Fair Value Gap sudah diidentifikasi' },
-    { id:'premiumDiscount', title:'Harga di area premium/discount yang tepat', desc:'Buy di discount zone, sell di premium zone' },
-    { id:'sessionCheck',    title:'Sesi trading sesuai (London / NY)', desc:'Prioritas London session, hindari Asia session untuk XAUUSD' },
-  ]},
-  { key: 'risk', items: [
-    { id:'lotCalc', title:'Lot size sudah dihitung (max 2% risk)', desc:'Gunakan GoldSizer / kalkulator position sizing' },
-    { id:'slTpSet', title:'SL & TP sudah ditentukan sebelum entry', desc:'RR minimal 1:2, SL di area yang logis (bukan feeling)' },
-  ]},
+  { key: 'mental', items: ['mentalStable','enoughSleep','acceptLoss'] },
+  { key: 'market', items: ['checkNews','topdown','srMapped','bslSsl','tfAligned'] },
+  { key: 'setup',  items: ['waitChoch','obFvg','premiumDiscount','sessionCheck'] },
+  { key: 'risk',   items: ['lotCalc','slTpSet'] },
 ];
 
-const CL_SECTION_LABELS = {
-  mental: 'Persiapan Mental & Kondisi',
-  market: 'Analisis Pasar',
-  setup:  'Setup & Entry',
-  risk:   'Manajemen Risiko',
-};
+function getCLSectionLabel(key) {
+  return {
+    mental: t('checklist.mental'),
+    market: t('checklist.market'),
+    setup:  t('checklist.setup'),
+    risk:   t('checklist.risk'),
+  }[key] || key;
+}
 
 const PSYCH_OPTIONS = [
   '😌 Tenang','🎯 Fokus','💪 Confident',
@@ -1449,62 +1468,320 @@ function toggleTheme() { setTheme(state.settings.theme==='dark'?'light':'dark');
 const I18N = {};
 // Will be populated on init
 function initI18N() {
-  // Inline translations
   I18N.id = {
+    // Nav
     'nav.liveTrading':'Live Trading','nav.dashboard':'Dashboard','nav.journal':'Jurnal',
     'nav.analysis':'Analisis Setup','nav.transactions':'Transaksi','nav.assets':'Aset / Pair',
-    'nav.backtest':'Backtest','nav.paperTrading':'Paper Trading','nav.checklist':'Checklist Harian','nav.settings':'Pengaturan',
-    'dashboard.equity':'Total Equity','dashboard.winRate':'Win Rate','dashboard.totalPnl':'Total P&L','dashboard.avgRr':'Avg R:R',
+    'nav.backtest':'Backtest','nav.paperTrading':'Paper Trading',
+    'nav.checklist':'Checklist Harian','nav.settings':'Pengaturan','nav.other':'Lainnya',
+    // Page subtitles
+    'page.liveJournalSub':'Trade live yang sudah dieksekusi',
+    'page.liveAnalysisSub':'Performa strategi entry — Live Trading',
+    'page.liveTransactionsSub':'Riwayat deposit & penarikan equity',
+    'page.liveAssetsSub':'Kontribusi setiap pair terhadap equity',
+    'page.btJournalSub':'Log simulasi historis',
+    'page.btAnalysisSub':'Performa strategi entry — Backtest',
+    'page.ptJournalSub':'Log simulasi real-time',
+    'page.ptAnalysisSub':'Performa strategi entry — Paper Trading',
+    // Dashboard
+    'dashboard.equity':'Total Equity','dashboard.winRate':'Win Rate',
+    'dashboard.totalPnl':'Total P&L','dashboard.avgRr':'Avg R:R',
     'dashboard.equityCurve':'Equity Curve','dashboard.distribution':'Distribusi Hasil',
     'dashboard.dailyPerf':'Performa Harian','dashboard.monthlyPerf':'Performa Bulanan',
+    'dashboard.daily':'Harian','dashboard.monthly':'Bulanan',
     'dashboard.psychology':'Psikologi','dashboard.sessions':'Sesi Trading',
-    'dashboard.fromCapital':'dari modal awal','dashboard.perTrade':'per trade','dashboard.tradeClosed':'trade closed','dashboard.minTrades':'Min. 2 trade',
-    'trade.addTrade':'Tambah Trade','trade.win':'WIN','trade.loss':'LOSS','trade.be':'BE',
+    'dashboard.performance':'Performa',
+    'dashboard.fromCapital':'dari modal awal','dashboard.perTrade':'per trade',
+    'dashboard.tradeClosed':'trade closed','dashboard.minTrades':'Min. 2 trade',
+    'dashboard.last10days':'10 hari terakhir',
+    // Trade form
+    'trade.addTrade':'Tambah Trade','trade.editTrade':'Edit Trade',
+    'trade.date':'Tanggal','trade.entryTime':'Jam Entry','trade.pair':'Pair / Instrumen',
+    'trade.setup':'Setup / Strategi','trade.direction':'Arah','trade.lot':'Lot Size',
+    'trade.entryPrice':'Entry Price','trade.stopLoss':'Stop Loss','trade.takeProfit':'Take Profit',
+    'trade.closePrice':'Harga Close','trade.autoCalc':'auto hitung P&L',
+    'trade.pnlManual':'P&L Manual','trade.override':'override close price',
+    'trade.psychology':'Kondisi Psikologi','trade.notes':'Catatan / Alasan Entry',
+    'trade.notesPH':'FVG H1, swept SSL, CHoCH M5...',
+    'trade.pairPH':'XAUUSD','trade.setupPH':'FVG, AMD, OB...',
+    'trade.entryPH':'2300.00','trade.slPH':'2290.00','trade.tpPH':'2320.00',
+    'trade.closePH':'kosong = masih open','trade.pnlPH':'Opsional · +50.00 atau -25.00',
+    // Table headers
+    'table.no':'#','table.date':'Tanggal','table.time':'Jam','table.session':'Sesi',
+    'table.pair':'Pair','table.setup':'Setup','table.direction':'Arah',
+    'table.entry':'Entry','table.sl':'SL','table.tp':'TP','table.close':'Close',
+    'table.lot':'Lot','table.pnl':'P&L','table.result':'Hasil','table.rr':'R:R',
+    'table.psych':'Psikologi',
+    // Filter bar
+    'filter.searchPH':'Cari pair, setup...','filter.direction':'Arah',
+    'filter.result':'Hasil','filter.setup':'Setup','filter.all':'Semua',
+    'filter.buy':'BUY','filter.sell':'SELL',
+    'filter.win':'WIN','filter.loss':'LOSS','filter.be':'BE',
+    // Buttons
+    'btn.save':'Simpan','btn.cancel':'Batal','btn.delete':'Hapus','btn.edit':'Edit',
+    'btn.add':'Tambah','btn.export':'Export CSV','btn.import':'Import CSV',
+    'btn.close':'Tutup','btn.reset':'Reset','btn.ok':'OK',
+    'btn.addTrade':'Tambah Trade','btn.addTransaction':'Tambah Transaksi',
+    // Transaction
+    'tx.title':'Transaksi','tx.initialCapital':'Modal Awal',
+    'tx.totalDeposit':'Total Deposit','tx.totalWithdrawal':'Total Penarikan',
+    'tx.history':'Riwayat Transaksi','tx.type':'Tipe','tx.amount':'Jumlah',
+    'tx.note':'Catatan','tx.equityAfter':'Equity Setelah',
+    'tx.deposit':'Deposit','tx.withdrawal':'Penarikan',
+    'tx.addModal':'Tambah Transaksi','tx.typeLabel':'Tipe Transaksi',
+    'tx.amountLabel':'Jumlah (USD)','tx.noteLabel':'Catatan',
+    'tx.amountPH':'100.00','tx.notePH':'Deposit dari bank...',
+    'tx.settingNote':'Set di Pengaturan',
+    // Assets
+    'asset.totalPairs':'Total Pair Diperdagangkan',
+    'asset.bestPair':'Best Pair','asset.worstPair':'Worst Pair',
+    'asset.perfPerPair':'Performa Per Pair',
+    // Section labels
+    'sec.performance':'Performa','sec.psychology':'Psikologi',
+    'sec.sessions':'Sesi Trading','sec.perfPerPair':'Performa Per Pair',
+    // Empty states
+    'empty.noJournal':'Jurnal kosong','empty.noJournalDesc':'Klik "Tambah Trade" untuk mulai',
+    'empty.noTrade':'Belum ada trade','empty.noTradeDesc':'Klik "Tambah Trade" untuk mulai',
+    'empty.noTransaction':'Belum ada transaksi','empty.noTransactionDesc':'Tambahkan deposit atau penarikan',
+    'empty.noAsset':'Belum ada data','empty.noAssetDesc':'Tambahkan trade untuk melihat analisis pair',
+    'empty.noSetup':'Belum ada data setup','empty.noSetupDesc':'Isi kolom Setup saat mencatat trade',
+    'empty.noSession':'Isi jam entry untuk melihat analisis sesi',
+    'empty.minTrades':'Min. 2 trade',
+    // Checklist
     'checklist.title':'Checklist Harian','checklist.subtitle':'Selesaikan checklist sebelum trading',
-    'checklist.resetChecklist':'Reset Checklist','checklist.tfAnalysisSection':'Analisis Timeframe',
-    'tfAnalysis.todayAnalysis':'Analisis Hari Ini','tfAnalysis.saveAnalysis':'Simpan Analisis',
-    'transaction.initialCapital':'Modal Awal',
-    'settings.title':'Pengaturan','settings.theme':'Tema','settings.language':'Bahasa',
-    'settings.light':'Terang','settings.dark':'Gelap','settings.exportAll':'Export Semua Data','settings.clearData':'Hapus Semua Data',
-    'backtest.alertTitle':'Target Backtest Belum Tercapai',
-    'paperTrading.alertTitle':'Target Paper Trading Belum Tercapai',
-    'common.export':'Export CSV','common.import':'Import CSV',
+    'checklist.resetChecklist':'Reset Checklist','checklist.progress':'selesai',
+    'checklist.mental':'Persiapan Mental & Kondisi',
+    'checklist.market':'Analisis Pasar',
+    'checklist.setup':'Setup & Entry',
+    'checklist.risk':'Manajemen Risiko',
+    // Alerts
+    'alert.btTitle':'Target Backtest Belum Tercapai',
+    'alert.btDesc':'Kamu baru menyelesaikan {done}/10 backtest hari ini. Terus semangat mencapai target!',
+    'alert.btProgress':'{done} dari 10 backtest selesai hari ini',
+    'alert.btBtn':'Mulai Backtest','alert.later':'Nanti Saja',
+    'alert.ptTitle':'Target Paper Trading Belum Tercapai',
+    'alert.ptDesc':'Kamu baru menyelesaikan {done}/5 paper trade hari ini. Terus berlatih!',
+    'alert.ptProgress':'{done} dari 5 paper trade selesai hari ini',
+    'alert.ptBtn':'Mulai Paper Trading',
+    // Settings
+    'settings.title':'Pengaturan','settings.appearance':'Tampilan',
+    'settings.theme':'Tema','settings.light':'Terang','settings.dark':'Gelap',
+    'settings.language':'Bahasa',
+    'settings.capitalSection':'Modal & Equity',
+    'settings.initialCapital':'Modal Awal','settings.capitalDesc':'Equity awal sebelum trading dimulai',
+    'settings.dataSection':'Data',
+    'settings.exportAll':'Export Semua Data','settings.exportDesc':'Backup semua trade, transaksi, dan pengaturan',
+    'settings.importAll':'Import Data','settings.importDesc':'Restore dari backup JSON',
+    'settings.clearData':'Hapus Semua Data','settings.clearDesc':'Permanen, tidak bisa di-undo',
+    'settings.exportBtn':'Export JSON','settings.importBtn':'Import JSON',
+    'settings.clearBtn':'Hapus Semua',
+    'settings.version':'TradeLog v2.0 — localStorage edition',
+    // Mode labels
+    'mode.live':'Live Trading','mode.bt':'Backtest','mode.pt':'Paper Trading',
+    // Import modal
+    'import.title':'Import CSV','import.merge':'Gabung',
+    'import.mergeDesc':'Tambahkan trade baru, lewati yang sudah ada (aman)',
+    'import.overwrite':'Timpa Semua',
+    'import.overwriteDesc':'Hapus semua data mode ini dan ganti dengan file import',
+    'import.btn':'Import','import.chooseMode':'Pilih cara import data:',
+    // CSV export bar
+    'csv.importExport':'Import / Export','common.export':'Export CSV','common.import':'Import CSV',
+    // BT/PT page titles
+    'bt.dashboard':'Dashboard — Backtest','bt.journal':'Trade Log — Backtest','bt.analysis':'Analisis Setup — Backtest',
+    'pt.dashboard':'Dashboard — Paper Trading','pt.journal':'Trade Log — Paper Trading','pt.analysis':'Analisis Setup — Paper Trading',
+    // Modal delete
+    'delete.trade':'Hapus Trade?','delete.transaction':'Hapus Transaksi?',
+    'delete.tradeDesc':'akan dihapus permanen dan tidak bisa dikembalikan.',
+    // Sidebar
+    'sidebar.equity':'Modal Equity',
   };
+
   I18N.en = {
+    // Nav
     'nav.liveTrading':'Live Trading','nav.dashboard':'Dashboard','nav.journal':'Journal',
-    'nav.analysis':'Analysis','nav.transactions':'Transactions','nav.assets':'Asset / Pair',
-    'nav.backtest':'Backtest','nav.paperTrading':'Paper Trading','nav.checklist':'Daily Checklist','nav.settings':'Settings',
-    'dashboard.equity':'Total Equity','dashboard.winRate':'Win Rate','dashboard.totalPnl':'Total P&L','dashboard.avgRr':'Avg R:R',
+    'nav.analysis':'Setup Analysis','nav.transactions':'Transactions','nav.assets':'Asset / Pair',
+    'nav.backtest':'Backtest','nav.paperTrading':'Paper Trading',
+    'nav.checklist':'Daily Checklist','nav.settings':'Settings','nav.other':'Other',
+    // Page subtitles
+    'page.liveJournalSub':'Executed live trades',
+    'page.liveAnalysisSub':'Entry strategy performance — Live Trading',
+    'page.liveTransactionsSub':'Deposit & withdrawal history',
+    'page.liveAssetsSub':'Each pair\'s contribution to equity',
+    'page.btJournalSub':'Historical simulation log',
+    'page.btAnalysisSub':'Entry strategy performance — Backtest',
+    'page.ptJournalSub':'Real-time simulation log',
+    'page.ptAnalysisSub':'Entry strategy performance — Paper Trading',
+    // Dashboard
+    'dashboard.equity':'Total Equity','dashboard.winRate':'Win Rate',
+    'dashboard.totalPnl':'Total P&L','dashboard.avgRr':'Avg R:R',
     'dashboard.equityCurve':'Equity Curve','dashboard.distribution':'Result Distribution',
     'dashboard.dailyPerf':'Daily Performance','dashboard.monthlyPerf':'Monthly Performance',
+    'dashboard.daily':'Daily','dashboard.monthly':'Monthly',
     'dashboard.psychology':'Psychology','dashboard.sessions':'Trading Sessions',
-    'dashboard.fromCapital':'from initial capital','dashboard.perTrade':'per trade','dashboard.tradeClosed':'trade closed','dashboard.minTrades':'Min. 2 trades',
-    'trade.addTrade':'Add Trade','trade.win':'WIN','trade.loss':'LOSS','trade.be':'BE',
+    'dashboard.performance':'Performance',
+    'dashboard.fromCapital':'from initial capital','dashboard.perTrade':'per trade',
+    'dashboard.tradeClosed':'trade closed','dashboard.minTrades':'Min. 2 trades',
+    'dashboard.last10days':'Last 10 days',
+    // Trade form
+    'trade.addTrade':'Add Trade','trade.editTrade':'Edit Trade',
+    'trade.date':'Date','trade.entryTime':'Entry Time (WIB)','trade.pair':'Pair / Instrument',
+    'trade.setup':'Setup / Strategy','trade.direction':'Direction','trade.lot':'Lot Size',
+    'trade.entryPrice':'Entry Price','trade.stopLoss':'Stop Loss','trade.takeProfit':'Take Profit',
+    'trade.closePrice':'Close Price','trade.autoCalc':'auto calculate P&L',
+    'trade.pnlManual':'Manual P&L','trade.override':'override close price',
+    'trade.psychology':'Psychology Condition','trade.notes':'Notes / Entry Reason',
+    'trade.notesPH':'FVG H1, swept SSL, CHoCH M5...',
+    'trade.pairPH':'XAUUSD','trade.setupPH':'FVG, AMD, OB...',
+    'trade.entryPH':'2300.00','trade.slPH':'2290.00','trade.tpPH':'2320.00',
+    'trade.closePH':'empty = still open','trade.pnlPH':'Optional · +50.00 or -25.00',
+    // Table headers
+    'table.no':'#','table.date':'Date','table.time':'Time','table.session':'Session',
+    'table.pair':'Pair','table.setup':'Setup','table.direction':'Dir.',
+    'table.entry':'Entry','table.sl':'SL','table.tp':'TP','table.close':'Close',
+    'table.lot':'Lot','table.pnl':'P&L','table.result':'Result','table.rr':'R:R',
+    'table.psych':'Psychology',
+    // Filter bar
+    'filter.searchPH':'Search pair, setup...','filter.direction':'Direction',
+    'filter.result':'Result','filter.setup':'Setup','filter.all':'All',
+    'filter.buy':'BUY','filter.sell':'SELL',
+    'filter.win':'WIN','filter.loss':'LOSS','filter.be':'BE',
+    // Buttons
+    'btn.save':'Save','btn.cancel':'Cancel','btn.delete':'Delete','btn.edit':'Edit',
+    'btn.add':'Add','btn.export':'Export CSV','btn.import':'Import CSV',
+    'btn.close':'Close','btn.reset':'Reset','btn.ok':'OK',
+    'btn.addTrade':'Add Trade','btn.addTransaction':'Add Transaction',
+    // Transaction
+    'tx.title':'Transactions','tx.initialCapital':'Initial Capital',
+    'tx.totalDeposit':'Total Deposit','tx.totalWithdrawal':'Total Withdrawal',
+    'tx.history':'Transaction History','tx.type':'Type','tx.amount':'Amount',
+    'tx.note':'Note','tx.equityAfter':'Equity After',
+    'tx.deposit':'Deposit','tx.withdrawal':'Withdrawal',
+    'tx.addModal':'Add Transaction','tx.typeLabel':'Transaction Type',
+    'tx.amountLabel':'Amount (USD)','tx.noteLabel':'Note',
+    'tx.amountPH':'100.00','tx.notePH':'Bank deposit...',
+    'tx.settingNote':'Set in Settings',
+    // Assets
+    'asset.totalPairs':'Total Pairs Traded',
+    'asset.bestPair':'Best Pair','asset.worstPair':'Worst Pair',
+    'asset.perfPerPair':'Performance Per Pair',
+    // Section labels
+    'sec.performance':'Performance','sec.psychology':'Psychology',
+    'sec.sessions':'Trading Sessions','sec.perfPerPair':'Performance Per Pair',
+    // Empty states
+    'empty.noJournal':'Journal empty','empty.noJournalDesc':'Click "Add Trade" to start',
+    'empty.noTrade':'No trades yet','empty.noTradeDesc':'Click "Add Trade" to start',
+    'empty.noTransaction':'No transactions','empty.noTransactionDesc':'Add a deposit or withdrawal',
+    'empty.noAsset':'No data yet','empty.noAssetDesc':'Add trades to see pair analysis',
+    'empty.noSetup':'No setup data','empty.noSetupDesc':'Fill the Setup column when logging trades',
+    'empty.noSession':'Fill entry time to see session analysis',
+    'empty.minTrades':'Min. 2 trades',
+    // Checklist
     'checklist.title':'Daily Checklist','checklist.subtitle':'Complete your pre-trade checklist',
-    'checklist.resetChecklist':'Reset Checklist','checklist.tfAnalysisSection':'Timeframe Analysis',
-    'tfAnalysis.todayAnalysis':"Today's Analysis",'tfAnalysis.saveAnalysis':'Save Analysis',
-    'transaction.initialCapital':'Initial Capital',
-    'settings.title':'Settings','settings.theme':'Theme','settings.language':'Language',
-    'settings.light':'Light','settings.dark':'Dark','settings.exportAll':'Export All Data','settings.clearData':'Clear All Data',
-    'backtest.alertTitle':'Backtest Target Not Met',
-    'paperTrading.alertTitle':'Paper Trading Target Not Met',
-    'common.export':'Export CSV','common.import':'Import CSV',
+    'checklist.resetChecklist':'Reset Checklist','checklist.progress':'completed',
+    'checklist.mental':'Mental & Condition Preparation',
+    'checklist.market':'Market Analysis',
+    'checklist.setup':'Setup & Entry',
+    'checklist.risk':'Risk Management',
+    // Alerts
+    'alert.btTitle':'Backtest Target Not Met',
+    'alert.btDesc':'You have completed {done}/10 backtests today. Keep going!',
+    'alert.btProgress':'{done} of 10 backtests done today',
+    'alert.btBtn':'Start Backtest','alert.later':'Maybe Later',
+    'alert.ptTitle':'Paper Trading Target Not Met',
+    'alert.ptDesc':'You have completed {done}/5 paper trades today. Keep practicing!',
+    'alert.ptProgress':'{done} of 5 paper trades done today',
+    'alert.ptBtn':'Start Paper Trading',
+    // Settings
+    'settings.title':'Settings','settings.appearance':'Appearance',
+    'settings.theme':'Theme','settings.light':'Light','settings.dark':'Dark',
+    'settings.language':'Language',
+    'settings.capitalSection':'Capital & Equity',
+    'settings.initialCapital':'Initial Capital','settings.capitalDesc':'Starting equity before trading',
+    'settings.dataSection':'Data',
+    'settings.exportAll':'Export All Data','settings.exportDesc':'Backup all trades, transactions, and settings',
+    'settings.importAll':'Import Data','settings.importDesc':'Restore from JSON backup',
+    'settings.clearData':'Clear All Data','settings.clearDesc':'Permanent, cannot be undone',
+    'settings.exportBtn':'Export JSON','settings.importBtn':'Import JSON',
+    'settings.clearBtn':'Clear All',
+    'settings.version':'TradeLog v2.0 — localStorage edition',
+    // Mode labels
+    'mode.live':'Live Trading','mode.bt':'Backtest','mode.pt':'Paper Trading',
+    // Import modal
+    'import.title':'Import CSV','import.merge':'Merge',
+    'import.mergeDesc':'Add new trades, skip existing ones (safe)',
+    'import.overwrite':'Overwrite All',
+    'import.overwriteDesc':'Delete all data for this mode and replace with imported file',
+    'import.btn':'Import','import.chooseMode':'Choose how to import:',
+    // CSV export bar
+    'csv.importExport':'Import / Export','common.export':'Export CSV','common.import':'Import CSV',
+    // BT/PT page titles
+    'bt.dashboard':'Dashboard — Backtest','bt.journal':'Trade Log — Backtest','bt.analysis':'Setup Analysis — Backtest',
+    'pt.dashboard':'Dashboard — Paper Trading','pt.journal':'Trade Log — Paper Trading','pt.analysis':'Setup Analysis — Paper Trading',
+    // Modal delete
+    'delete.trade':'Delete Trade?','delete.transaction':'Delete Transaction?',
+    'delete.tradeDesc':'will be permanently deleted and cannot be recovered.',
+    // Sidebar
+    'sidebar.equity':'Equity',
   };
 }
-function t(key) { return (I18N[state.settings.language]||I18N.id)[key] || key; }
+// Init dictionaries immediately
+initI18N();
+
+// Standalone language variable — updated by setLang, independent of state load order
+let _lang = 'id';
+function t(key) {
+  const dict = I18N[_lang] || I18N.id || {};
+  return dict[key] !== undefined ? dict[key] : (I18N.id[key] !== undefined ? I18N.id[key] : key);
+}
+
 function applyI18N() {
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
+  const lang = _lang;
+
+  // 1. Apply all data-i18n attributes — always update regardless of match
+  document.querySelectorAll('[data-i18n]').forEach(el => {
     const k = el.getAttribute('data-i18n');
-    if(k) el.textContent = t(k);
+    const v = t(k);
+    el.textContent = v;
   });
-  // Update dynamic texts
-  document.getElementById('langBtn').textContent = state.settings.language.toUpperCase();
-  document.querySelectorAll('input[name="lang"]').forEach(r=>{ r.checked=(r.value===state.settings.language); });
+
+  // 2. Lang button + radio
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) langBtn.textContent = lang.toUpperCase();
+  document.querySelectorAll('input[name="lang"]').forEach(r => { r.checked = (r.value === lang); });
+
+  // 3. Search placeholder
+  document.querySelectorAll('input[id^="srch-"]').forEach(el => { el.placeholder = t('filter.searchPH'); });
+
+  // 4. Filter selects
+  document.querySelectorAll('select[id^="fDir-"]').forEach(sel => {
+    if (sel.options[0]) sel.options[0].text = t('filter.direction');
+  });
+  document.querySelectorAll('select[id^="fRes-"]').forEach(sel => {
+    ['filter.result','filter.win','filter.loss','filter.be'].forEach((k,i) => {
+      if (sel.options[i]) sel.options[i].text = t(k);
+    });
+  });
+  document.querySelectorAll('select[id^="fStp-"]').forEach(sel => {
+    if (sel.options[0]) sel.options[0].text = t('filter.setup');
+  });
+
+  // 5. Topbar date locale
+  const tbDate = document.getElementById('tbDate');
+  if (tbDate) tbDate.textContent = new Date().toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {day:'numeric',month:'short',year:'numeric'});
 }
 function setLang(l) {
   state.settings.language = l;
+  _lang = l;
   applyI18N();
+  ['live','bt','pt'].forEach(m=>{
+    renderDashboard(m);
+    renderJournal(m);
+    renderAnalysis(m);
+  });
+  renderTransactions();
+  renderAssets();
   renderChecklist();
+  updateSidebarAlerts();
   saveState();
 }
 function toggleLang() { setLang(state.settings.language==='id'?'en':'id'); }
@@ -1521,21 +1798,21 @@ function toggleSidebar() {
 
 // ── FLYOUT for mini mode ──
 const FLYOUT_GROUPS = {
-  live: { label:'Live Trading', color:'var(--grn)', items:[
+  live: { get label(){ return t('nav.liveTrading'); }, color:'var(--grn)', items:[
     {page:'live-dashboard',    label:'Dashboard'},
-    {page:'live-journal',      label:'Jurnal'},
+    {page:'live-journal',      get label(){ return t('nav.journal'); }},
     {page:'live-analysis',     label:'Analisis Setup'},
-    {page:'live-transactions', label:'Transaksi'},
+    {page:'live-transactions', get label(){ return t('nav.transactions'); }},
     {page:'live-assets',       label:'Aset / Pair'},
   ]},
-  bt: { label:'Backtest', color:'var(--vio)', items:[
+  bt: { get label(){ return t('nav.backtest'); }, color:'var(--vio)', items:[
     {page:'bt-dashboard', label:'Dashboard'},
-    {page:'bt-journal',   label:'Trade Log'},
+    {page:'bt-journal',   get label(){ return t('bt.journal'); }},
     {page:'bt-analysis',  label:'Analisis Setup'},
   ]},
-  pt: { label:'Paper Trading', color:'var(--ora)', items:[
+  pt: { get label(){ return t('nav.paperTrading'); }, color:'var(--ora)', items:[
     {page:'pt-dashboard', label:'Dashboard'},
-    {page:'pt-journal',   label:'Trade Log'},
+    {page:'pt-journal',   get label(){ return t('pt.journal'); }},
     {page:'pt-analysis',  label:'Analisis Setup'},
   ]},
 };
@@ -1597,13 +1874,13 @@ function updateSidebarAlerts() {
   if(btAlert) {
     html += `<div class="sb-alert-chip" style="margin-bottom:6px;background:var(--vio-muted);border-color:var(--vio-border)" onclick="showAlertBT()">
       <div class="sb-alert-chip-title" style="color:var(--vio-fg)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Backtest</div>
-      <div class="sb-alert-chip-desc" style="color:var(--vio-fg)">${btDone}/10 selesai hari ini</div>
+      <div class="sb-alert-chip-desc" style="color:var(--vio-fg)">${t('alert.btProgress').replace('{done}',btDone)}</div>
     </div>`;
   }
   if(ptAlert) {
     html += `<div class="sb-alert-chip" onclick="showAlertPT()">
       <div class="sb-alert-chip-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Paper Trading</div>
-      <div class="sb-alert-chip-desc">${ptDone}/5 selesai hari ini</div>
+      <div class="sb-alert-chip-desc">${t('alert.ptProgress').replace('{done}',ptDone)}</div>
     </div>`;
   }
   area.innerHTML = html;
@@ -1611,30 +1888,41 @@ function updateSidebarAlerts() {
 function showAlertBT() {
   const done = countTodayTrades('bt');
   const pct = Math.min(100, (done/10)*100);
-  document.getElementById('alert-bt-desc').textContent = `Kamu baru menyelesaikan ${done}/10 backtest hari ini. Terus semangat mencapai target!`;
+  document.getElementById('alert-bt-desc').textContent = `${t('alert.btDesc').replace('{done}',done)}`;
   document.getElementById('alert-bt-fill').style.width = pct+'%';
-  document.getElementById('alert-bt-label').textContent = `${done} dari 10 backtest selesai hari ini`;
+  document.getElementById('alert-bt-label').textContent = `${t('alert.btProgress').replace('{done}',done)}`;
   document.getElementById('mAlertBT').classList.add('on');
 }
 function showAlertPT() {
   const done = countTodayTrades('pt');
   const pct = Math.min(100, (done/5)*100);
-  document.getElementById('alert-pt-desc').textContent = `Kamu baru menyelesaikan ${done}/5 paper trade hari ini. Terus berlatih!`;
+  document.getElementById('alert-pt-desc').textContent = `${t('alert.ptDesc').replace('{done}',done)}`;
   document.getElementById('alert-pt-fill').style.width = pct+'%';
-  document.getElementById('alert-pt-label').textContent = `${done} dari 5 paper trade selesai hari ini`;
+  document.getElementById('alert-pt-label').textContent = `${t('alert.ptProgress').replace('{done}',done)}`;
   document.getElementById('mAlertPT').classList.add('on');
 }
 
 // ════════════════════════════════════════
 // PAGE NAVIGATION
 // ════════════════════════════════════════
-const PAGE_NAMES = {
-  'live-dashboard':'Dashboard','live-journal':'Jurnal','live-analysis':'Analisis Setup',
-  'live-transactions':'Transaksi','live-assets':'Aset / Pair',
-  'bt-dashboard':'Dashboard','bt-journal':'Trade Log','bt-analysis':'Analisis Setup',
-  'pt-dashboard':'Dashboard','pt-journal':'Trade Log','pt-analysis':'Analisis Setup',
-  'checklist':'Checklist Harian','settings':'Pengaturan',
-};
+function getPageName(pageId) {
+  const map = {
+    'live-dashboard': t('nav.dashboard'),
+    'live-journal':   t('nav.journal'),
+    'live-analysis':  t('nav.analysis'),
+    'live-transactions': t('nav.transactions'),
+    'live-assets':    t('nav.assets'),
+    'bt-dashboard':   t('nav.dashboard'),
+    'bt-journal':     t('bt.journal'),
+    'bt-analysis':    t('bt.analysis'),
+    'pt-dashboard':   t('nav.dashboard'),
+    'pt-journal':     t('pt.journal'),
+    'pt-analysis':    t('pt.analysis'),
+    'checklist':      t('nav.checklist'),
+    'settings':       t('nav.settings'),
+  };
+  return map[pageId] || pageId;
+}
 function goPage(pageId, el) {
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.sb-sub-item').forEach(s=>s.classList.remove('on'));
@@ -1647,7 +1935,7 @@ function goPage(pageId, el) {
 
   // Topbar
   const mc = MODE_CFG[currentMode]||MODE_CFG.live;
-  document.getElementById('tbTitle').textContent = `${mc.chip.replace('●','').trim()} · ${PAGE_NAMES[pageId]||pageId}`;
+  document.getElementById('tbTitle').textContent = `${mc.chip.replace('●','').trim()} · ${getPageName(pageId)||pageId}`;
   const chip = document.getElementById('tbChip');
   chip.textContent = mc.chip;
   chip.style.background = mc.bg; chip.style.color = mc.fg; chip.style.borderColor = mc.bdr;
@@ -1675,7 +1963,7 @@ function goSinglePage(pageId, el) {
   const chip = document.getElementById('tbChip');
   chip.textContent = '';
   chip.style.background = 'transparent';
-  document.getElementById('tbTitle').textContent = PAGE_NAMES[pageId]||pageId;
+  document.getElementById('tbTitle').textContent = getPageName(pageId)||pageId;
   if(pageId==='checklist') renderChecklist();
   if(pageId==='settings') renderSettings();
 }
@@ -1693,28 +1981,28 @@ function buildTradeForm(mode) {
   const leftForm = `
     <div style="display:flex;flex-direction:column;gap:0;min-width:0">
       <div class="fgrid">
-        <div class="fg"><label class="lbl">Tanggal</label><input class="fi" type="date" id="fDate"></div>
-        <div class="fg"><label class="lbl">Jam Entry <span class="lbl-hint">WIB</span></label>
+        <div class="fg"><label class="lbl">${t('trade.date')}</label><input class="fi" type="date" id="fDate"></div>
+        <div class="fg"><label class="lbl">${t('trade.entryTime')}</label>
           <div style="display:flex;gap:8px;align-items:center">
             <input class="fi" type="time" id="fTime" style="flex:1" oninput="updateSessPreview()">
             <span id="sessPreview" style="font-size:11px;white-space:nowrap;flex-shrink:0"></span>
           </div>
         </div>
-        <div class="fg"><label class="lbl">Pair</label><input class="fi" type="text" id="fPair" placeholder="XAUUSD" list="pairList"><datalist id="pairList"></datalist></div>
-        <div class="fg"><label class="lbl">Setup / Strategi</label><input class="fi" type="text" id="fSetup" placeholder="FVG, AMD..." list="setupList"><datalist id="setupList"></datalist></div>
-        <div class="fg"><label class="lbl">Arah</label><select class="fi fse" id="fDir"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
-        <div class="fg"><label class="lbl">Lot Size</label><input class="fi" type="number" id="fLot" placeholder="0.01" step="0.01" min="0.01" oninput="onPriceChange()"></div>
-        <div class="fg"><label class="lbl">Entry Price</label><input class="fi" type="number" id="fEntry" placeholder="2300.00" step="any" oninput="onPriceChange()"></div>
-        <div class="fg"><label class="lbl">Stop Loss</label><input class="fi" type="number" id="fSL" placeholder="2290.00" step="any" oninput="onPriceChange()"></div>
-        <div class="fg"><label class="lbl">Take Profit</label><input class="fi" type="number" id="fTP" placeholder="2320.00" step="any" oninput="onPriceChange()"></div>
-        <div class="fg"><label class="lbl">Close Price <span class="lbl-hint">auto hitung P&L</span></label><input class="fi" type="number" id="fClose" placeholder="kosong = masih open" step="any" oninput="onPriceChange()"></div>
-        <div class="fg s2"><label class="lbl">P&L Manual <span class="lbl-hint">override close price</span></label><input class="fi" type="number" id="fPnl" placeholder="Opsional · +50.00 atau -25.00" step="any" oninput="onPriceChange()"><div id="cmpResult" style="display:none"></div></div>
+        <div class="fg"><label class="lbl">${t('trade.pair')}</label><input class="fi" type="text" id="fPair" placeholder="${t('trade.pairPH')}" list="pairList"><datalist id="pairList"></datalist></div>
+        <div class="fg"><label class="lbl">${t('trade.setup')}</label><input class="fi" type="text" id="fSetup" placeholder="${t('trade.setupPH')}" list="setupList"><datalist id="setupList"></datalist></div>
+        <div class="fg"><label class="lbl">${t('trade.direction')}</label><select class="fi fse" id="fDir"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
+        <div class="fg"><label class="lbl">${t('trade.lot')}</label><input class="fi" type="number" id="fLot" placeholder="0.01" step="0.01" min="0.01" oninput="onPriceChange()"></div>
+        <div class="fg"><label class="lbl">${t('trade.entryPrice')}</label><input class="fi" type="number" id="fEntry" placeholder="${t('trade.entryPH')}" step="any" oninput="onPriceChange()"></div>
+        <div class="fg"><label class="lbl">${t('trade.stopLoss')}</label><input class="fi" type="number" id="fSL" placeholder="${t('trade.slPH')}" step="any" oninput="onPriceChange()"></div>
+        <div class="fg"><label class="lbl">${t('trade.takeProfit')}</label><input class="fi" type="number" id="fTP" placeholder="${t('trade.tpPH')}" step="any" oninput="onPriceChange()"></div>
+        <div class="fg"><label class="lbl">${t('trade.closePrice')} <span class="lbl-hint">${t('trade.autoCalc')}</span></label><input class="fi" type="number" id="fClose" placeholder="${t('trade.closePH')}" step="any" oninput="onPriceChange()"></div>
+        <div class="fg s2"><label class="lbl">${t('trade.pnlManual')} <span class="lbl-hint">${t('trade.override')}</span></label><input class="fi" type="number" id="fPnl" placeholder="${t('trade.pnlPH')}" step="any" oninput="onPriceChange()"><div id="cmpResult" style="display:none"></div></div>
       </div>
       <hr class="sep">
-      <div class="fg"><label class="lbl">Kondisi Psikologi</label><div class="pill-row" id="pPills">
+      <div class="fg"><label class="lbl">${t('trade.psychology')}</label><div class="pill-row" id="pPills">
         ${PSYCH_OPTIONS.map(p=>`<div class="pill" onclick="tpill(this)">${p}</div>`).join('')}
       </div></div>
-      <div class="fg" style="margin-top:13px"><label class="lbl">Catatan / Alasan Entry</label><textarea class="fta" id="fNotes" placeholder="FVG H1, swept SSL, CHoCH M5..." style="min-height:72px"></textarea></div>
+      <div class="fg" style="margin-top:13px"><label class="lbl">${t('trade.notes')}</label><textarea class="fta" id="fNotes" placeholder="${t('trade.notesPH')}" style="min-height:72px"></textarea></div>
     </div>
   `;
 
@@ -1723,7 +2011,7 @@ function buildTradeForm(mode) {
 
 function openAddTrade(mode) {
   editTradeId = null; editTradeMode = mode; selPsych = [];
-  document.getElementById('mTradeTitle').textContent = 'Tambah Trade';
+  document.getElementById('mTradeTitle').textContent = t('trade.addTrade');
   const mc = MODE_CFG[mode];
   const ml = document.getElementById('mTradeModeLabel');
   ml.className = `badge ${mc.badgeClass}`; ml.textContent = mc.label;
@@ -1738,7 +2026,7 @@ function openAddTrade(mode) {
 function openEditTrade(id, mode) {
   const tr = state.trades.find(x=>x.id===id); if(!tr) return;
   editTradeId = id; editTradeMode = mode; selPsych = [...(tr.psychology||[])];
-  document.getElementById('mTradeTitle').textContent = 'Edit Trade';
+  document.getElementById('mTradeTitle').textContent = t('trade.editTrade');
   const mc = MODE_CFG[mode];
   const ml = document.getElementById('mTradeModeLabel');
   ml.className = `badge ${mc.badgeClass}`; ml.textContent = mc.label;
@@ -1862,7 +2150,7 @@ function openConfirmModal(opts) {
   document.getElementById('mConfirmTitle').textContent = opts.title||'';
   document.getElementById('mConfirmDesc').textContent = opts.desc||'';
   const cancelBtn = document.getElementById('mConfirmCancelBtn');
-  cancelBtn.textContent = opts.cancelLabel||'Batal';
+  cancelBtn.textContent = opts.cancelLabel||t('btn.cancel');
   const okBtn = document.getElementById('mConfirmOkBtn');
   const freshOk = okBtn.cloneNode(true);
   okBtn.parentNode.replaceChild(freshOk, okBtn);
@@ -1876,8 +2164,8 @@ function deleteTrade(id, mode) {
   const tr = state.trades.find(x=>x.id===id);
   const label = tr ? `${tr.pair||'Trade'} · ${tr.date}` : 'trade ini';
   openDeleteModal(
-    'Hapus Trade?',
-    `"${label}" akan dihapus permanen dan tidak bisa dikembalikan.`,
+    t('delete.trade'),
+    `"${label}" ${t('delete.tradeDesc')}`,
     () => {
       state.trades = state.trades.filter(x=>x.id!==id);
       saveState();
@@ -1890,10 +2178,10 @@ function deleteTrade(id, mode) {
 
 function deleteTransaction(id) {
   const tx = state.transactions.find(x=>x.id===id);
-  const label = tx ? `${tx.type==='deposit'?'Deposit':'Penarikan'} $${tx.amount} · ${tx.date}` : 'transaksi ini';
+  const label = tx ? `${tx.type==='deposit'?t('tx.deposit'):t('tx.withdrawal')} $${tx.amount} · ${tx.date}` : t('tx.title');
   openDeleteModal(
-    'Hapus Transaksi?',
-    `"${label}" akan dihapus permanen dan tidak bisa dikembalikan.`,
+    t('delete.transaction'),
+    `"${label}" ${t('delete.tradeDesc')}`,
     () => {
       state.transactions = state.transactions.filter(x=>x.id!==id);
       saveState();
@@ -2004,7 +2292,7 @@ function renderJournal(mode) {
   const body  = document.getElementById(`jBody-${mode}`);
   const empty = document.getElementById(`jEmpty-${mode}`);
   if(!body) return;
-  if(!filtered.length){ body.innerHTML=''; empty.style.display='block'; return; }
+  if(!filtered.length){ body.innerHTML=''; empty.style.display='block'; document.querySelector('#tx-empty .empty-t').textContent=t('empty.noTransaction'); document.querySelector('#tx-empty .empty-d').textContent=t('empty.noTransactionDesc'); return; }
   empty.style.display='none';
 
   body.innerHTML = filtered.map((tr,i)=>{
@@ -2064,7 +2352,7 @@ function renderDashboard(mode) {
   const eqEl = document.getElementById(`sEq-${mode}`);
   if(eqEl){ eqEl.textContent=fmtUSD(mode==='live'?equity:totalPnl); eqEl.className=`stat-val${totalPnl>0?' up':totalPnl<0?' dn':''}`; }
   const eqHEl = document.getElementById(`sEqH-${mode}`);
-  if(eqHEl) eqHEl.textContent = totalPnl!==0?`${fmtUSD(totalPnl,true)} ${t('dashboard.fromCapital')}`:'Belum ada P&L';
+  if(eqHEl) eqHEl.textContent = totalPnl!==0?`${fmtUSD(totalPnl,true)} ${t('dashboard.fromCapital')}`:t('empty.minTrades').replace('Min. 2 trade','—');
   const wrEl = document.getElementById(`sWR-${mode}`);
   if(wrEl){ wrEl.textContent=wr?`${wr}%`:'—'; wrEl.className=`stat-val${wr>=50?' up':wr!==null?' dn':''}`; }
   const nEl = document.getElementById(`sN-${mode}`); if(nEl) nEl.textContent=closed.length;
@@ -2098,7 +2386,7 @@ function renderEquityCurve(mode, sorted) {
 
   if(!wrap) return;
   if(sorted.length<2){
-    wrap.innerHTML='<div class="empty" style="padding:12px 0"><div class="empty-ico">📈</div><div class="empty-d">Min. 2 trade</div></div>';
+    wrap.innerHTML=`<div class="empty" style="padding:12px 0"><div class="empty-ico">📈</div><div class="empty-d">${t('empty.minTrades')}</div></div>`;
     if(delta) delta.textContent='—'; if(axis) axis.innerHTML=''; if(range) range.textContent='—';
     return;
   }
@@ -2187,7 +2475,7 @@ function renderPsychGrid(mode) {
 function renderSessionGrid(mode,closed) {
   const el=document.getElementById(`sess-${mode}`); if(!el) return;
   const withSess=closed.filter(t=>t.session&&t.result);
-  if(!withSess.length){el.innerHTML='<div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d">Isi jam entry untuk melihat analisis sesi</div></div>';return;}
+  if(!withSess.length){el.innerHTML=`<div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d">${t('empty.noSession')}</div></div>`;return;}
   const map={};
   Object.keys(SESSION_CFG).forEach(k=>{map[k]={wins:0,losses:0,bes:0,pnl:0,rrs:[]};});
   withSess.forEach(tr=>{const s=tr.session||'offmarket';if(!map[s])map[s]={wins:0,losses:0,bes:0,pnl:0,rrs:[]};if(tr.result==='WIN'){map[s].wins++;if(tr.rr)map[s].rrs.push(tr.rr);}else if(tr.result==='LOSS')map[s].losses++;else map[s].bes++;if(tr.pnl!=null)map[s].pnl+=tr.pnl;});
@@ -2225,7 +2513,7 @@ function renderAnalysis(mode) {
     map[s].n++;
     if(tr.result){map[s].closed++;if(tr.result==='WIN'){map[s].wins++;if(tr.rr)map[s].rrs.push(tr.rr);}if(tr.result==='LOSS')map[s].losses++;if(tr.result==='BE')map[s].bes++;if(tr.pnl!=null)map[s].pnl+=tr.pnl;}
   });
-  if(!Object.keys(map).length){el.innerHTML='<div class="empty" style="padding:80px 0"><div class="empty-ico">📊</div><div class="empty-t">Belum ada data setup</div><div class="empty-d">Isi kolom Setup saat mencatat trade</div></div>';return;}
+  if(!Object.keys(map).length){el.innerHTML=`<div class="empty" style="padding:80px 0"><div class="empty-ico">📊</div><div class="empty-t">${t('empty.noSetup')}</div><div class="empty-d">${t('empty.noSetupDesc')}</div></div>`;return;}
   const sorted=Object.entries(map).sort((a,b)=>b[1].pnl-a[1].pnl);
   const best=sorted[0][0],maxP=Math.max(...sorted.map(([,v])=>Math.abs(v.pnl)),1);
   el.innerHTML=`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px"><span class="badge b-ok" style="height:22px;padding:0 9px;font-size:11px">🏆 Best: ${best}</span><span class="badge b-sec" style="height:22px;padding:0 9px;font-size:11px">${Object.keys(map).length} setup</span></div>
@@ -2322,7 +2610,7 @@ function renderAssets() {
     document.getElementById('asset-best-pnl').textContent='—';
     document.getElementById('asset-worst-pair').textContent='—';
     document.getElementById('asset-worst-pnl').textContent='—';
-    document.getElementById('asset-content').innerHTML='<div class="empty" style="padding:48px 0"><div class="empty-ico">📊</div><div class="empty-t">Belum ada data</div></div>';
+    document.getElementById('asset-content').innerHTML=`<div class="empty" style="padding:48px 0"><div class="empty-ico">📊</div><div class="empty-t">${t('empty.noAsset')}</div></div>`;
     return;
   }
   const sorted = Object.entries(map).sort((a,b)=>b[1].pnl-a[1].pnl);
@@ -2377,7 +2665,7 @@ function renderChecklist() {
   const done  = Object.values(items).filter(Boolean).length;
   const pct   = total?Math.round(done/total*100):0;
 
-  document.getElementById('cl-progress-text').textContent = `${done} / ${total} selesai`;
+  document.getElementById('cl-progress-text').textContent = `${done} / ${total} ${t('checklist.progress')}`;
   document.getElementById('cl-progress-pct').textContent  = `${pct}%`;
   document.getElementById('cl-progress-fill').style.width = `${pct}%`;
   document.getElementById('cl-progress-fill').style.background = pct===100?'var(--grn)':pct>=50?'var(--ylw)':'var(--red)';
@@ -2388,13 +2676,15 @@ function renderChecklist() {
 
   const buildSection = (sec) => `
     <div class="cl-section" style="margin-bottom:16px">
-      <div class="cl-section-title">${CL_SECTION_LABELS[sec.key]}</div>
+      <div class="cl-section-title">${getCLSectionLabel(sec.key)}</div>
       <div class="cl-items">
-        ${sec.items.map(item=>{
-          const isDone = !!items[item.id];
-          return`<div class="cl-item${isDone?' done':''}" onclick="toggleClItem('${item.id}')">
+        ${sec.items.map(itemId=>{
+          const lang = state.settings.language || 'id';
+          const txt = CHECKLIST_ITEMS_TEXT[lang]?.[itemId] || CHECKLIST_ITEMS_TEXT.id[itemId] || {title:itemId,desc:''};
+          const isDone = !!items[itemId];
+          return`<div class="cl-item${isDone?' done':''}" onclick="toggleClItem('${itemId}')">
             <div class="cl-cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div class="cl-content"><div class="cl-title">${item.title}</div><div class="cl-desc">${item.desc}</div></div>
+            <div class="cl-content"><div class="cl-title">${txt.title}</div><div class="cl-desc">${txt.desc}</div></div>
           </div>`;
         }).join('')}
       </div>
@@ -2421,10 +2711,10 @@ function toggleClItem(id) {
 function resetChecklist() {
   openConfirmModal({
     type: 'danger',
-    title: 'Reset Checklist?',
-    desc: 'Semua item checklist hari ini akan direset ke kondisi awal.',
-    okLabel: 'Reset',
-    cancelLabel: 'Batal',
+    title: t('checklist.resetChecklist')+'?',
+    desc: state.settings.language==='id'?'Semua item checklist hari ini akan direset ke kondisi awal.':'All checklist items for today will be reset.',
+    okLabel: t('btn.reset'),
+    cancelLabel: t('btn.cancel'),
     onOk: () => {
       state.checklist = { date:getTodayStr(), items:{} };
       saveState();
@@ -2468,11 +2758,11 @@ function importAllData(event) {
       if(d.state){
         openConfirmModal({
           type:'info',
-          title:'Import Backup?',
-          desc:`File "${file.name}" akan menggantikan semua data saat ini. Pastikan ini adalah file backup yang benar.`,
-          okLabel:'Import',
-          cancelLabel:'Batal',
-          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showToast('success','Import Berhasil','Semua data berhasil dipulihkan dari backup.'); }
+          title:t('settings.importAll'),
+          desc:state.settings.language==='id'?`File "${file.name}" akan menggantikan semua data saat ini.`:`File "${file.name}" will replace all current data.`,
+          okLabel:t('import.btn'),
+          cancelLabel:t('btn.cancel'),
+          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showToast('success',state.settings.language==='id'?'Import Berhasil':'Import Successful',state.settings.language==='id'?'Semua data berhasil dipulihkan dari backup.':'All data has been restored from backup.'); }
         });
       } else {
         showToast('error','Format Tidak Valid','File tidak dikenali sebagai backup TradeLog.');
@@ -2486,11 +2776,11 @@ function importAllData(event) {
 function clearAllData() {
   openConfirmModal({
     type:'danger',
-    title:'Hapus Semua Data?',
-    desc:'Ini akan menghapus SEMUA trade, transaksi, dan pengaturan secara permanen. Tidak bisa dikembalikan!',
-    okLabel:'Hapus Semua',
+    title:t('settings.clearData'),
+    desc:state.settings.language==='id'?'Ini akan menghapus SEMUA trade, transaksi, dan pengaturan secara permanen. Tidak bisa dikembalikan!':'This will permanently delete ALL trades, transactions and settings. Cannot be undone!',
+    okLabel:t('settings.clearBtn'),
     okStyle:'background:var(--red);color:white',
-    cancelLabel:'Batal',
+    cancelLabel:t('btn.cancel'),
     onOk:()=>{
       Object.values(LS).forEach(k=>localStorage.removeItem(k));
       localStorage.removeItem('tl_sidebar_mini');
@@ -2619,7 +2909,7 @@ function loadDemo() {
 // ════════════════════════════════════════
 function initApp() {
   loadState();
-  initI18N();
+  _lang = state.settings.language || 'id'; // sync _lang with saved preference
   loadDemo();
 
   // Restore sidebar state
