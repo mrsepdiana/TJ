@@ -26,7 +26,7 @@
   --ring: hsl(222.2,47.4%,11.2%);
   --radius: 0.5rem;
   --sidebar-w: 240px;
-  --sidebar-w-collapsed: 56px;
+  --sidebar-w-mini: 52px;
   --topbar-h: 52px;
   /* status */
   --grn: hsl(142.1,70.6%,45.3%); --grn-fg: hsl(144,80%,10%); --grn-muted: hsl(141.7,76.6%,94.5%); --grn-border: hsl(142,60%,82%);
@@ -78,7 +78,7 @@ input, select, textarea { font-family: inherit; }
 ════════════════════════════════════════ */
 .app { display: flex; min-height: 100vh; }
 .content { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; transition: margin-left .2s; }
-.app.sidebar-collapsed .content { margin-left: var(--sidebar-w-collapsed); }
+.app.sb-mini .content { margin-left: var(--sidebar-w-mini); }
 
 /* ════════════════════════════════════════
    SIDEBAR
@@ -89,83 +89,146 @@ input, select, textarea { font-family: inherit; }
   border-right: 1px solid var(--border);
   position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
   display: flex; flex-direction: column;
-  transition: width .2s;
+  transition: width .22s cubic-bezier(.4,0,.2,1);
   overflow: hidden;
 }
-.app.sidebar-collapsed .sb { width: var(--sidebar-w-collapsed); }
+.app.sb-mini .sb { width: var(--sidebar-w-mini); }
 
+/* Logo row */
 .sb-logo {
   display: flex; align-items: center; gap: 9px;
-  padding: 14px 12px 10px;
+  padding: 0 10px;
   border-bottom: 1px solid var(--border);
-  min-height: 52px;
-  flex-shrink: 0;
+  height: 52px; flex-shrink: 0;
+  overflow: hidden;
 }
 .sb-logo-mark {
   width: 28px; height: 28px; min-width: 28px;
   background: var(--primary); border-radius: 7px;
   display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
 }
 .sb-logo-mark svg { width: 14px; height: 14px; stroke: var(--primary-fg); }
-.sb-logo-txt { font-size: 14px; font-weight: 700; letter-spacing: -.4px; white-space: nowrap; overflow: hidden; }
-.sb-collapse-btn {
-  margin-left: auto; flex-shrink: 0;
-  width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border);
-  background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--tx-muted);
-  transition: background .1s;
+.sb-logo-txt {
+  font-size: 14px; font-weight: 700; letter-spacing: -.4px;
+  white-space: nowrap; flex: 1;
+  opacity: 1; transition: opacity .15s;
 }
-.sb-collapse-btn:hover { background: var(--bg-muted); }
-.sb-collapse-btn svg { width: 13px; height: 13px; transition: transform .2s; }
-.app.sidebar-collapsed .sb-collapse-btn svg { transform: rotate(180deg); }
+.app.sb-mini .sb-logo-txt { opacity: 0; pointer-events: none; }
+
+/* Toggle button — floats on sidebar edge */
+.sb-toggle {
+  position: fixed;
+  top: calc(var(--topbar-h)/2 - 13px);
+  left: calc(var(--sidebar-w) - 13px);
+  z-index: 60;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 8px rgb(0 0 0/.12);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--tx-muted);
+  transition: left .22s cubic-bezier(.4,0,.2,1), background .12s, color .12s, box-shadow .12s;
+}
+.sb-toggle:hover { background: var(--primary); color: var(--primary-fg); box-shadow: 0 4px 12px rgb(0 0 0/.18); border-color: var(--primary); }
+.sb-toggle svg { width: 12px; height: 12px; flex-shrink: 0; transition: transform .22s cubic-bezier(.4,0,.2,1); }
+.app.sb-mini .sb-toggle { left: calc(var(--sidebar-w-mini) - 13px); }
+.app.sb-mini .sb-toggle svg { transform: rotate(180deg); }
 
 /* Scrollable nav area */
 .sb-nav-area { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 8px 0; }
-.sb-nav-area::-webkit-scrollbar { width: 4px; }
+.sb-nav-area::-webkit-scrollbar { width: 3px; }
 .sb-nav-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
+/* Section labels */
 .sb-section {
   padding: 10px 14px 4px;
-  font-size: 10px; font-weight: 600; letter-spacing: .7px; text-transform: uppercase; color: var(--tx-faint);
+  font-size: 10px; font-weight: 600; letter-spacing: .7px;
+  text-transform: uppercase; color: var(--tx-faint);
   white-space: nowrap; overflow: hidden;
-  transition: opacity .15s;
+  transition: opacity .15s, max-height .2s;
 }
-.app.sidebar-collapsed .sb-section { opacity: 0; }
+.app.sb-mini .sb-section { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
 
 .sb-group { padding: 0 6px; display: flex; flex-direction: column; gap: 1px; }
 
 /* Group toggle item */
 .sb-grp-item {
   display: flex; align-items: center; gap: 9px;
-  padding: 6px 8px;
+  padding: 7px 8px;
   border-radius: calc(var(--radius) - 2px);
   color: var(--tx-muted); font-size: 13px; font-weight: 400;
   cursor: pointer; border: none; background: none; width: 100%; text-align: left;
   transition: background .1s, color .1s;
   white-space: nowrap; overflow: hidden;
-  position: relative;
 }
 .sb-grp-item:hover { background: var(--bg-muted); color: var(--tx); }
-.sb-grp-item.active { color: var(--tx); font-weight: 500; }
-.sb-grp-item .ico { width: 16px; height: 16px; flex-shrink: 0; stroke-width: 1.75; opacity: .7; }
+.sb-grp-item.active { color: var(--tx); font-weight: 500; background: var(--bg-muted); }
+.sb-grp-item .ico { width: 16px; height: 16px; min-width: 16px; flex-shrink: 0; stroke-width: 1.75; opacity: .65; }
 .sb-grp-item.active .ico { opacity: 1; }
-.sb-grp-item .label { flex: 1; overflow: hidden; text-overflow: ellipsis; }
-.sb-grp-item .chevron { width: 13px; height: 13px; flex-shrink: 0; opacity: .5; transition: transform .2s; }
+.sb-grp-item .grp-label { flex: 1; overflow: hidden; text-overflow: ellipsis; transition: opacity .15s; }
+.sb-grp-item .chevron { width: 13px; height: 13px; min-width: 13px; flex-shrink: 0; opacity: .45; transition: transform .2s, opacity .15s; }
 .sb-grp-item.open .chevron { transform: rotate(90deg); }
 .sb-grp-item .sb-badge {
   min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
   background: var(--red); color: white;
-  font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: opacity .15s;
 }
-.app.sidebar-collapsed .sb-grp-item .label,
-.app.sidebar-collapsed .sb-grp-item .chevron,
-.app.sidebar-collapsed .sb-grp-item .sb-badge { display: none; }
-.app.sidebar-collapsed .sb-grp-item { justify-content: center; padding: 8px; }
+/* Collapsed: center icon only */
+.app.sb-mini .sb-group { padding: 0 4px; }
+.app.sb-mini .sb-grp-item {
+  justify-content: center;
+  padding: 9px 0;
+  width: 100%;
+  position: relative;
+}
+.app.sb-mini .sb-grp-item .grp-label,
+.app.sb-mini .sb-grp-item .chevron,
+.app.sb-mini .sb-grp-item .sb-badge { display: none; }
+.app.sb-mini .sb-grp-item .ico { opacity: .7; margin: 0; }
+.app.sb-mini .sb-grp-item.active .ico { opacity: 1; }
 
-/* Sub items */
-.sb-sub { display: none; flex-direction: column; gap: 1px; padding: 1px 6px 4px 32px; }
+/* Sub items — hidden in mini, shown via flyout */
+.sb-sub { display: none; flex-direction: column; gap: 1px; padding: 2px 6px 6px 28px; }
 .sb-sub.open { display: flex; }
-.app.sidebar-collapsed .sb-sub { display: none !important; }
+.app.sb-mini .sb-sub { display: none !important; }
+
+/* Flyout panel that appears on hover in mini mode */
+.sb-flyout {
+  position: fixed;
+  left: var(--sidebar-w-mini);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 4px;
+  min-width: 180px;
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  gap: 1px;
+  animation: flyIn .1s ease;
+}
+.sb-flyout.visible { display: flex; }
+@keyframes flyIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+.sb-flyout-title {
+  font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--tx-faint); padding: 6px 10px 4px;
+}
+.sb-flyout-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--tx-muted); font-size: 12px; font-weight: 400;
+  cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+  transition: background .1s, color .1s; white-space: nowrap;
+}
+.sb-flyout-item:hover { background: var(--bg-muted); color: var(--tx); }
+.sb-flyout-item.on { background: var(--bg-muted); color: var(--tx); font-weight: 500; }
+.sb-flyout-item .mode-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
 .sb-sub-item {
   display: flex; align-items: center; gap: 8px;
@@ -173,40 +236,39 @@ input, select, textarea { font-family: inherit; }
   border-radius: calc(var(--radius) - 2px);
   color: var(--tx-muted); font-size: 12px; font-weight: 400;
   cursor: pointer; border: none; background: none; width: 100%; text-align: left;
-  transition: background .1s, color .1s;
-  white-space: nowrap;
+  transition: background .1s, color .1s; white-space: nowrap;
 }
 .sb-sub-item:hover { background: var(--bg-muted); color: var(--tx); }
 .sb-sub-item.on { background: var(--bg-muted); color: var(--tx); font-weight: 500; }
 .sb-sub-item .mode-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
-/* Single nav item (no sub) */
+/* Single nav item */
 .sb-nav-item {
   display: flex; align-items: center; gap: 9px;
-  padding: 6px 8px;
+  padding: 7px 8px;
   border-radius: calc(var(--radius) - 2px);
   color: var(--tx-muted); font-size: 13px; font-weight: 400;
   cursor: pointer; border: none; background: none; width: 100%; text-align: left;
-  transition: background .1s, color .1s;
-  white-space: nowrap; overflow: hidden;
+  transition: background .1s, color .1s; white-space: nowrap; overflow: hidden;
 }
 .sb-nav-item:hover { background: var(--bg-muted); color: var(--tx); }
 .sb-nav-item.on { background: var(--bg-muted); color: var(--tx); font-weight: 500; }
-.sb-nav-item .ico { width: 16px; height: 16px; flex-shrink: 0; stroke-width: 1.75; opacity: .7; }
+.sb-nav-item .ico { width: 16px; height: 16px; min-width: 16px; flex-shrink: 0; stroke-width: 1.75; opacity: .65; }
 .sb-nav-item.on .ico { opacity: 1; }
-.sb-nav-item .label { overflow: hidden; text-overflow: ellipsis; flex: 1; }
+.sb-nav-item .nav-label { flex: 1; overflow: hidden; text-overflow: ellipsis; transition: opacity .15s; }
 .sb-nav-item .sb-badge {
   min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
   background: var(--red); color: white;
   font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: opacity .15s;
 }
-.app.sidebar-collapsed .sb-nav-item .label,
-.app.sidebar-collapsed .sb-nav-item .sb-badge { display: none; }
-.app.sidebar-collapsed .sb-nav-item { justify-content: center; padding: 8px; }
+.app.sb-mini .sb-nav-item { justify-content: center; padding: 9px 0; }
+.app.sb-mini .sb-nav-item .nav-label,
+.app.sb-mini .sb-nav-item .sb-badge { display: none; }
 
 /* Daily alert in sidebar */
 .sb-alert-area { padding: 8px; flex-shrink: 0; border-top: 1px solid var(--border); }
-.app.sidebar-collapsed .sb-alert-area { display: none; }
+.app.sb-mini .sb-alert-area { display: none; }
 .sb-alert-chip {
   padding: 8px 10px; border-radius: var(--radius);
   background: var(--ylw-muted); border: 1px solid var(--ylw-border);
@@ -218,9 +280,9 @@ input, select, textarea { font-family: inherit; }
 
 /* Equity footer */
 .sb-foot { padding: 10px; border-top: 1px solid var(--border); flex-shrink: 0; }
-.app.sidebar-collapsed .sb-foot { padding: 8px; }
+.app.sb-mini .sb-foot { padding: 8px; }
 .sb-eq { padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
-.app.sidebar-collapsed .sb-eq { display: none; }
+.app.sb-mini .sb-eq { display: none; }
 .sb-eq-lbl { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: var(--tx-faint); margin-bottom: 4px; }
 .sb-eq-row { display: flex; align-items: center; gap: 3px; }
 .sb-eq-sym { font-size: 12px; color: var(--tx-muted); }
@@ -481,6 +543,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 /* Live journal full-width layout */
 .live-journal-layout { display: block; }
 
+/* Remove old collapse btn style if any */
+.sb-collapse-btn { display: none; }
+
 /* ════════════════════════════════════════
    TRANSACTION
 ════════════════════════════════════════ */
@@ -579,26 +644,28 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 <!-- ══════════════════════════════════════
      SIDEBAR
 ══════════════════════════════════════ -->
+<!-- Floating toggle button on sidebar edge -->
+<button class="sb-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+
 <aside class="sb" id="sidebar">
 
-  <!-- Logo + collapse -->
+  <!-- Logo -->
   <div class="sb-logo">
     <div class="sb-logo-mark">
       <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     </div>
     <span class="sb-logo-txt">TradeLog</span>
-    <button class="sb-collapse-btn" onclick="toggleSidebar()" title="Collapse sidebar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
   </div>
 
   <div class="sb-nav-area">
     <!-- Live Trading -->
     <div class="sb-section" data-i18n="nav.liveTrading">Live Trading</div>
     <div class="sb-group">
-      <button class="sb-grp-item active open" id="grp-live" onclick="toggleGroup('live',this)">
+      <button class="sb-grp-item active open" data-tip="Live Trading" id="grp-live" onclick="toggleGroup('live',this)" onmouseenter="showFlyout('live',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor" opacity=".7"/></svg>
-        <span class="label" data-i18n="nav.liveTrading">Live Trading</span>
+        <span class="grp-label" data-i18n="nav.liveTrading">Live Trading</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
       <div class="sb-sub open" id="sub-live">
@@ -628,9 +695,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Backtest -->
     <div class="sb-section" style="margin-top:4px">Backtest</div>
     <div class="sb-group">
-      <button class="sb-grp-item" id="grp-bt" onclick="toggleGroup('bt',this)">
+      <button class="sb-grp-item" data-tip="Backtest" id="grp-bt" onclick="toggleGroup('bt',this)" onmouseenter="showFlyout('bt',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
-        <span class="label">Backtest</span>
+        <span class="grp-label">Backtest</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
       <div class="sb-sub" id="sub-bt">
@@ -652,9 +719,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Paper Trading -->
     <div class="sb-section" style="margin-top:4px">Paper Trading</div>
     <div class="sb-group">
-      <button class="sb-grp-item" id="grp-pt" onclick="toggleGroup('pt',this)">
+      <button class="sb-grp-item" data-tip="Paper Trading" id="grp-pt" onclick="toggleGroup('pt',this)" onmouseenter="showFlyout('pt',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        <span class="label">Paper Trading</span>
+        <span class="grp-label">Paper Trading</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
       <div class="sb-sub" id="sub-pt">
@@ -676,14 +743,14 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Single items -->
     <div class="sb-section" style="margin-top:4px" data-i18n-key="other">Lainnya</div>
     <div class="sb-group">
-      <button class="sb-nav-item" id="nav-checklist" onclick="goSinglePage('checklist',this)">
+      <button class="sb-nav-item" data-tip="Checklist Harian" id="nav-checklist" onclick="goSinglePage('checklist',this)">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        <span class="label" data-i18n="nav.checklist">Checklist Harian</span>
+        <span class="nav-label" data-i18n="nav.checklist">Checklist Harian</span>
         <span class="sb-badge" id="cl-badge" style="display:none">!</span>
       </button>
-      <button class="sb-nav-item" id="nav-settings" onclick="goSinglePage('settings',this)">
+      <button class="sb-nav-item" data-tip="Pengaturan" id="nav-settings" onclick="goSinglePage('settings',this)">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span class="label" data-i18n="nav.settings">Pengaturan</span>
+        <span class="nav-label" data-i18n="nav.settings">Pengaturan</span>
       </button>
     </div>
   </div>
@@ -694,11 +761,14 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   <!-- Equity footer -->
   <div class="sb-foot">
     <div class="sb-eq">
-      <div class="sb-eq-lbl">Modal Equity</div>
+      <div class="sb-eq-lbl">Equity</div>
       <div class="sb-eq-row">
         <span class="sb-eq-sym">$</span>
         <span class="sb-eq-val" id="sb-equity-val">0.00</span>
       </div>
+    </div>
+    <div class="sb-eq-mini" title="Equity">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".6"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
     </div>
   </div>
 </aside>
@@ -1087,6 +1157,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   </div>
 </div>
 
+<!-- Sidebar flyout for mini mode -->
+<div id="sb-flyout" class="sb-flyout" onmouseenter="keepFlyout()" onmouseleave="hideFlyout()"></div>
+
 </body>
 
 <script>
@@ -1349,20 +1422,74 @@ function toggleLang() { setLang(state.settings.language==='id'?'en':'id'); }
 // SIDEBAR
 // ════════════════════════════════════════
 function toggleSidebar() {
-  document.getElementById('app').classList.toggle('sidebar-collapsed');
+  document.getElementById('app').classList.toggle('sb-mini');
+  hideFlyout();
 }
+
+// ── FLYOUT for mini mode ──
+const FLYOUT_GROUPS = {
+  live: { label:'Live Trading', color:'var(--grn)', items:[
+    {page:'live-dashboard',    label:'Dashboard'},
+    {page:'live-journal',      label:'Jurnal'},
+    {page:'live-analysis',     label:'Analisis Setup'},
+    {page:'live-transactions', label:'Transaksi'},
+    {page:'live-assets',       label:'Aset / Pair'},
+  ]},
+  bt: { label:'Backtest', color:'var(--vio)', items:[
+    {page:'bt-dashboard', label:'Dashboard'},
+    {page:'bt-journal',   label:'Trade Log'},
+    {page:'bt-analysis',  label:'Analisis Setup'},
+  ]},
+  pt: { label:'Paper Trading', color:'var(--ora)', items:[
+    {page:'pt-dashboard', label:'Dashboard'},
+    {page:'pt-journal',   label:'Trade Log'},
+    {page:'pt-analysis',  label:'Analisis Setup'},
+  ]},
+};
+let _flyTimer = null;
+
+function showFlyout(grp, btn) {
+  if (!document.getElementById('app').classList.contains('sb-mini')) return;
+  clearTimeout(_flyTimer);
+  const g = FLYOUT_GROUPS[grp]; if(!g) return;
+  const activePage = document.querySelector('.pg.on')?.id?.replace('pg-','') || '';
+  const flyout = document.getElementById('sb-flyout');
+  flyout.innerHTML = `
+    <div class="sb-flyout-title">${g.label}</div>
+    ${g.items.map(it=>`
+      <button class="sb-flyout-item${activePage===it.page?' on':''}" onclick="flyoutNav('${it.page}')">
+        <div class="mode-dot" style="background:${g.color}"></div>${it.label}
+      </button>`).join('')}
+  `;
+  const rect = btn.getBoundingClientRect();
+  flyout.style.top = Math.max(8, Math.min(rect.top, window.innerHeight - 200))+'px';
+  flyout.classList.add('visible');
+}
+
+function hideFlyout() {
+  _flyTimer = setTimeout(()=>{
+    document.getElementById('sb-flyout').classList.remove('visible');
+  }, 100);
+}
+
+function keepFlyout() { clearTimeout(_flyTimer); }
+
+function flyoutNav(pageId) {
+  hideFlyout();
+  const matched = [...document.querySelectorAll('.sb-sub-item')]
+    .find(b => b.getAttribute('onclick')?.includes(`'${pageId}'`));
+  goPage(pageId, matched || null);
+}
+
 function toggleGroup(grp, btn) {
+  if (document.getElementById('app').classList.contains('sb-mini')) return;
   const sub = document.getElementById(`sub-${grp}`);
   const isOpen = sub.classList.contains('open');
-  // close all
   ['live','bt','pt'].forEach(g=>{
     document.getElementById(`sub-${g}`).classList.remove('open');
     document.getElementById(`grp-${g}`).classList.remove('open','active');
   });
-  if(!isOpen){
-    sub.classList.add('open');
-    btn.classList.add('open','active');
-  }
+  if(!isOpen){ sub.classList.add('open'); btn.classList.add('open','active'); }
 }
 function updateSidebarAlerts() {
   const today = getTodayStr();
