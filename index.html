@@ -187,7 +187,11 @@ input, select, textarea { font-family: inherit; }
 }
 .app.sb-mini .sb-grp-item .grp-label,
 .app.sb-mini .sb-grp-item .chevron,
-.app.sb-mini .sb-grp-item .sb-badge { display: none; }
+.app.sb-mini .sb-grp-item .sb-badge {
+  min-width: 8px; width: 8px; height: 8px; padding: 0;
+  border-radius: 50%; font-size: 0;
+  position: absolute; top: 6px; right: 6px;
+}
 .app.sb-mini .sb-grp-item .ico { opacity: .7; margin: 0; }
 .app.sb-mini .sb-grp-item.active .ico { opacity: 1; }
 
@@ -262,9 +266,13 @@ input, select, textarea { font-family: inherit; }
   font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   transition: opacity .15s;
 }
-.app.sb-mini .sb-nav-item { justify-content: center; padding: 9px 0; }
+.app.sb-mini .sb-nav-item { justify-content: center; padding: 9px 0; position: relative; }
 .app.sb-mini .sb-nav-item .nav-label,
-.app.sb-mini .sb-nav-item .sb-badge { display: none; }
+.app.sb-mini .sb-nav-item .sb-badge {
+  min-width: 8px; width: 8px; height: 8px; padding: 0;
+  border-radius: 50%; font-size: 0;
+  position: absolute; top: 6px; right: 6px;
+}
 
 /* Daily alert in sidebar */
 .sb-alert-area { padding: 8px; flex-shrink: 0; border-top: 1px solid var(--border); }
@@ -1157,6 +1165,89 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="ov" id="mDelete">
+  <div class="modal modal-sm">
+    <div class="m-body" style="padding-top:28px;padding-bottom:8px;text-align:center">
+      <div style="width:48px;height:48px;border-radius:50%;background:var(--red-muted);border:2px solid var(--red-border);display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mDeleteTitle">Hapus Trade?</div>
+      <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mDeleteDesc">Data yang dihapus tidak dapat dikembalikan.</div>
+    </div>
+    <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:8px">
+      <button class="btn btn-outline" onclick="closeMod('mDelete')">Batal</button>
+      <button class="btn" style="background:var(--red);color:white" id="mDeleteConfirmBtn">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- Generic Confirm Modal -->
+<div class="ov" id="mConfirm">
+  <div class="modal modal-sm">
+    <div class="m-body" style="padding-top:28px;padding-bottom:8px;text-align:center">
+      <div id="mConfirmIcon" style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"></div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mConfirmTitle"></div>
+      <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mConfirmDesc"></div>
+    </div>
+    <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:8px">
+      <button class="btn btn-outline" onclick="closeMod('mConfirm')" id="mConfirmCancelBtn">Batal</button>
+      <button class="btn btn-primary" id="mConfirmOkBtn">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast / Info Modal -->
+<div class="ov" id="mToast">
+  <div class="modal modal-sm">
+    <div class="m-body" style="padding-top:28px;padding-bottom:8px;text-align:center">
+      <div id="mToastIcon" style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"></div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mToastTitle"></div>
+      <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mToastDesc"></div>
+    </div>
+    <div class="m-ft" style="justify-content:center;padding-bottom:20px">
+      <button class="btn btn-primary" onclick="closeMod('mToast')">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import CSV Confirm Modal -->
+<div class="ov" id="mImport">
+  <div class="modal modal-sm">
+    <div class="m-hd">
+      <div class="m-title" id="mImportTitle">Import CSV</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeMod('mImport')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="m-body">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--blu-muted);border:1px solid var(--blu-border);border-radius:var(--radius);margin-bottom:16px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span style="font-size:12px;color:var(--blu-fg)" id="mImportInfo"></span>
+      </div>
+      <p style="font-size:12px;color:var(--tx-muted);margin-bottom:16px">Pilih cara import data:</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:background .1s" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background=''">
+          <input type="radio" name="importMode" value="merge" checked style="margin-top:2px;flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:500">Gabung</div>
+            <div style="font-size:11px;color:var(--tx-muted);margin-top:2px">Tambahkan trade baru, lewati yang sudah ada (aman)</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:background .1s" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background=''">
+          <input type="radio" name="importMode" value="overwrite" style="margin-top:2px;flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:500;color:var(--red)">Timpa Semua</div>
+            <div style="font-size:11px;color:var(--tx-muted);margin-top:2px">Hapus semua data mode ini dan ganti dengan file import</div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="m-ft" style="gap:8px">
+      <button class="btn btn-outline" onclick="closeMod('mImport')">Batal</button>
+      <button class="btn btn-primary" id="mImportConfirmBtn">Import</button>
+    </div>
+  </div>
+</div>
+
 <!-- Sidebar flyout for mini mode -->
 <div id="sb-flyout" class="sb-flyout" onmouseenter="keepFlyout()" onmouseleave="hideFlyout()"></div>
 
@@ -1422,7 +1513,9 @@ function toggleLang() { setLang(state.settings.language==='id'?'en':'id'); }
 // SIDEBAR
 // ════════════════════════════════════════
 function toggleSidebar() {
-  document.getElementById('app').classList.toggle('sb-mini');
+  const app = document.getElementById('app');
+  app.classList.toggle('sb-mini');
+  localStorage.setItem('tl_sidebar_mini', app.classList.contains('sb-mini') ? '1' : '0');
   hideFlyout();
 }
 
@@ -1675,7 +1768,7 @@ function openEditTrade(id, mode) {
 function saveTrade() {
   const date   = document.getElementById('fDate').value;
   const pair   = document.getElementById('fPair').value.trim();
-  if(!date||!pair){ alert('Tanggal dan Pair wajib diisi!'); return; }
+  if(!date||!pair){ showToast('error','Input Tidak Lengkap','Tanggal dan Pair wajib diisi!'); return; }
   const time   = document.getElementById('fTime').value||null;
   const session = time ? getSession(time) : null;
   const entry   = parseFloat(document.getElementById('fEntry').value)||null;
@@ -1724,13 +1817,89 @@ function saveTrade() {
   updateChecklistBadge();
 }
 
+// ── DELETE CONFIRMATION MODAL ──
+function openDeleteModal(title, desc, onConfirm) {
+  document.getElementById('mDeleteTitle').textContent = title;
+  document.getElementById('mDeleteDesc').textContent = desc;
+  const btn = document.getElementById('mDeleteConfirmBtn');
+  const fresh = btn.cloneNode(true);
+  btn.parentNode.replaceChild(fresh, btn);
+  fresh.addEventListener('click', () => { closeMod('mDelete'); onConfirm(); });
+  openMod('mDelete');
+}
+
+// ── TOAST / INFO MODAL ──
+function showToast(type, title, desc) {
+  // type: 'success' | 'error' | 'info' | 'warn'
+  const cfg = {
+    success: { bg:'var(--grn-muted)', border:'var(--grn-border)', stroke:'var(--grn)',
+      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>` },
+    error:   { bg:'var(--red-muted)',  border:'var(--red-border)',  stroke:'var(--red)',
+      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>` },
+    info:    { bg:'var(--blu-muted)',  border:'var(--blu-border)',  stroke:'var(--blu)',
+      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>` },
+    warn:    { bg:'var(--ylw-muted)',  border:'var(--ylw-border)',  stroke:'var(--ylw)',
+      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ylw)" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` },
+  };
+  const c = cfg[type]||cfg.info;
+  document.getElementById('mToastIcon').style.cssText = `width:48px;height:48px;border-radius:50%;background:${c.bg};border:2px solid ${c.border};display:flex;align-items:center;justify-content:center;margin:0 auto 14px`;
+  document.getElementById('mToastIcon').innerHTML = c.icon;
+  document.getElementById('mToastTitle').textContent = title;
+  document.getElementById('mToastDesc').textContent = desc;
+  openMod('mToast');
+}
+
+// ── GENERIC CONFIRM MODAL ──
+function openConfirmModal(opts) {
+  // opts: { type, icon, title, desc, okLabel, cancelLabel, okStyle, onOk }
+  const cfg = {
+    danger: { bg:'var(--red-muted)',  border:'var(--red-border)',  icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`, okBg:'var(--red)' },
+    info:   { bg:'var(--blu-muted)',  border:'var(--blu-border)',  icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`, okBg:'var(--primary)' },
+  };
+  const c = cfg[opts.type||'info'];
+  document.getElementById('mConfirmIcon').style.cssText = `width:48px;height:48px;border-radius:50%;background:${c.bg};border:2px solid ${c.border};display:flex;align-items:center;justify-content:center;margin:0 auto 14px`;
+  document.getElementById('mConfirmIcon').innerHTML = c.icon;
+  document.getElementById('mConfirmTitle').textContent = opts.title||'';
+  document.getElementById('mConfirmDesc').textContent = opts.desc||'';
+  const cancelBtn = document.getElementById('mConfirmCancelBtn');
+  cancelBtn.textContent = opts.cancelLabel||'Batal';
+  const okBtn = document.getElementById('mConfirmOkBtn');
+  const freshOk = okBtn.cloneNode(true);
+  okBtn.parentNode.replaceChild(freshOk, okBtn);
+  freshOk.textContent = opts.okLabel||'OK';
+  freshOk.style.cssText = opts.okStyle||`background:${c.okBg};color:white`;
+  freshOk.addEventListener('click', () => { closeMod('mConfirm'); opts.onOk?.(); });
+  openMod('mConfirm');
+}
+
 function deleteTrade(id, mode) {
-  if(!confirm('Hapus trade ini?')) return;
-  state.trades = state.trades.filter(x=>x.id!==id);
-  saveState();
-  renderJournal(mode); renderDashboard(mode); renderAnalysis(mode);
-  if(mode==='live'){ renderTransactions(); renderAssets(); }
-  updateSidebarEquity(); updateSidebarAlerts(); updateChecklistBadge();
+  const tr = state.trades.find(x=>x.id===id);
+  const label = tr ? `${tr.pair||'Trade'} · ${tr.date}` : 'trade ini';
+  openDeleteModal(
+    'Hapus Trade?',
+    `"${label}" akan dihapus permanen dan tidak bisa dikembalikan.`,
+    () => {
+      state.trades = state.trades.filter(x=>x.id!==id);
+      saveState();
+      renderJournal(mode); renderDashboard(mode); renderAnalysis(mode);
+      if(mode==='live'){ renderTransactions(); renderAssets(); }
+      updateSidebarEquity(); updateSidebarAlerts(); updateChecklistBadge();
+    }
+  );
+}
+
+function deleteTransaction(id) {
+  const tx = state.transactions.find(x=>x.id===id);
+  const label = tx ? `${tx.type==='deposit'?'Deposit':'Penarikan'} $${tx.amount} · ${tx.date}` : 'transaksi ini';
+  openDeleteModal(
+    'Hapus Transaksi?',
+    `"${label}" akan dihapus permanen dan tidak bisa dikembalikan.`,
+    () => {
+      state.transactions = state.transactions.filter(x=>x.id!==id);
+      saveState();
+      renderTransactions(); renderDashboard('live'); updateSidebarEquity();
+    }
+  );
 }
 
 function openDetail(id, mode) {
@@ -2078,18 +2247,10 @@ function saveTransaction() {
   const type   = document.querySelector('input[name="txType"]:checked')?.value||'deposit';
   const date   = document.getElementById('txDate').value;
   const amount = parseFloat(document.getElementById('txAmount').value);
-  if(!date||isNaN(amount)||amount<=0){ alert('Tanggal dan Jumlah wajib diisi!'); return; }
+  if(!date||isNaN(amount)||amount<=0){ showToast('error','Input Tidak Lengkap','Tanggal dan Jumlah wajib diisi!'); return; }
   state.transactions.push({ id:nanoid(), type, date, amount, note:document.getElementById('txNote').value.trim(), createdAt:Date.now() });
   saveState();
   closeMod('mTransaction');
-  renderTransactions();
-  renderDashboard('live');
-  updateSidebarEquity();
-}
-function deleteTransaction(id) {
-  if(!confirm('Hapus transaksi ini?')) return;
-  state.transactions = state.transactions.filter(t=>t.id!==id);
-  saveState();
   renderTransactions();
   renderDashboard('live');
   updateSidebarEquity();
@@ -2258,10 +2419,18 @@ function toggleClItem(id) {
 }
 
 function resetChecklist() {
-  if(!confirm('Reset semua item checklist hari ini?')) return;
-  state.checklist = { date:getTodayStr(), items:{} };
-  saveState();
-  renderChecklist();
+  openConfirmModal({
+    type: 'danger',
+    title: 'Reset Checklist?',
+    desc: 'Semua item checklist hari ini akan direset ke kondisi awal.',
+    okLabel: 'Reset',
+    cancelLabel: 'Batal',
+    onOk: () => {
+      state.checklist = { date:getTodayStr(), items:{} };
+      saveState();
+      renderChecklist();
+    }
+  });
 }
 
 function updateChecklistBadge() {
@@ -2293,14 +2462,43 @@ function exportAllData() {
 function importAllData(event) {
   const file=event.target.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=e=>{try{const d=JSON.parse(e.target.result);if(d.state){state={...state,...d.state};saveState();initApp();}else alert('Format file tidak valid.');}catch{alert('Gagal import data.');}};
-  reader.readAsText(file);event.target.value='';
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(d.state){
+        openConfirmModal({
+          type:'info',
+          title:'Import Backup?',
+          desc:`File "${file.name}" akan menggantikan semua data saat ini. Pastikan ini adalah file backup yang benar.`,
+          okLabel:'Import',
+          cancelLabel:'Batal',
+          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showToast('success','Import Berhasil','Semua data berhasil dipulihkan dari backup.'); }
+        });
+      } else {
+        showToast('error','Format Tidak Valid','File tidak dikenali sebagai backup TradeLog.');
+      }
+    } catch {
+      showToast('error','Gagal Import','File tidak bisa dibaca. Pastikan format file JSON yang benar.');
+    }
+  };
+  reader.readAsText(file); event.target.value='';
 }
 function clearAllData() {
-  if(!confirm('Ini akan menghapus SEMUA data secara permanen. Yakin?')) return;
-  Object.values(LS).forEach(k=>localStorage.removeItem(k));
-  state={trades:[],transactions:[],checklist:{date:getTodayStr(),items:{}},settings:{language:'id',theme:'light',initialCapital:1000}};
-  initApp();
+  openConfirmModal({
+    type:'danger',
+    title:'Hapus Semua Data?',
+    desc:'Ini akan menghapus SEMUA trade, transaksi, dan pengaturan secara permanen. Tidak bisa dikembalikan!',
+    okLabel:'Hapus Semua',
+    okStyle:'background:var(--red);color:white',
+    cancelLabel:'Batal',
+    onOk:()=>{
+      Object.values(LS).forEach(k=>localStorage.removeItem(k));
+      localStorage.removeItem('tl_sidebar_mini');
+      state={trades:[],transactions:[],checklist:{date:getTodayStr(),items:{}},settings:{language:'id',theme:'light',initialCapital:1000}};
+      initApp();
+      showToast('success','Data Dihapus','Semua data berhasil dihapus.');
+    }
+  });
 }
 
 // ════════════════════════════════════════
@@ -2309,30 +2507,80 @@ function clearAllData() {
 const CSV_H = ['id','mode','date','entryTime','session','pair','setup','direction','lotSize','entryPrice','stopLoss','takeProfit','closePrice','pnlManual','pnl','result','rr','psychology','notes'];
 function exportCSV(mode) {
   const trades = state.trades.filter(t=>t.mode===mode);
-  if(!trades.length){alert('Tidak ada data untuk di-export.');return;}
+  if(!trades.length){ showToast('warn','Tidak Ada Data','Tidak ada trade untuk di-export di mode ini.'); return; }
   const rows=[CSV_H.join(',')];
   trades.forEach(tr=>{const row=CSV_H.map(h=>{let v=tr[h]??'';if(h==='psychology')v=(tr.psychology||[]).join('|');if(typeof v==='string'&&(v.includes(',')||v.includes('"')||v.includes('\n')))v=`"${v.replace(/"/g,'""')}"`;return v;});rows.push(row.join(','));});
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'}));a.download=`tradelog_${mode}_${getTodayStr()}.csv`;a.click();
 }
 function parseCSVLine(line) { const r=[];let cur='',inQ=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}else if(c===','&&!inQ){r.push(cur.trim());cur='';}else cur+=c;}r.push(cur.trim());return r; }
 function importCSV(event, mode) {
-  const file=event.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const lines=e.target.result.split('\n').filter(l=>l.trim());
-      const hdrs=parseCSVLine(lines[0]);const imported=[];
-      for(let i=1;i<lines.length;i++){const vals=parseCSVLine(lines[i]);if(vals.length<3)continue;const obj={};hdrs.forEach((h,j)=>{obj[h]=vals[j]??'';});
-        imported.push({id:obj.id||nanoid(),mode:obj.mode||mode,date:obj.date||'',entryTime:obj.entryTime||null,session:obj.session||null,pair:obj.pair||'',setup:obj.setup||null,direction:obj.direction||'BUY',lotSize:obj.lotSize?parseFloat(obj.lotSize):null,entryPrice:obj.entryPrice?parseFloat(obj.entryPrice):null,stopLoss:obj.stopLoss?parseFloat(obj.stopLoss):null,takeProfit:obj.takeProfit?parseFloat(obj.takeProfit):null,closePrice:obj.closePrice?parseFloat(obj.closePrice):null,pnlManual:obj.pnlManual?parseFloat(obj.pnlManual):null,pnl:obj.pnl!==''?parseFloat(obj.pnl):null,result:obj.result||null,rr:obj.rr!==''?parseFloat(obj.rr):null,psychology:obj.psychology?obj.psychology.split('|').filter(Boolean):[],notes:obj.notes||'',createdAt:Date.now()});
+  const file = event.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const lines = e.target.result.split('\n').filter(l=>l.trim());
+      const hdrs  = parseCSVLine(lines[0]);
+      const imported = [];
+      for(let i=1;i<lines.length;i++){
+        const vals=parseCSVLine(lines[i]); if(vals.length<3) continue;
+        const obj={}; hdrs.forEach((h,j)=>{obj[h]=vals[j]??'';});
+        imported.push({
+          id:obj.id||nanoid(), mode:obj.mode||mode, date:obj.date||'',
+          entryTime:obj.entryTime||null, session:obj.session||null, pair:obj.pair||'',
+          setup:obj.setup||null, direction:obj.direction||'BUY',
+          lotSize:obj.lotSize?parseFloat(obj.lotSize):null,
+          entryPrice:obj.entryPrice?parseFloat(obj.entryPrice):null,
+          stopLoss:obj.stopLoss?parseFloat(obj.stopLoss):null,
+          takeProfit:obj.takeProfit?parseFloat(obj.takeProfit):null,
+          closePrice:obj.closePrice?parseFloat(obj.closePrice):null,
+          pnlManual:obj.pnlManual?parseFloat(obj.pnlManual):null,
+          pnl:obj.pnl!==''?parseFloat(obj.pnl):null,
+          result:obj.result||null, rr:obj.rr!==''?parseFloat(obj.rr):null,
+          psychology:obj.psychology?obj.psychology.split('|').filter(Boolean):[],
+          notes:obj.notes||'', createdAt:Date.now(),
+        });
       }
-      if(!imported.length){alert('Tidak ada data valid.');return;}
-      const merge=confirm(`Import ${imported.length} trade ke ${mode}?\n\nOK = Gabung · Cancel = Timpa semua data ${mode}`);
-      if(merge){const ex=new Set(state.trades.map(t=>t.id));const newOnes=imported.filter(t=>!ex.has(t.id));state.trades=[...state.trades,...newOnes];alert(`Import ${newOnes.length} trade baru.`);}
-      else{if(!confirm('Yakin timpa semua?'))return;state.trades=[...state.trades.filter(t=>t.mode!==mode),...imported];alert(`Import ${imported.length} trade.`);}
-      saveState();renderJournal(mode);renderDashboard(mode);renderAnalysis(mode);if(mode==='live'){renderTransactions();renderAssets();}updateSidebarEquity();updateSidebarAlerts();
-    }catch(err){alert('Gagal import: '+err.message);}
+
+      if(!imported.length) {
+        showToast('error','Tidak Ada Data','File tidak mengandung data trade yang valid.');
+        event.target.value=''; return;
+      }
+
+      // Show import modal
+      const modeName = {live:'Live Trading',bt:'Backtest',pt:'Paper Trading'}[mode]||mode;
+      document.getElementById('mImportTitle').textContent = `Import ke ${modeName}`;
+      document.getElementById('mImportInfo').textContent = `${imported.length} trade ditemukan di file "${file.name}"`;
+      document.querySelector('input[name="importMode"][value="merge"]').checked = true;
+
+      // Wire confirm button
+      const btn = document.getElementById('mImportConfirmBtn');
+      const fresh = btn.cloneNode(true);
+      btn.parentNode.replaceChild(fresh, btn);
+      fresh.addEventListener('click', () => {
+        const isOverwrite = document.querySelector('input[name="importMode"]:checked')?.value === 'overwrite';
+        closeMod('mImport');
+        if(isOverwrite) {
+          state.trades = [...state.trades.filter(t=>t.mode!==mode), ...imported];
+          showToast('success','Import Berhasil',`${imported.length} trade berhasil diimpor (timpa semua data ${modeName}).`);
+        } else {
+          const ex = new Set(state.trades.map(t=>t.id));
+          const newOnes = imported.filter(t=>!ex.has(t.id));
+          state.trades = [...state.trades, ...newOnes];
+          showToast('success','Import Berhasil',`${newOnes.length} trade baru ditambahkan. ${imported.length - newOnes.length} trade duplikat dilewati.`);
+        }
+        saveState();
+        renderJournal(mode); renderDashboard(mode); renderAnalysis(mode);
+        if(mode==='live'){ renderTransactions(); renderAssets(); }
+        updateSidebarEquity(); updateSidebarAlerts();
+      });
+
+      openMod('mImport');
+    } catch(err) {
+      showToast('error','Gagal Import',`Terjadi kesalahan saat membaca file: ${err.message}`);
+    }
     event.target.value='';
-  };reader.readAsText(file);
+  };
+  reader.readAsText(file);
 }
 
 // ════════════════════════════════════════
@@ -2373,6 +2621,11 @@ function initApp() {
   loadState();
   initI18N();
   loadDemo();
+
+  // Restore sidebar state
+  if (localStorage.getItem('tl_sidebar_mini') === '1') {
+    document.getElementById('app').classList.add('sb-mini');
+  }
 
   setTheme(state.settings.theme||'light');
   applyI18N();
