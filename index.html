@@ -251,8 +251,8 @@ input, select, textarea { font-family: inherit; }
 @keyframes pgIn { from { opacity: .5; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .pg-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
 .pg-hd-l {}
-.pg-title { font-size: 20px; font-weight: 700; letter-spacing: -.5px; }
-.pg-sub { font-size: 13px; color: var(--tx-muted); margin-top: 2px; }
+.pg-title { font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
+.pg-sub { font-size: 12px; color: var(--tx-muted); margin-top: 2px; }
 
 /* ════════════════════════════════════════
    CARDS / BOX
@@ -270,7 +270,7 @@ input, select, textarea { font-family: inherit; }
 .stat-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 18px; box-shadow: var(--shadow-sm); }
 .stat-lbl { font-size: 11px; font-weight: 500; color: var(--tx-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
 .stat-lbl svg { width: 13px; height: 13px; opacity: .7; flex-shrink: 0; }
-.stat-val { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600; line-height: 1; letter-spacing: -.5px; }
+.stat-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; line-height: 1; letter-spacing: -.3px; }
 .stat-val.up { color: var(--grn); } .stat-val.dn { color: var(--red); }
 .stat-hint { font-size: 11px; color: var(--tx-muted); margin-top: 5px; }
 
@@ -320,7 +320,7 @@ input, select, textarea { font-family: inherit; }
 .sess-name { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
 .sess-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sess-time { font-size: 10px; color: var(--tx-faint); font-family: 'JetBrains Mono', monospace; }
-.sess-wr { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
+.sess-wr { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
 .sess-sub { font-size: 11px; color: var(--tx-muted); margin-bottom: 8px; }
 .sess-prog { height: 3px; background: var(--bg-muted); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
 .sess-prog-fill { height: 100%; border-radius: 2px; }
@@ -478,25 +478,8 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .prog-wrap { height: 8px; background: var(--bg-muted); border-radius: 4px; overflow: hidden; }
 .prog-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
 
-/* TF Analysis cards */
-.tf-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-.tf-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg); }
-.tf-card-hd { padding: 10px 13px 8px; background: var(--bg-muted); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.tf-card-title { font-size: 12px; font-weight: 700; letter-spacing: -.1px; }
-.tf-card-body { padding: 12px 13px; display: flex; flex-direction: column; gap: 10px; }
-.tf-field { display: flex; flex-direction: column; gap: 4px; }
-.tf-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--tx-faint); }
-.tf-val { font-size: 13px; font-weight: 500; }
-.tf-bias-btn { padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); font-size: 11px; font-weight: 500; cursor: pointer; color: var(--tx-muted); transition: all .12s; }
-.tf-bias-btn:hover { border-color: var(--ring); color: var(--tx); }
-.tf-bias-btn.bullish { background: var(--grn-muted); border-color: var(--grn-border); color: var(--grn-fg); font-weight: 600; }
-.tf-bias-btn.bearish { background: var(--red-muted);  border-color: var(--red-border);  color: var(--red-fg);  font-weight: 600; }
-.tf-bias-btn.sideways { background: var(--ylw-muted); border-color: var(--ylw-border); color: var(--ylw-fg); font-weight: 600; }
-
-/* Live journal 2-column layout */
-.live-journal-layout { display: grid; grid-template-columns: 1fr 380px; gap: 16px; }
-.live-journal-form-section {}
-.live-journal-tf-section {}
+/* Live journal full-width layout */
+.live-journal-layout { display: block; }
 
 /* ════════════════════════════════════════
    TRANSACTION
@@ -777,14 +760,12 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         <span data-i18n="trade.addTrade">Tambah Trade</span>
       </button>
     </div>
-    <!-- 2-column layout: form area + TF analysis panel -->
-    <div class="live-journal-layout">
-      <div class="live-journal-form-section">
-        <div class="csv-bar">
+    <!-- Journal table -->
+    <div class="csv-bar">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span class="csv-txt" data-i18n="common.export">Import / Export</span>
-          <button class="btn btn-outline btn-sm" onclick="exportCSV('live')"><span data-i18n="common.export">Export CSV</span></button>
-          <button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-live').click()"><span data-i18n="common.import">Import CSV</span></button>
+          <span class="csv-txt">Import / Export</span>
+          <button class="btn btn-outline btn-sm" onclick="exportCSV('live')">Export CSV</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('csvFile-live').click()">Import CSV</button>
           <input type="file" id="csvFile-live" accept=".csv" style="display:none" onchange="importCSV(event,'live')">
         </div>
         <div class="toolbar">
@@ -799,19 +780,6 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
           <table class="main-tbl"><thead><tr><th>#</th><th>Tanggal</th><th>Jam</th><th>Sesi</th><th>Pair</th><th>Setup</th><th>Arah</th><th>Entry</th><th>SL</th><th>TP</th><th>Close</th><th>Lot</th><th>P&L</th><th>Hasil</th><th>R:R</th><th>Psikologi</th><th></th></tr></thead><tbody id="jBody-live"></tbody></table>
           <div id="jEmpty-live" class="empty" style="display:none"><div class="empty-ico">📓</div><div class="empty-t">Jurnal kosong</div><div class="empty-d">Klik "Tambah Trade" untuk mulai</div></div>
         </div>
-      </div>
-      <!-- TF Analysis panel (right side) -->
-      <div class="live-journal-tf-section">
-        <div class="card" style="position:sticky;top:calc(var(--topbar-h) + 12px)">
-          <div class="card-hd"><div class="card-title" data-i18n="tfAnalysis.todayAnalysis">Analisis Hari Ini</div><button class="btn btn-primary btn-sm" onclick="saveTFAnalysis()" data-i18n="tfAnalysis.saveAnalysis">Simpan</button></div>
-          <div class="card-body">
-            <div id="tf-cards-container">
-              <!-- TF cards rendered by JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- ══ LIVE ANALYSIS ══ -->
@@ -849,8 +817,8 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title" data-i18n="nav.assets">Aset / Pair</div><div class="pg-sub">Kontribusi setiap pair terhadap equity</div></div></div>
     <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
       <div class="stat-card"><div class="stat-lbl">Total Pair Diperdagangkan</div><div class="stat-val mono" id="asset-pairs-count">0</div></div>
-      <div class="stat-card"><div class="stat-lbl">Best Pair</div><div class="stat-val" id="asset-best-pair" style="font-size:16px">—</div><div class="stat-hint" id="asset-best-pnl">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Worst Pair</div><div class="stat-val" id="asset-worst-pair" style="font-size:16px">—</div><div class="stat-hint" id="asset-worst-pnl">—</div></div>
+      <div class="stat-card"><div class="stat-lbl">Best Pair</div><div class="stat-val" id="asset-best-pair">—</div><div class="stat-hint" id="asset-best-pnl">—</div></div>
+      <div class="stat-card"><div class="stat-lbl">Worst Pair</div><div class="stat-val" id="asset-worst-pair">—</div><div class="stat-hint" id="asset-worst-pnl">—</div></div>
     </div>
     <div class="sec-lbl">Performa Per Pair</div>
     <div id="asset-content"><div class="empty" style="padding:48px 0"><div class="empty-ico">📊</div><div class="empty-t">Belum ada data</div><div class="empty-d">Tambahkan trade untuk melihat analisis pair</div></div></div>
@@ -1129,7 +1097,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 const LS = {
   trades: 'tl_trades_v6',
   transactions: 'tl_tx_v6',
-  tfAnalyses: 'tl_tf_v6',
+
   checklist: 'tl_cl_v6',
   settings: 'tl_settings_v6',
 };
@@ -1185,14 +1153,6 @@ const PSYCH_OPTIONS = [
   '😰 Takut Miss','😤 Revenge','🤑 Serakah','😵 Ragu','😴 Tidak Fokus',
 ];
 
-const TF_LIST = [
-  { key:'daily', label:'Daily' },
-  { key:'h4',    label:'H4' },
-  { key:'h1',    label:'H1' },
-];
-
-const BIAS_OPTIONS = ['bullish','bearish','sideways'];
-
 const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -1202,14 +1162,12 @@ const MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','
 let state = {
   trades: [],
   transactions: [],
-  tfAnalyses: [],
   checklist: { date: getTodayStr(), items: {} },
   settings: { language:'id', theme:'light', initialCapital:1000 },
 };
 let editTradeId = null;
 let editTradeMode = null;
 let selPsych = [];
-let tfState = {}; // { daily:{bias,structure,keyLevel,notes}, h4:..., h1:..., m15:... }
 let currentMode = 'live';
 
 // ════════════════════════════════════════
@@ -1217,23 +1175,20 @@ let currentMode = 'live';
 // ════════════════════════════════════════
 function loadState() {
   try {
-    const t = localStorage.getItem(LS.trades);     if(t) state.trades = JSON.parse(t);
+    const t = localStorage.getItem(LS.trades);       if(t) state.trades = JSON.parse(t);
     const x = localStorage.getItem(LS.transactions); if(x) state.transactions = JSON.parse(x);
-    const f = localStorage.getItem(LS.tfAnalyses);  if(f) state.tfAnalyses = JSON.parse(f);
-    const c = localStorage.getItem(LS.checklist);   if(c) state.checklist = JSON.parse(c);
-    const s = localStorage.getItem(LS.settings);    if(s) state.settings = { ...state.settings, ...JSON.parse(s) };
+    const c = localStorage.getItem(LS.checklist);    if(c) state.checklist = JSON.parse(c);
+    const s = localStorage.getItem(LS.settings);     if(s) state.settings = { ...state.settings, ...JSON.parse(s) };
   } catch(e) { console.warn('Load state error', e); }
-  // reset checklist if new day
   if (state.checklist.date !== getTodayStr()) {
     state.checklist = { date: getTodayStr(), items: {} };
   }
 }
 function saveState() {
-  localStorage.setItem(LS.trades, JSON.stringify(state.trades));
-  localStorage.setItem(LS.transactions, JSON.stringify(state.transactions));
-  localStorage.setItem(LS.tfAnalyses, JSON.stringify(state.tfAnalyses));
-  localStorage.setItem(LS.checklist, JSON.stringify(state.checklist));
-  localStorage.setItem(LS.settings, JSON.stringify(state.settings));
+  localStorage.setItem(LS.trades,        JSON.stringify(state.trades));
+  localStorage.setItem(LS.transactions,  JSON.stringify(state.transactions));
+  localStorage.setItem(LS.checklist,     JSON.stringify(state.checklist));
+  localStorage.setItem(LS.settings,      JSON.stringify(state.settings));
 }
 
 // ════════════════════════════════════════
@@ -1515,8 +1470,6 @@ function openMod(id)  { document.getElementById(id).classList.add('on'); }
 // TRADE MODAL
 // ════════════════════════════════════════
 function buildTradeForm(mode) {
-  const isLive = mode === 'live';
-
   const leftForm = `
     <div style="display:flex;flex-direction:column;gap:0;min-width:0">
       <div class="fgrid">
@@ -1545,28 +1498,7 @@ function buildTradeForm(mode) {
     </div>
   `;
 
-  // TF Analysis panel — compact version for modal
-  const tfPanel = `
-    <div style="min-width:0;border-left:1px solid var(--border);padding-left:18px;display:flex;flex-direction:column;gap:0">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-shrink:0">
-        <div>
-          <div style="font-size:12px;font-weight:700;color:var(--tx)">Analisis TF Hari Ini</div>
-          <div style="font-size:10px;color:var(--tx-faint);margin-top:1px">${fmtDate(getTodayStr())}</div>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="saveTFAnalysis()">💾 Simpan</button>
-      </div>
-      <div id="tf-modal-cards" style="flex:1;overflow-y:auto;max-height:440px;padding-right:2px"></div>
-    </div>
-  `;
-
-  if(!isLive) return leftForm;
-
-  return `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:0">
-      ${leftForm}
-      ${tfPanel}
-    </div>
-  `;
+  return leftForm;
 }
 
 function openAddTrade(mode) {
@@ -1575,13 +1507,10 @@ function openAddTrade(mode) {
   const mc = MODE_CFG[mode];
   const ml = document.getElementById('mTradeModeLabel');
   ml.className = `badge ${mc.badgeClass}`; ml.textContent = mc.label;
-  // Wider modal for live (2-column layout)
-  document.getElementById('mTradeBox').style.maxWidth = mode==='live' ? '1000px' : '640px';
   document.getElementById('mTradeLayout').innerHTML = buildTradeForm(mode);
   document.getElementById('fDate').value = getTodayStr();
   document.getElementById('fTime').value = getCurrentWIB();
   updateSessPreview();
-  if(mode==='live') renderTFCardsInModal();
   updateDatalist(mode);
   openMod('mTrade');
 }
@@ -1593,7 +1522,6 @@ function openEditTrade(id, mode) {
   const mc = MODE_CFG[mode];
   const ml = document.getElementById('mTradeModeLabel');
   ml.className = `badge ${mc.badgeClass}`; ml.textContent = mc.label;
-  document.getElementById('mTradeBox').style.maxWidth = mode==='live' ? '1000px' : '640px';
   document.getElementById('mTradeLayout').innerHTML = buildTradeForm(mode);
   // Fill values
   document.getElementById('fDate').value = tr.date;
@@ -1612,7 +1540,7 @@ function openEditTrade(id, mode) {
   document.querySelectorAll('#pPills .pill').forEach(p=>{ if(selPsych.includes(p.textContent.trim())) p.classList.add('on'); });
   updateSessPreview();
   onPriceChange();
-  if(mode==='live') renderTFCardsInModal();
+
   updateDatalist(mode);
   openMod('mTrade');
 }
@@ -1655,7 +1583,7 @@ function saveTrade() {
   else state.trades.push(tr);
 
   // Save TF analysis if live
-  if(editTradeMode==='live') collectAndSaveTF();
+
 
   saveState();
   closeMod('mTrade');
@@ -1757,106 +1685,6 @@ function updateDatalist(mode) {
     const ss = [...new Set(state.trades.filter(t=>t.mode===m).map(t=>t.setup).filter(Boolean))];
     fs.innerHTML = '<option value="">Setup</option>'+ss.map(s=>`<option value="${s}">${s}</option>`).join('');
   });
-}
-
-// ════════════════════════════════════════
-// TF ANALYSIS
-// ════════════════════════════════════════
-function initTFState() {
-  const today = state.tfAnalyses.find(a=>a.date===getTodayStr());
-  if(today) {
-    tfState = { daily:{...today.daily}, h4:{...today.h4}, h1:{...today.h1}, m15:{...today.m15}, notes:today.notes||'' };
-  } else {
-    tfState = { daily:{bias:'',structure:'',keyLevel:'',notes:''}, h4:{bias:'',structure:'',keyLevel:'',notes:''}, h1:{bias:'',structure:'',keyLevel:'',notes:''}, m15:{bias:'',structure:'',keyLevel:'',notes:''}, notes:'' };
-  }
-}
-function buildTFCards(containerId) {
-  const el = document.getElementById(containerId); if(!el) return;
-  const isModal = containerId === 'tf-modal-cards';
-
-  const biasBtns = (tf) => BIAS_OPTIONS.map(b=>`<button class="tf-bias-btn ${tfState[tf]?.bias===b?b:''}" onclick="setTFBias('${tf}','${b}',this)">${b.charAt(0).toUpperCase()+b.slice(1)}</button>`).join('');
-
-  if(isModal) {
-    // Ultra compact text-only for modal panel
-    el.innerHTML = TF_LIST.map(({key,label})=>{
-      const bias = tfState[key]?.bias||'';
-      const biasColor = bias==='bullish'?'var(--grn)':bias==='bearish'?'var(--red)':bias==='sideways'?'var(--ylw)':'var(--tx-faint)';
-      return `
-      <div style="border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);overflow:hidden;margin-bottom:6px">
-        <div style="padding:6px 10px;background:var(--bg-muted);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-          <span style="font-size:11px;font-weight:700">${label}</span>
-          <select style="font-size:11px;border:none;background:transparent;color:${biasColor};font-weight:600;cursor:pointer;outline:none" onchange="tfState['${key}'].bias=this.value;this.style.color=this.value==='bullish'?'var(--grn)':this.value==='bearish'?'var(--red)':this.value==='sideways'?'var(--ylw)':'var(--tx-faint)'">
-            <option value="" ${!bias?'selected':''} style="color:var(--tx-muted)">— Bias</option>
-            <option value="bullish" ${bias==='bullish'?'selected':''} style="color:var(--grn)">▲ Bullish</option>
-            <option value="bearish" ${bias==='bearish'?'selected':''} style="color:var(--red)">▼ Bearish</option>
-            <option value="sideways" ${bias==='sideways'?'selected':''} style="color:var(--ylw)">↔ Sideways</option>
-          </select>
-        </div>
-        <div style="padding:8px 10px;display:flex;flex-direction:column;gap:5px">
-          <input class="fi" type="text" placeholder="Struktur (BOS, CHoCH, HH/HL...)" value="${tfState[key]?.structure||''}" oninput="tfState['${key}'].structure=this.value" style="font-size:11px;padding:5px 8px">
-          <input class="fi" type="text" placeholder="Level Kunci (BSL, SSL, FVG...)" value="${tfState[key]?.keyLevel||''}" oninput="tfState['${key}'].keyLevel=this.value" style="font-size:11px;padding:5px 8px">
-          <input class="fi" type="text" placeholder="Catatan singkat..." value="${tfState[key]?.notes||''}" oninput="tfState['${key}'].notes=this.value" style="font-size:11px;padding:5px 8px">
-        </div>
-      </div>`;
-    }).join('');
-  } else {
-    // Full card grid for checklist / journal pages
-    el.innerHTML = TF_LIST.map(({key,label})=>`
-      <div class="tf-card" style="margin-bottom:10px">
-        <div class="tf-card-hd">
-          <div class="tf-card-title">${label}</div>
-          <div style="display:flex;gap:4px">${biasBtns(key)}</div>
-        </div>
-        <div class="tf-card-body">
-          <div class="tf-field"><div class="tf-lbl">Struktur</div><input class="fi" type="text" placeholder="BOS, CHoCH..." value="${tfState[key]?.structure||''}" oninput="tfState['${key}'].structure=this.value" style="font-size:12px"></div>
-          <div class="tf-field"><div class="tf-lbl">Level Kunci</div><input class="fi" type="text" placeholder="BSL, SSL, FVG area..." value="${tfState[key]?.keyLevel||''}" oninput="tfState['${key}'].keyLevel=this.value" style="font-size:12px"></div>
-          <div class="tf-field"><div class="tf-lbl">Catatan</div><textarea class="fta" placeholder="..." style="min-height:48px;font-size:12px" oninput="tfState['${key}'].notes=this.value">${tfState[key]?.notes||''}</textarea></div>
-        </div>
-      </div>
-    `).join('');
-  }
-}
-function renderTFCardsInModal() {
-  // Ensure tfState keys exist
-  TF_LIST.forEach(({key})=>{ if(!tfState[key]) tfState[key]={bias:'',structure:'',keyLevel:'',notes:''}; });
-  buildTFCards('tf-modal-cards');
-}
-function renderTFCardsInChecklist() {
-  TF_LIST.forEach(({key})=>{ if(!tfState[key]) tfState[key]={bias:'',structure:'',keyLevel:'',notes:''}; });
-  buildTFCards('cl-tf-body');
-  buildTFCards('tf-cards-container');
-}
-function setTFBias(tf, bias, btn) {
-  if(!tfState[tf]) tfState[tf] = {bias:'',structure:'',keyLevel:'',notes:''};
-  tfState[tf].bias = tfState[tf].bias===bias?'':bias; // toggle
-  // update buttons in same parent
-  const parent = btn.parentElement;
-  parent.querySelectorAll('.tf-bias-btn').forEach(b=>{ b.className='tf-bias-btn'; });
-  if(tfState[tf].bias) btn.classList.add(tfState[tf].bias);
-}
-function collectAndSaveTF() {
-  const today = getTodayStr();
-  const analysis = {
-    date: today,
-    daily: {...(tfState.daily||{})},
-    h4:    {...(tfState.h4||{})},
-    h1:    {...(tfState.h1||{})},
-    m15:   {...(tfState.m15||{})},
-    notes: tfState.notes||'',
-  };
-  const idx = state.tfAnalyses.findIndex(a=>a.date===today);
-  if(idx>=0) state.tfAnalyses[idx] = {...state.tfAnalyses[idx], ...analysis};
-  else state.tfAnalyses.push({...analysis, id:nanoid(), createdAt:Date.now()});
-  saveState();
-}
-function saveTFAnalysis() {
-  collectAndSaveTF();
-  renderTFCardsInChecklist();
-  // Toast
-  const btn = event.target;
-  const orig = btn.textContent;
-  btn.textContent = '✓ Tersimpan'; btn.disabled=true;
-  setTimeout(()=>{ btn.textContent=orig; btn.disabled=false; }, 1500);
 }
 
 // ════════════════════════════════════════
@@ -2265,7 +2093,7 @@ function renderChecklist() {
   document.getElementById('cl-progress-pct').textContent  = `${pct}%`;
   document.getElementById('cl-progress-fill').style.width = `${pct}%`;
   document.getElementById('cl-progress-fill').style.background = pct===100?'var(--grn)':pct>=50?'var(--ylw)':'var(--red)';
-  const tfDateEl = document.getElementById('cl-tf-date'); if(tfDateEl) tfDateEl.textContent = fmtDate(getTodayStr());
+  
 
   const secEl = document.getElementById('cl-sections');
   if(!secEl) return;
@@ -2285,34 +2113,13 @@ function renderChecklist() {
     </div>
   `;
 
-  // Left col: all checklist sections | Right col: TF Analysis only
-  const leftSections  = CHECKLIST_SECTIONS;
-  const rightSections = [];
-
+  // Single full-width column with all checklist sections
   secEl.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start">
-      <!-- LEFT: all checklist items -->
-      <div>
-        ${leftSections.map(buildSection).join('')}
-      </div>
-      <!-- RIGHT: TF Analysis only -->
-      <div style="position:sticky;top:calc(var(--topbar-h) + 16px)">
-        <div class="cl-section-title">Analisis Timeframe</div>
-        <div class="card">
-          <div class="card-hd" style="padding-bottom:10px">
-            <div>
-              <div class="card-title">Analisis Hari Ini</div>
-              <div class="card-desc" id="cl-tf-date">${fmtDate(getTodayStr())}</div>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="saveTFAnalysis()">💾 Simpan</button>
-          </div>
-          <div class="card-body" id="cl-tf-body"></div>
-        </div>
-      </div>
+    <div>
+      ${CHECKLIST_SECTIONS.map(buildSection).join('')}
     </div>
   `;
 
-  renderTFCardsInChecklist();
   updateChecklistBadge();
 }
 
@@ -2365,7 +2172,7 @@ function importAllData(event) {
 function clearAllData() {
   if(!confirm('Ini akan menghapus SEMUA data secara permanen. Yakin?')) return;
   Object.values(LS).forEach(k=>localStorage.removeItem(k));
-  state={trades:[],transactions:[],tfAnalyses:[],checklist:{date:getTodayStr(),items:{}},settings:{language:'id',theme:'light',initialCapital:1000}};
+  state={trades:[],transactions:[],checklist:{date:getTodayStr(),items:{}},settings:{language:'id',theme:'light',initialCapital:1000}};
   initApp();
 }
 
@@ -2439,7 +2246,7 @@ function initApp() {
   loadState();
   initI18N();
   loadDemo();
-  initTFState();
+
   setTheme(state.settings.theme||'light');
   applyI18N();
 
@@ -2458,7 +2265,7 @@ function initApp() {
   renderChecklist();
   updateSidebarEquity();
   updateSidebarAlerts();
-  renderTFCardsInChecklist();
+
 
   // Show daily alerts on load if not met
   setTimeout(()=>{
