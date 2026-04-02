@@ -1039,6 +1039,22 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         </div>
       </div>
     </div>
+    <!-- Checklist Management -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd">
+        <div>
+          <div class="card-title" data-i18n="settings.checklistSection">Manajemen Checklist</div>
+          <div class="card-desc" data-i18n="settings.checklistDesc">Kustomisasi item checklist harian kamu</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddClItem()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span data-i18n="settings.addClItem">Tambah Item</span>
+        </button>
+      </div>
+      <div class="card-body" id="cl-settings-body">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
     <!-- Data management -->
     <div class="card" style="margin-bottom:16px">
       <div class="card-hd"><div class="card-title" data-i18n="settings.dataSection">Data</div></div>
@@ -1248,6 +1264,41 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   </div>
 </div>
 
+<!-- Add/Edit Checklist Item Modal -->
+<div class="ov" id="mClItem">
+  <div class="modal modal-sm">
+    <div class="m-hd">
+      <div class="m-title" id="mClItemTitle">Tambah Item Checklist</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeMod('mClItem')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="m-body">
+      <div class="fgrid" style="grid-template-columns:1fr;gap:13px">
+        <div class="fg">
+          <label class="lbl">Section</label>
+          <select class="fi fse" id="cl-item-section">
+            <option value="mental">Persiapan Mental & Kondisi</option>
+            <option value="market">Analisis Pasar</option>
+            <option value="setup">Setup & Entry</option>
+            <option value="risk">Manajemen Risiko</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="lbl">Judul Item</label>
+          <input class="fi" type="text" id="cl-item-title" placeholder="Contoh: Cek berita ekonomi">
+        </div>
+        <div class="fg">
+          <label class="lbl">Deskripsi <span class="lbl-hint">(opsional)</span></label>
+          <input class="fi" type="text" id="cl-item-desc" placeholder="Penjelasan singkat...">
+        </div>
+      </div>
+    </div>
+    <div class="m-ft">
+      <button class="btn btn-outline" onclick="closeMod('mClItem')">Batal</button>
+      <button class="btn btn-primary" onclick="saveClItem()">Simpan</button>
+    </div>
+  </div>
+</div>
+
 <!-- Sidebar flyout for mini mode -->
 <div id="sb-flyout" class="sb-flyout" onmouseenter="keepFlyout()" onmouseleave="hideFlyout()"></div>
 
@@ -1261,8 +1312,8 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 const LS = {
   trades: 'tl_trades_v6',
   transactions: 'tl_tx_v6',
-
   checklist: 'tl_cl_v6',
+  customChecklist: 'tl_custom_cl_v1',
   settings: 'tl_settings_v6',
 };
 
@@ -1280,56 +1331,41 @@ const MODE_CFG = {
   pt:   { get label(){ return `🟠 ${t('nav.paperTrading')}`; },get chip(){ return `● ${t('mode.paperShort')}`; },    bg:'var(--ora-muted)', fg:'var(--ora-fg)', bdr:'var(--ora-border)', badgeClass:'b-ora', accentColor:'var(--ora)'  },
 };
 
-const CHECKLIST_ITEMS_TEXT = {
-  id: {
-    mentalStable:    { title:'Kondisi mental stabil',                   desc:'Tidak sedang emosional, stress berat, atau terburu-buru' },
-    enoughSleep:     { title:'Cukup tidur & istirahat',                  desc:'Fisik segar, fokus tidak terganggu' },
-    acceptLoss:      { title:'Siap menerima loss',                       desc:'Risk sudah dihitung, mental siap kalau trade gagal' },
-    checkNews:       { title:'Cek berita & kalender ekonomi',            desc:'Hindari entry saat high-impact news (NFP, CPI, FOMC)' },
-    topdown:         { title:'Top-down analysis selesai',                desc:'Daily → H4 → H1 sudah dibaca, bias harian sudah jelas' },
-    srMapped:        { title:'SR zone sudah dipetakan lengkap',          desc:'Tidak ada SR penting yang terlewat di semua TF' },
-    bslSsl:          { title:'Identifikasi BSL / SSL hari ini',          desc:'Tahu di mana likuiditas yang kemungkinan disweep' },
-    tfAligned:       { title:'Semua TF aligned (tidak konflik)',         desc:'Daily, H4, H1 menunjukkan arah yang sama' },
-    waitChoch:       { title:'Tunggu konfirmasi CHoCH (minimal 2x)',     desc:'Jangan entry sebelum struktur berubah terkonfirmasi' },
-    obFvg:           { title:'Ada OB / FVG yang valid di area entry',    desc:'Order Block atau Fair Value Gap sudah diidentifikasi' },
-    premiumDiscount: { title:'Harga di area premium/discount yang tepat',desc:'Buy di discount zone, sell di premium zone' },
-    sessionCheck:    { title:'Sesi trading sesuai (London / NY)',        desc:'Prioritas London session, hindari Asia session untuk XAUUSD' },
-    lotCalc:         { title:'Lot size sudah dihitung (max 2% risk)',    desc:'Gunakan GoldSizer / kalkulator position sizing' },
-    slTpSet:         { title:'SL & TP sudah ditentukan sebelum entry',   desc:'RR minimal 1:2, SL di area yang logis (bukan feeling)' },
-  },
-  en: {
-    mentalStable:    { title:'Stable mental condition',                  desc:'Not emotional, under heavy stress, or rushing' },
-    enoughSleep:     { title:'Adequate sleep & rest',                    desc:'Physically fresh, focus undisturbed' },
-    acceptLoss:      { title:'Ready to accept a loss',                   desc:'Risk calculated, mentally prepared if trade fails' },
-    checkNews:       { title:'Check economic news & calendar',           desc:'Avoid entry during high-impact news (NFP, CPI, FOMC)' },
-    topdown:         { title:'Top-down analysis complete',               desc:'Daily → H4 → H1 read, daily bias established' },
-    srMapped:        { title:'SR zones fully mapped',                    desc:'No important SR zones missed on all TFs' },
-    bslSsl:          { title:'BSL / SSL identified for today',           desc:'Know where liquidity may be swept' },
-    tfAligned:       { title:'All TFs aligned (no conflict)',            desc:'Daily, H4, H1 showing same direction' },
-    waitChoch:       { title:'Wait for CHoCH confirmation (min 2x)',     desc:'Don\'t enter before structure change is confirmed' },
-    obFvg:           { title:'Valid OB / FVG at entry area',             desc:'Order Block or Fair Value Gap identified' },
-    premiumDiscount: { title:'Price at correct premium/discount area',   desc:'Buy at discount zone, sell at premium zone' },
-    sessionCheck:    { title:'Trading session correct (London / NY)',    desc:'Prioritize London session, avoid Asia session for XAUUSD' },
-    lotCalc:         { title:'Lot size calculated (max 2% risk)',        desc:'Use GoldSizer / position sizing calculator' },
-    slTpSet:         { title:'SL & TP set before entry',                 desc:'Minimum RR 1:2, SL at logical area (not feeling)' },
-  },
-};
+// Default checklist items — used when user has no custom items yet
+const DEFAULT_CHECKLIST_ITEMS = [
+  { id:'mentalStable',    section:'mental', title:'Kondisi mental stabil',                    desc:'Tidak sedang emosional, stress berat, atau terburu-buru' },
+  { id:'enoughSleep',     section:'mental', title:'Cukup tidur & istirahat',                   desc:'Fisik segar, fokus tidak terganggu' },
+  { id:'acceptLoss',      section:'mental', title:'Siap menerima loss',                        desc:'Risk sudah dihitung, mental siap kalau trade gagal' },
+  { id:'checkNews',       section:'market', title:'Cek berita & kalender ekonomi',             desc:'Hindari entry saat high-impact news (NFP, CPI, FOMC)' },
+  { id:'topdown',         section:'market', title:'Top-down analysis selesai',                 desc:'Daily → H4 → H1 sudah dibaca, bias harian sudah jelas' },
+  { id:'srMapped',        section:'market', title:'SR zone sudah dipetakan lengkap',           desc:'Tidak ada SR penting yang terlewat di semua TF' },
+  { id:'bslSsl',          section:'market', title:'Identifikasi BSL / SSL hari ini',           desc:'Tahu di mana likuiditas yang kemungkinan disweep' },
+  { id:'tfAligned',       section:'market', title:'Semua TF aligned (tidak konflik)',          desc:'Daily, H4, H1 menunjukkan arah yang sama' },
+  { id:'waitChoch',       section:'setup',  title:'Tunggu konfirmasi CHoCH (minimal 2x)',      desc:'Jangan entry sebelum struktur berubah terkonfirmasi' },
+  { id:'obFvg',           section:'setup',  title:'Ada OB / FVG yang valid di area entry',     desc:'Order Block atau Fair Value Gap sudah diidentifikasi' },
+  { id:'premiumDiscount', section:'setup',  title:'Harga di area premium/discount yang tepat', desc:'Buy di discount zone, sell di premium zone' },
+  { id:'sessionCheck',    section:'setup',  title:'Sesi trading sesuai (London / NY)',         desc:'Prioritas London session, hindari Asia session untuk XAUUSD' },
+  { id:'lotCalc',         section:'risk',   title:'Lot size sudah dihitung (max 2% risk)',     desc:'Gunakan GoldSizer / kalkulator position sizing' },
+  { id:'slTpSet',         section:'risk',   title:'SL & TP sudah ditentukan sebelum entry',    desc:'RR minimal 1:2, SL di area yang logis (bukan feeling)' },
+];
 
 const CHECKLIST_SECTIONS = [
-  { key: 'mental', items: ['mentalStable','enoughSleep','acceptLoss'] },
-  { key: 'market', items: ['checkNews','topdown','srMapped','bslSsl','tfAligned'] },
-  { key: 'setup',  items: ['waitChoch','obFvg','premiumDiscount','sessionCheck'] },
-  { key: 'risk',   items: ['lotCalc','slTpSet'] },
+  { key:'mental' }, { key:'market' }, { key:'setup' }, { key:'risk' },
 ];
 
 function getCLSectionLabel(key) {
-  return {
-    mental: t('checklist.mental'),
-    market: t('checklist.market'),
-    setup:  t('checklist.setup'),
-    risk:   t('checklist.risk'),
-  }[key] || key;
+  return { mental:t('checklist.mental'), market:t('checklist.market'), setup:t('checklist.setup'), risk:t('checklist.risk') }[key] || key;
 }
+
+// Get current custom checklist items (falls back to defaults)
+function getClItems() {
+  return state.customChecklist && state.customChecklist.length
+    ? state.customChecklist
+    : DEFAULT_CHECKLIST_ITEMS;
+}
+
+// Edit state for checklist item modal
+let editClItemId = null;
 
 const PSYCH_OPTIONS = [
   '😌 Tenang','🎯 Fokus','💪 Confident',
@@ -1346,6 +1382,7 @@ let state = {
   trades: [],
   transactions: [],
   checklist: { date: getTodayStr(), items: {} },
+  customChecklist: [], // user-defined checklist items
   settings: { language:'id', theme:'light', initialCapital:1000 },
 };
 let editTradeId = null;
@@ -1358,20 +1395,22 @@ let currentMode = 'live';
 // ════════════════════════════════════════
 function loadState() {
   try {
-    const t = localStorage.getItem(LS.trades);       if(t) state.trades = JSON.parse(t);
-    const x = localStorage.getItem(LS.transactions); if(x) state.transactions = JSON.parse(x);
-    const c = localStorage.getItem(LS.checklist);    if(c) state.checklist = JSON.parse(c);
-    const s = localStorage.getItem(LS.settings);     if(s) state.settings = { ...state.settings, ...JSON.parse(s) };
+    const t = localStorage.getItem(LS.trades);           if(t) state.trades = JSON.parse(t);
+    const x = localStorage.getItem(LS.transactions);     if(x) state.transactions = JSON.parse(x);
+    const c = localStorage.getItem(LS.checklist);        if(c) state.checklist = JSON.parse(c);
+    const cc = localStorage.getItem(LS.customChecklist); if(cc) state.customChecklist = JSON.parse(cc);
+    const s = localStorage.getItem(LS.settings);         if(s) state.settings = { ...state.settings, ...JSON.parse(s) };
   } catch(e) { console.warn('Load state error', e); }
   if (state.checklist.date !== getTodayStr()) {
     state.checklist = { date: getTodayStr(), items: {} };
   }
 }
 function saveState() {
-  localStorage.setItem(LS.trades,        JSON.stringify(state.trades));
-  localStorage.setItem(LS.transactions,  JSON.stringify(state.transactions));
-  localStorage.setItem(LS.checklist,     JSON.stringify(state.checklist));
-  localStorage.setItem(LS.settings,      JSON.stringify(state.settings));
+  localStorage.setItem(LS.trades,           JSON.stringify(state.trades));
+  localStorage.setItem(LS.transactions,     JSON.stringify(state.transactions));
+  localStorage.setItem(LS.checklist,        JSON.stringify(state.checklist));
+  localStorage.setItem(LS.customChecklist,  JSON.stringify(state.customChecklist));
+  localStorage.setItem(LS.settings,         JSON.stringify(state.settings));
 }
 
 // ════════════════════════════════════════
@@ -1503,7 +1542,7 @@ function initI18N() {
     'trade.closePrice':'Harga Close','trade.autoCalc':'auto hitung P&L',
     'trade.pnlManual':'P&L Manual','trade.override':'override close price',
     'trade.psychology':'Kondisi Psikologi','trade.notes':'Catatan / Alasan Entry',
-    'trade.notesPH':'FVG H1, swept SSL, CHoCH M5...',
+    'trade.notesPH':'FVG H1, swept SSL, CHoCH M5...','trade.lesson':'Lesson Learned','trade.lessonHint':'optional','trade.lessonPH':'What did you learn from this trade?','trade.lesson':'Lesson Learned','trade.lessonHint':'opsional','trade.lessonPH':'Apa yang kamu pelajari dari trade ini?',
     'trade.pairPH':'XAUUSD','trade.setupPH':'FVG, AMD, OB...',
     'trade.entryPH':'2300.00','trade.slPH':'2290.00','trade.tpPH':'2320.00',
     'trade.closePH':'kosong = masih open','trade.pnlPH':'Opsional · +50.00 atau -25.00',
@@ -1576,7 +1615,7 @@ function initI18N() {
     'settings.clearData':'Hapus Semua Data','settings.clearDesc':'Permanen, tidak bisa di-undo',
     'settings.exportBtn':'Export JSON','settings.importBtn':'Import JSON',
     'settings.clearBtn':'Hapus Semua',
-    'settings.version':'TradeLog v2.0 — localStorage edition',
+    'settings.checklistSection':'Manajemen Checklist','settings.checklistDesc':'Kustomisasi item checklist harian kamu','settings.addClItem':'Tambah Item','settings.checklistSection':'Checklist Management','settings.checklistDesc':'Customize your daily checklist items','settings.addClItem':'Add Item','settings.version':'TradeLog v2.0 — localStorage edition',
     // Mode labels
     'mode.live':'Live Trading','mode.bt':'Backtest','mode.pt':'Paper Trading',
     // Import modal
@@ -2058,6 +2097,7 @@ function buildTradeForm(mode) {
         ${PSYCH_OPTIONS.map(p=>`<div class="pill" onclick="tpill(this)">${p}</div>`).join('')}
       </div></div>
       <div class="fg" style="margin-top:13px"><label class="lbl">${t('trade.notes')}</label><textarea class="fta" id="fNotes" placeholder="${t('trade.notesPH')}" style="min-height:72px"></textarea></div>
+      <div class="fg" style="margin-top:10px"><label class="lbl">${t('trade.lesson')} <span class="lbl-hint">${t('trade.lessonHint')}</span></label><textarea class="fta" id="fLesson" placeholder="${t('trade.lessonPH')}" style="min-height:64px"></textarea></div>
     </div>
   `;
 
@@ -2075,6 +2115,7 @@ function openAddTrade(mode) {
   document.getElementById('fTime').value = getCurrentWIB();
   updateSessPreview();
   updateDatalist(mode);
+  document.getElementById('fLesson') && (document.getElementById('fLesson').value = '');
   openMod('mTrade');
 }
 
@@ -2099,6 +2140,7 @@ function openEditTrade(id, mode) {
   document.getElementById('fClose').value = tr.closePrice||'';
   document.getElementById('fPnl').value = tr.pnlManual!==null&&tr.pnlManual!==undefined?tr.pnlManual:'';
   document.getElementById('fNotes').value = tr.notes||'';
+  const fl = document.getElementById('fLesson'); if(fl) fl.value = tr.lesson||'';
   // Psych pills
   document.querySelectorAll('#pPills .pill').forEach(p=>{ if(selPsych.includes(p.textContent.trim())) p.classList.add('on'); });
   updateSessPreview();
@@ -2139,6 +2181,7 @@ function saveTrade() {
     closePrice, pnlManual, pnl, result, rr,
     psychology: [...selPsych],
     notes: document.getElementById('fNotes').value.trim(),
+    lesson: document.getElementById('fLesson')?.value.trim() || '',
     createdAt: editTradeId ? state.trades.find(x=>x.id===editTradeId)?.createdAt : Date.now(),
   };
 
@@ -2263,8 +2306,9 @@ function openDetail(id, mode) {
     ['P&L', tr.pnl!==null?`<span class="${tr.pnl>0?'up':tr.pnl<0?'dn':'warn'} mono">${fmtUSD(tr.pnl,true)}</span>`:'—'],
     ['Hasil', resultBadge(tr.result)],
     ['R:R', tr.rr?`1:${tr.rr}`:'—'],
-    ['Psikologi', tr.psychology?.join(', ')||'—'],
-    ['Catatan', tr.notes||'—'],
+    [t('trade.psychology'), tr.psychology?.join(', ')||'—'],
+    [t('trade.notes'), tr.notes||'—'],
+    [t('trade.lesson'), tr.lesson||'—'],
   ];
   document.getElementById('detBody').innerHTML = rows.map(([k,v])=>
     `<div class="det-row"><span class="det-k">${k}</span><span class="det-v">${v}</span></div>`
@@ -2716,42 +2760,42 @@ function renderChecklist() {
     state.checklist = { date: getTodayStr(), items:{} };
   }
   const items = state.checklist.items;
-  const total = CHECKLIST_SECTIONS.reduce((s,sec)=>s+sec.items.length,0);
-  const done  = Object.values(items).filter(Boolean).length;
-  const pct   = total?Math.round(done/total*100):0;
+  const clItems = getClItems();
+  const total = clItems.length;
+  const done  = clItems.filter(it => items[it.id]).length;
+  const pct   = total ? Math.round(done/total*100) : 0;
 
   document.getElementById('cl-progress-text').textContent = `${done} / ${total} ${t('checklist.progress')}`;
   document.getElementById('cl-progress-pct').textContent  = `${pct}%`;
   document.getElementById('cl-progress-fill').style.width = `${pct}%`;
   document.getElementById('cl-progress-fill').style.background = pct===100?'var(--grn)':pct>=50?'var(--ylw)':'var(--red)';
-  
 
   const secEl = document.getElementById('cl-sections');
   if(!secEl) return;
 
-  const buildSection = (sec) => `
-    <div class="cl-section" style="margin-bottom:16px">
+  const bySection = {};
+  CHECKLIST_SECTIONS.forEach(s => { bySection[s.key] = []; });
+  clItems.forEach(item => {
+    if(!bySection[item.section]) bySection[item.section] = [];
+    bySection[item.section].push(item);
+  });
+
+  secEl.innerHTML = CHECKLIST_SECTIONS.map(sec => {
+    const sItems = bySection[sec.key] || [];
+    if(!sItems.length) return '';
+    return `<div class="cl-section" style="margin-bottom:16px">
       <div class="cl-section-title">${getCLSectionLabel(sec.key)}</div>
       <div class="cl-items">
-        ${sec.items.map(itemId=>{
-          const lang = state.settings.language || 'id';
-          const txt = CHECKLIST_ITEMS_TEXT[lang]?.[itemId] || CHECKLIST_ITEMS_TEXT.id[itemId] || {title:itemId,desc:''};
-          const isDone = !!items[itemId];
-          return`<div class="cl-item${isDone?' done':''}" onclick="toggleClItem('${itemId}')">
+        ${sItems.map(item => {
+          const isDone = !!items[item.id];
+          return `<div class="cl-item${isDone?' done':''}" onclick="toggleClItem('${item.id}')">
             <div class="cl-cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div class="cl-content"><div class="cl-title">${txt.title}</div><div class="cl-desc">${txt.desc}</div></div>
+            <div class="cl-content"><div class="cl-title">${item.title}</div>${item.desc?`<div class="cl-desc">${item.desc}</div>`:''}</div>
           </div>`;
         }).join('')}
       </div>
-    </div>
-  `;
-
-  // Single full-width column with all checklist sections
-  secEl.innerHTML = `
-    <div>
-      ${CHECKLIST_SECTIONS.map(buildSection).join('')}
-    </div>
-  `;
+    </div>`;
+  }).join('');
 
   updateChecklistBadge();
 }
@@ -2780,12 +2824,151 @@ function resetChecklist() {
 
 function updateChecklistBadge() {
   const items = state.checklist.date===getTodayStr() ? state.checklist.items : {};
-  const total = CHECKLIST_SECTIONS.reduce((s,sec)=>s+sec.items.length,0);
-  const done  = Object.values(items).filter(Boolean).length;
+  const clItems = getClItems();
+  const done = clItems.filter(it => items[it.id]).length;
   const badge = document.getElementById('cl-badge');
   if(!badge) return;
-  if(done < total){ badge.style.display='flex'; badge.textContent=`${total-done}`; }
+  if(done < clItems.length){ badge.style.display='flex'; badge.textContent=`${clItems.length-done}`; }
   else badge.style.display='none';
+}
+
+// ════════════════════════════════════════
+// CHECKLIST CRUD (Settings)
+// ════════════════════════════════════════
+function renderClSettings() {
+  const el = document.getElementById('cl-settings-body');
+  if(!el) return;
+  const clItems = getClItems();
+  const isDefault = !state.customChecklist || !state.customChecklist.length;
+
+  const bySection = {};
+  CHECKLIST_SECTIONS.forEach(s => { bySection[s.key] = []; });
+  clItems.forEach(item => {
+    if(!bySection[item.section]) bySection[item.section] = [];
+    bySection[item.section].push(item);
+  });
+
+  if(!clItems.length) {
+    el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--tx-faint);font-size:12px">Belum ada item. Klik "Tambah Item" untuk mulai.</div>`;
+    return;
+  }
+
+  el.innerHTML = `
+    ${isDefault ? `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--blu-muted);border-radius:var(--radius);margin-bottom:14px;font-size:12px;color:var(--blu-fg)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Menggunakan item default. Edit atau tambah item untuk membuat checklist kamu sendiri.
+    </div>` : `<div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+      <button class="btn btn-outline btn-sm" onclick="resetToDefaultChecklist()" style="color:var(--tx-muted);font-size:11px">↩ Reset ke Default</button>
+    </div>`}
+    ${CHECKLIST_SECTIONS.map(sec => {
+      const sItems = bySection[sec.key] || [];
+      if(!sItems.length) return '';
+      return `<div style="margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--tx-faint);margin-bottom:6px">${getCLSectionLabel(sec.key)}</div>
+        <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+          ${sItems.map((item,idx) => `
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--bg)" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background='var(--bg)'">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;font-weight:500">${item.title}</div>
+                ${item.desc?`<div style="font-size:11px;color:var(--tx-muted);margin-top:1px">${item.desc}</div>`:''}
+              </div>
+              <div style="display:flex;gap:4px;flex-shrink:0">
+                <button class="btn btn-ghost btn-icon" onclick="openEditClItem('${item.id}')" style="width:26px;height:26px">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                </button>
+                <button class="btn btn-del btn-icon" onclick="deleteClItem('${item.id}')" style="width:26px;height:26px">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+function openAddClItem() {
+  editClItemId = null;
+  document.getElementById('mClItemTitle').textContent = 'Tambah Item Checklist';
+  document.getElementById('cl-item-section').value = 'mental';
+  document.getElementById('cl-item-title').value = '';
+  document.getElementById('cl-item-desc').value = '';
+  openMod('mClItem');
+}
+
+function openEditClItem(id) {
+  const clItems = getClItems();
+  const item = clItems.find(x => x.id === id);
+  if(!item) return;
+  editClItemId = id;
+  document.getElementById('mClItemTitle').textContent = 'Edit Item Checklist';
+  document.getElementById('cl-item-section').value = item.section;
+  document.getElementById('cl-item-title').value = item.title;
+  document.getElementById('cl-item-desc').value = item.desc || '';
+  openMod('mClItem');
+}
+
+function saveClItem() {
+  const title = document.getElementById('cl-item-title').value.trim();
+  if(!title) { showToast('error','Input Kosong','Judul item wajib diisi!'); return; }
+  const section = document.getElementById('cl-item-section').value;
+  const desc    = document.getElementById('cl-item-desc').value.trim();
+
+  // Copy defaults to custom if not yet customized
+  if(!state.customChecklist || !state.customChecklist.length) {
+    state.customChecklist = DEFAULT_CHECKLIST_ITEMS.map(i => ({...i}));
+  }
+
+  if(editClItemId) {
+    state.customChecklist = state.customChecklist.map(x =>
+      x.id === editClItemId ? {...x, title, desc, section} : x
+    );
+  } else {
+    state.customChecklist.push({ id: nanoid(), section, title, desc });
+  }
+
+  saveState();
+  closeMod('mClItem');
+  renderClSettings();
+  renderChecklist();
+  showToast('success', editClItemId ? 'Item Diperbarui' : 'Item Ditambahkan', `"${title}" berhasil ${editClItemId?'diperbarui':'ditambahkan'}.`);
+  editClItemId = null;
+}
+
+function deleteClItem(id) {
+  const item = getClItems().find(x => x.id === id);
+  openDeleteModal(
+    'Hapus Item Checklist?',
+    `"${item?.title || 'Item ini'}" akan dihapus dari checklist kamu.`,
+    () => {
+      if(!state.customChecklist || !state.customChecklist.length) {
+        state.customChecklist = DEFAULT_CHECKLIST_ITEMS.map(i => ({...i}));
+      }
+      state.customChecklist = state.customChecklist.filter(x => x.id !== id);
+      // Also remove from checked state
+      delete state.checklist.items[id];
+      saveState();
+      renderClSettings();
+      renderChecklist();
+    }
+  );
+}
+
+function resetToDefaultChecklist() {
+  openConfirmModal({
+    type: 'danger',
+    title: 'Reset ke Checklist Default?',
+    desc: 'Semua kustomisasi checklist akan dihapus dan kembali ke item default.',
+    okLabel: 'Reset',
+    cancelLabel: t('btn.cancel'),
+    onOk: () => {
+      state.customChecklist = [];
+      state.checklist = { date: getTodayStr(), items: {} };
+      saveState();
+      renderClSettings();
+      renderChecklist();
+    }
+  });
 }
 
 // ════════════════════════════════════════
@@ -2795,6 +2978,7 @@ function renderSettings() {
   document.getElementById('settings-capital').value = state.settings.initialCapital||1000;
   document.querySelectorAll('input[name="theme"]').forEach(r=>{ r.checked=(r.value===state.settings.theme); });
   document.querySelectorAll('input[name="lang"]').forEach(r=>{ r.checked=(r.value===state.settings.language); });
+  renderClSettings();
 }
 function saveCapital() {
   const v = parseFloat(document.getElementById('settings-capital').value);
@@ -2849,7 +3033,7 @@ function clearAllData() {
 // ════════════════════════════════════════
 // CSV EXPORT / IMPORT
 // ════════════════════════════════════════
-const CSV_H = ['id','mode','date','entryTime','session','pair','setup','direction','lotSize','entryPrice','stopLoss','takeProfit','closePrice','pnlManual','pnl','result','rr','psychology','notes'];
+const CSV_H = ['id','mode','date','entryTime','session','pair','setup','direction','lotSize','entryPrice','stopLoss','takeProfit','closePrice','pnlManual','pnl','result','rr','psychology','notes','lesson'];
 function exportCSV(mode) {
   const trades = state.trades.filter(t=>t.mode===mode);
   if(!trades.length){ showToast('warn',t('toast.noData'),t('toast.noExportData')); return; }
@@ -2882,7 +3066,8 @@ function importCSV(event, mode) {
           pnl:obj.pnl!==''?parseFloat(obj.pnl):null,
           result:obj.result||null, rr:obj.rr!==''?parseFloat(obj.rr):null,
           psychology:obj.psychology?obj.psychology.split('|').filter(Boolean):[],
-          notes:obj.notes||'', createdAt:Date.now(),
+          notes:obj.notes||'',
+          lesson:obj.lesson||'', createdAt:Date.now(),
         });
       }
 
