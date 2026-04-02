@@ -186,7 +186,7 @@ input, select, textarea { font-family: inherit; }
   position: relative;
 }
 .app.sb-mini .sb-grp-item .grp-label,
-.app.sb-mini .sb-grp-item .chevron,
+.app.sb-mini .sb-grp-item .chevron { display: none; }
 .app.sb-mini .sb-grp-item .sb-badge {
   min-width: 8px; width: 8px; height: 8px; padding: 0;
   border-radius: 50%; font-size: 0;
@@ -267,7 +267,7 @@ input, select, textarea { font-family: inherit; }
   transition: opacity .15s;
 }
 .app.sb-mini .sb-nav-item { justify-content: center; padding: 9px 0; position: relative; }
-.app.sb-mini .sb-nav-item .nav-label,
+.app.sb-mini .sb-nav-item .nav-label { display: none; }
 .app.sb-mini .sb-nav-item .sb-badge {
   min-width: 8px; width: 8px; height: 8px; padding: 0;
   border-radius: 50%; font-size: 0;
@@ -705,7 +705,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="sb-group">
       <button class="sb-grp-item" data-tip="Backtest" id="grp-bt" onclick="toggleGroup('bt',this)" onmouseenter="showFlyout('bt',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
-        <span class="grp-label">Backtest</span>
+        <span class="grp-label" data-i18n="nav.backtest">Backtest</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
       <div class="sb-sub" id="sub-bt">
@@ -729,7 +729,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="sb-group">
       <button class="sb-grp-item" data-tip="Paper Trading" id="grp-pt" onclick="toggleGroup('pt',this)" onmouseenter="showFlyout('pt',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        <span class="grp-label">Paper Trading</span>
+        <span class="grp-label" data-i18n="nav.paperTrading">Paper Trading</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
       <div class="sb-sub" id="sub-pt">
@@ -749,14 +749,14 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     </div>
 
     <!-- Single items -->
-    <div class="sb-section" style="margin-top:4px" data-i18n-key="other">Lainnya</div>
+    <div class="sb-section" style="margin-top:4px" data-i18n="nav.other">Lainnya</div>
     <div class="sb-group">
       <button class="sb-nav-item" id="nav-checklist" onclick="goSinglePage('checklist',this)">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         <span class="nav-label" data-i18n="nav.checklist">Checklist Harian</span>
         <span class="sb-badge" id="cl-badge" style="display:none">!</span>
       </button>
-      <button class="sb-nav-item" data-tip="Pengaturan" id="nav-settings" onclick="goSinglePage('settings',this)">
+      <button class="sb-nav-item" id="nav-settings" onclick="goSinglePage('settings',this)">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span class="nav-label" data-i18n="nav.settings">Pengaturan</span>
       </button>
@@ -788,7 +788,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   <!-- Topbar -->
   <header class="topbar">
     <div class="tb-left">
-      <span class="tb-title" id="tbTitle">Live Trading · Dashboard</span>
+      <span class="tb-title" id="tbTitle" data-i18n="nav.liveTrading">Live Trading · Dashboard</span>
       <span class="tb-chip" id="tbChip" style="background:var(--grn-muted);color:var(--grn-fg);border-color:var(--grn-border)">● Live</span>
     </div>
     <div class="tb-right">
@@ -906,14 +906,14 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   <div class="pg" id="pg-bt-dashboard">
     <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title">Dashboard</div><div class="pg-sub" id="bt-dash-date"></div></div></div>
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-lbl">Total P&L</div><div class="stat-val" id="sEq-bt">$0.00</div><div class="stat-hint" id="sEqH-bt">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Win Rate</div><div class="stat-val" id="sWR-bt">—</div><div class="stat-hint"><span id="sN-bt">0</span> trade closed</div></div>
-      <div class="stat-card"><div class="stat-lbl">Total P&L</div><div class="stat-val" id="sPnl-bt">$0.00</div><div class="stat-hint" id="sPnlH-bt">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Avg R:R</div><div class="stat-val" id="sRR-bt">—</div><div class="stat-hint">per trade</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.totalPnl">Total P&L</div><div class="stat-val" id="sEq-bt">$0.00</div><div class="stat-hint" id="sEqH-bt">—</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.winRate">Win Rate</div><div class="stat-val" id="sWR-bt">—</div><div class="stat-hint"><span id="sN-bt">0</span> <span data-i18n="dashboard.tradeClosed">trade closed</span></div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.totalPnl">Total P&L</div><div class="stat-val" id="sPnl-bt">$0.00</div><div class="stat-hint" id="sPnlH-bt">—</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.avgRr">Avg R:R</div><div class="stat-val" id="sRR-bt">—</div><div class="stat-hint" data-i18n="dashboard.perTrade">per trade</div></div>
     </div>
     <div class="g-eq">
       <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title"><span data-i18n="dashboard.equityCurve">Equity Curve</span></div><div class="card-desc" id="eqRange-bt">—</div></div><span class="badge b-sec mono" id="eqDelta-bt" style="font-size:10px">—</span></div><div id="eqWrap-bt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-bt"></div></div>
-      <div class="card"><div class="card-hd"><div class="card-title"><span data-i18n="dashboard.distribution">Distribusi Hasil</span></div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-bt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-bt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-bt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-w"></span><span class="dl-n" id="lw-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-l"></span><span class="dl-n" id="ll-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-be"></span><span class="dl-n" id="lbe-bt">0</span></div></div></div></div></div></div>
+      <div class="card"><div class="card-hd"><div class="card-title" data-i18n="dashboard.distribution">Distribusi Hasil</div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-bt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-bt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-bt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-w"></span><span class="dl-n" id="lw-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-l"></span><span class="dl-n" id="ll-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-be"></span><span class="dl-n" id="lbe-bt">0</span></div></div></div></div></div></div>
     </div>
     <div class="sec-lbl" data-i18n="dashboard.performance">Performa</div>
     <div class="g2">
@@ -944,10 +944,10 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   <div class="pg" id="pg-pt-dashboard">
     <div class="pg-hd"><div class="pg-hd-l"><div class="pg-title">Dashboard</div><div class="pg-sub" id="pt-dash-date"></div></div></div>
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-lbl">Total P&L</div><div class="stat-val" id="sEq-pt">$0.00</div><div class="stat-hint" id="sEqH-pt">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Win Rate</div><div class="stat-val" id="sWR-pt">—</div><div class="stat-hint"><span id="sN-pt">0</span> trade closed</div></div>
-      <div class="stat-card"><div class="stat-lbl">Total P&L</div><div class="stat-val" id="sPnl-pt">$0.00</div><div class="stat-hint" id="sPnlH-pt">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Avg R:R</div><div class="stat-val" id="sRR-pt">—</div><div class="stat-hint">per trade</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.totalPnl">Total P&L</div><div class="stat-val" id="sEq-pt">$0.00</div><div class="stat-hint" id="sEqH-pt">—</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.winRate">Win Rate</div><div class="stat-val" id="sWR-pt">—</div><div class="stat-hint"><span id="sN-pt">0</span> <span data-i18n="dashboard.tradeClosed">trade closed</span></div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.totalPnl">Total P&L</div><div class="stat-val" id="sPnl-pt">$0.00</div><div class="stat-hint" id="sPnlH-pt">—</div></div>
+      <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.avgRr">Avg R:R</div><div class="stat-val" id="sRR-pt">—</div><div class="stat-hint" data-i18n="dashboard.perTrade">per trade</div></div>
     </div>
     <div class="g-eq">
       <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title"><span data-i18n="dashboard.equityCurve">Equity Curve</span></div><div class="card-desc" id="eqRange-pt">—</div></div><span class="badge b-sec mono" id="eqDelta-pt" style="font-size:10px">—</span></div><div id="eqWrap-pt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-pt"></div></div>
@@ -1031,7 +1031,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="card-hd"><div class="card-title" data-i18n="settings.capitalSection">Modal & Equity</div></div>
       <div class="card-body">
         <div class="settings-row">
-          <div><div class="settings-row-label" data-i18n="transaction.initialCapital">Modal Awal</div><div class="settings-row-desc" data-i18n="settings.capitalDesc">Equity awal sebelum trading dimulai</div></div>
+          <div><div class="settings-row-label" data-i18n="settings.initialCapital">Modal Awal</div><div class="settings-row-desc" data-i18n="settings.capitalDesc">Equity awal sebelum trading dimulai</div></div>
           <div style="display:flex;align-items:center;gap:8px">
             <span style="color:var(--tx-muted);font-size:13px">$</span>
             <input class="fi" type="number" id="settings-capital" style="width:120px" min="0" step="1" onchange="saveCapital()" value="1000">
@@ -1045,16 +1045,16 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="card-body">
         <div class="settings-row">
           <div><div class="settings-row-label" data-i18n="settings.exportAll">Export Semua Data</div><div class="settings-row-desc" data-i18n="settings.exportDesc">Backup semua trade, transaksi, dan pengaturan</div></div>
-          <button class="btn btn-outline btn-sm" onclick="exportAllData()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg data-i18n="settings.exportBtn">Export JSON</button>
+          <button class="btn btn-outline btn-sm" onclick="exportAllData()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-i18n="settings.exportBtn">Export JSON</span></button>
         </div>
         <div class="settings-row">
           <div><div class="settings-row-label" data-i18n="settings.importAll">Import Data</div><div class="settings-row-desc" data-i18n="settings.importDesc">Restore dari backup JSON</div></div>
-          <button class="btn btn-outline btn-sm" onclick="document.getElementById('importAllFile').click()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg data-i18n="settings.importBtn">Import JSON</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('importAllFile').click()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span data-i18n="settings.importBtn">Import JSON</span></button>
           <input type="file" id="importAllFile" accept=".json" style="display:none" onchange="importAllData(event)">
         </div>
         <div class="settings-row">
           <div><div class="settings-row-label" style="color:var(--red)" data-i18n="settings.clearData">Hapus Semua Data</div><div class="settings-row-desc" data-i18n="settings.clearDesc">Permanen, tidak bisa di-undo</div></div>
-          <button class="btn btn-sm" style="background:var(--red-muted);color:var(--red)" onclick="clearAllData()">Hapus Semua</button>
+          <button class="btn btn-sm" style="background:var(--red-muted);color:var(--red)" onclick="clearAllData()" data-i18n="settings.clearBtn">Hapus Semua</button>
         </div>
       </div>
     </div>
@@ -1086,8 +1086,8 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       </div>
     </div>
     <div class="m-ft">
-      <button class="btn btn-outline" onclick="closeMod('mTrade')">Batal</button>
-      <button class="btn btn-primary" onclick="saveTrade()">Simpan</button>
+      <button class="btn btn-outline" onclick="closeMod('mTrade')" data-i18n="btn.cancel">Batal</button>
+      <button class="btn btn-primary" onclick="saveTrade()" data-i18n="btn.save">Simpan</button>
     </div>
   </div>
 </div>
@@ -1099,27 +1099,27 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="m-body">
       <div class="fgrid" style="grid-template-columns:1fr">
         <div class="fg">
-          <label class="lbl">Tipe Transaksi</label>
+          <label class="lbl" data-i18n="tx.typeLabel">Tipe Transaksi</label>
           <div class="radio-group" style="gap:8px">
             <label class="radio-opt" style="flex:1"><input type="radio" name="txType" value="deposit" checked><div class="radio-card" style="text-align:center;padding:8px">💰 Deposit</div></label>
             <label class="radio-opt" style="flex:1"><input type="radio" name="txType" value="withdrawal"><div class="radio-card" style="text-align:center;padding:8px">💸 Penarikan</div></label>
           </div>
         </div>
         <div class="fg"><label class="lbl">Tanggal</label><input class="fi" type="date" id="txDate"></div>
-        <div class="fg"><label class="lbl">Jumlah (USD)</label><input class="fi" type="number" id="txAmount" placeholder="100.00" min="0.01" step="0.01"></div>
+        <div class="fg"><label class="lbl" data-i18n="tx.amountLabel">Jumlah (USD)</label><input class="fi" type="number" id="txAmount" placeholder="100.00" min="0.01" step="0.01"></div>
         <div class="fg"><label class="lbl">Catatan <span class="lbl-hint">(opsional)</span></label><input class="fi" type="text" id="txNote" placeholder="Deposit dari bank..."></div>
       </div>
     </div>
-    <div class="m-ft"><button class="btn btn-outline" onclick="closeMod('mTransaction')">Batal</button><button class="btn btn-primary" onclick="saveTransaction()">Simpan</button></div>
+    <div class="m-ft"><button class="btn btn-outline" onclick="closeMod('mTransaction')" data-i18n="btn.cancel">Batal</button><button class="btn btn-primary" onclick="saveTransaction()" data-i18n="btn.save">Simpan</button></div>
   </div>
 </div>
 
 <!-- Detail Trade Modal -->
 <div class="ov" id="mDetail">
   <div class="modal modal-sm">
-    <div class="m-hd"><div class="m-title" id="detTitle">Detail Trade</div><button class="btn btn-ghost btn-icon" onclick="closeMod('mDetail')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="m-hd"><div class="m-title" id="detTitle" data-i18n="trade.detailTitle">Detail Trade</div><button class="btn btn-ghost btn-icon" onclick="closeMod('mDetail')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="m-body" id="detBody"></div>
-    <div class="m-ft"><button class="btn btn-outline" onclick="closeMod('mDetail')">Tutup</button></div>
+    <div class="m-ft"><button class="btn btn-outline" onclick="closeMod('mDetail')" data-i18n="btn.close">Tutup</button></div>
   </div>
 </div>
 
@@ -1139,7 +1139,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:10px">
       <button class="btn btn-outline" onclick="closeMod('mAlertBT')" data-i18n="alert.later">Nanti Saja</button>
-      <button class="btn btn-primary" style="background:var(--vio)" onclick="closeMod('mAlertBT');goPage('bt-journal',document.querySelector('[onclick*=bt-journal]'))">Mulai Backtest</button>
+      <button class="btn btn-primary" style="background:var(--vio)" onclick="closeMod('mAlertBT');goPage('bt-journal',document.querySelector('[onclick*=bt-journal]'))" data-i18n="alert.btBtn">Mulai Backtest</button>
     </div>
   </div>
 </div>
@@ -1152,7 +1152,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ora)"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       </div>
       <div class="alert-modal-title" data-i18n="alert.ptTitle">Target Paper Trading Belum Tercapai</div>
-      <div class="alert-modal-desc" id="alert-pt-desc">Kamu belum menyelesaikan 5 paper trade hari ini. Terus berlatih!</div>
+      <div class="alert-modal-desc" id="alert-pt-desc" data-i18n="alert.ptDescDefault">Kamu belum menyelesaikan 5 paper trade hari ini. Terus berlatih!</div>
       <div class="alert-modal-prog">
         <div class="alert-prog-track"><div class="alert-prog-fill" id="alert-pt-fill" style="background:var(--ora)"></div></div>
         <div class="alert-prog-label" id="alert-pt-label">0 dari 5</div>
@@ -1172,12 +1172,12 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div style="width:48px;height:48px;border-radius:50%;background:var(--red-muted);border:2px solid var(--red-border);display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
       </div>
-      <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mDeleteTitle">Hapus Trade?</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mDeleteTitle" data-i18n="delete.trade">Hapus Trade?</div>
       <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mDeleteDesc">Data yang dihapus tidak dapat dikembalikan.</div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:8px">
-      <button class="btn btn-outline" onclick="closeMod('mDelete')">Batal</button>
-      <button class="btn" style="background:var(--red);color:white" id="mDeleteConfirmBtn">Hapus</button>
+      <button class="btn btn-outline" onclick="closeMod('mDelete')" data-i18n="btn.cancel">Batal</button>
+      <button class="btn" style="background:var(--red);color:white" id="mDeleteConfirmBtn" data-i18n="btn.delete">Hapus</button>
     </div>
   </div>
 </div>
@@ -1191,7 +1191,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mConfirmDesc"></div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:8px">
-      <button class="btn btn-outline" onclick="closeMod('mConfirm')" id="mConfirmCancelBtn">Batal</button>
+      <button class="btn btn-outline" onclick="closeMod('mConfirm')" id="mConfirmCancelBtn" data-i18n="btn.cancel">Batal</button>
       <button class="btn btn-primary" id="mConfirmOkBtn">OK</button>
     </div>
   </div>
@@ -1206,7 +1206,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mToastDesc"></div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px">
-      <button class="btn btn-primary" onclick="closeMod('mToast')">OK</button>
+      <button class="btn btn-primary" onclick="closeMod('mToast')" data-i18n="btn.ok">OK</button>
     </div>
   </div>
 </div>
@@ -1242,7 +1242,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       </div>
     </div>
     <div class="m-ft" style="gap:8px">
-      <button class="btn btn-outline" onclick="closeMod('mImport')">Batal</button>
+      <button class="btn btn-outline" onclick="closeMod('mImport')" data-i18n="btn.cancel">Batal</button>
       <button class="btn btn-primary" id="mImportConfirmBtn" data-i18n="import.btn">Import</button>
     </div>
   </div>
@@ -1275,9 +1275,9 @@ const SESSION_CFG = {
 };
 
 const MODE_CFG = {
-  live: { label:'🟢 Live Trading', chip:'● Live',    bg:'var(--grn-muted)', fg:'var(--grn-fg)', bdr:'var(--grn-border)', badgeClass:'b-ok',  accentColor:'var(--grn)'  },
-  bt:   { label:'🟣 Backtest',     chip:'● Backtest', bg:'var(--vio-muted)', fg:'var(--vio-fg)', bdr:'var(--vio-border)', badgeClass:'b-vio', accentColor:'var(--vio)'  },
-  pt:   { label:'🟠 Paper Trading',chip:'● Paper',    bg:'var(--ora-muted)', fg:'var(--ora-fg)', bdr:'var(--ora-border)', badgeClass:'b-ora', accentColor:'var(--ora)'  },
+  live: { get label(){ return `🟢 ${t('nav.liveTrading')}`; }, get chip(){ return `● ${t('mode.liveShort')}`; },    bg:'var(--grn-muted)', fg:'var(--grn-fg)', bdr:'var(--grn-border)', badgeClass:'b-ok',  accentColor:'var(--grn)'  },
+  bt:   { get label(){ return `🟣 ${t('nav.backtest')}`; },     get chip(){ return `● ${t('nav.backtest')}`; }, bg:'var(--vio-muted)', fg:'var(--vio-fg)', bdr:'var(--vio-border)', badgeClass:'b-vio', accentColor:'var(--vio)'  },
+  pt:   { get label(){ return `🟠 ${t('nav.paperTrading')}`; },get chip(){ return `● ${t('mode.paperShort')}`; },    bg:'var(--ora-muted)', fg:'var(--ora-fg)', bdr:'var(--ora-border)', badgeClass:'b-ora', accentColor:'var(--ora)'  },
 };
 
 const CHECKLIST_ITEMS_TEXT = {
@@ -1466,7 +1466,8 @@ function setTheme(t) {
 function toggleTheme() { setTheme(state.settings.theme==='dark'?'light':'dark'); }
 
 const I18N = {};
-// Will be populated on init
+// _lang must be declared BEFORE initI18N() is called
+let _lang = 'id';
 function initI18N() {
   I18N.id = {
     // Nav
@@ -1590,10 +1591,36 @@ function initI18N() {
     'bt.dashboard':'Dashboard — Backtest','bt.journal':'Trade Log — Backtest','bt.analysis':'Analisis Setup — Backtest',
     'pt.dashboard':'Dashboard — Paper Trading','pt.journal':'Trade Log — Paper Trading','pt.analysis':'Analisis Setup — Paper Trading',
     // Modal delete
-    'delete.trade':'Hapus Trade?','delete.transaction':'Hapus Transaksi?',
+    'delete.trade':'Hapus Trade?','trade.detailTitle':'Detail Trade','alert.ptDescDefault':'Kamu belum menyelesaikan 5 paper trade hari ini. Terus berlatih!','delete.transaction':'Hapus Transaksi?',
     'delete.tradeDesc':'akan dihapus permanen dan tidak bisa dikembalikan.',
     // Sidebar
     'sidebar.equity':'Modal Equity',
+    // Toast messages
+    'toast.inputError':'Input Tidak Lengkap',
+    'toast.pairRequired':'Tanggal dan Pair wajib diisi!',
+    'toast.amountRequired':'Tanggal dan Jumlah wajib diisi!',
+    'toast.noData':'Tidak Ada Data',
+    'toast.noExportData':'Tidak ada trade untuk di-export di mode ini.',
+    'toast.importSuccess':'Import Berhasil',
+    'toast.importMergeDesc':'trade baru ditambahkan.',
+    'toast.importSkipped':'trade duplikat dilewati.',
+    'toast.importOverwriteDesc':'trade berhasil diimpor ke',
+    'toast.invalidFormat':'Format Tidak Valid',
+    'toast.invalidFormatDesc':'File tidak dikenali sebagai backup TradeLog.',
+    'toast.importFailed':'Gagal Import',
+    'toast.importFailedDesc':'File tidak bisa dibaca. Pastikan format file JSON yang benar.',
+    'toast.cleared':'Data Dihapus',
+    'toast.clearedDesc':'Semua data berhasil dihapus.',
+    'toast.importBackupDesc':'File berikut akan menggantikan semua data saat ini:',
+    'toast.importBackupSuccess':'Semua data berhasil dipulihkan dari backup.',
+    'toast.clearConfirmDesc':'Ini akan menghapus SEMUA trade, transaksi, dan pengaturan secara permanen. Tidak bisa dikembalikan!',
+    'toast.resetChecklistDesc':'Semua item checklist hari ini akan direset ke kondisi awal.',
+    // Analysis
+    'analysis.best':'Best',
+    'analysis.setups':'setup',
+    // Mode short
+    'mode.liveShort':'Live',
+    'mode.paperShort':'Paper',
   };
 
   I18N.en = {
@@ -1718,17 +1745,41 @@ function initI18N() {
     'bt.dashboard':'Dashboard — Backtest','bt.journal':'Trade Log — Backtest','bt.analysis':'Setup Analysis — Backtest',
     'pt.dashboard':'Dashboard — Paper Trading','pt.journal':'Trade Log — Paper Trading','pt.analysis':'Setup Analysis — Paper Trading',
     // Modal delete
-    'delete.trade':'Delete Trade?','delete.transaction':'Delete Transaction?',
+    'delete.trade':'Delete Trade?','trade.detailTitle':'Trade Detail','alert.ptDescDefault':'You have not completed 5 paper trades today. Keep practicing!','delete.transaction':'Delete Transaction?',
     'delete.tradeDesc':'will be permanently deleted and cannot be recovered.',
     // Sidebar
     'sidebar.equity':'Equity',
+    // Toast messages
+    'toast.inputError':'Incomplete Input',
+    'toast.pairRequired':'Date and Pair are required!',
+    'toast.amountRequired':'Date and Amount are required!',
+    'toast.noData':'No Data',
+    'toast.noExportData':'No trades to export in this mode.',
+    'toast.importSuccess':'Import Successful',
+    'toast.importMergeDesc':'new trades added.',
+    'toast.importSkipped':'duplicate trades skipped.',
+    'toast.importOverwriteDesc':'trades imported to',
+    'toast.invalidFormat':'Invalid Format',
+    'toast.invalidFormatDesc':'File not recognized as a TradeLog backup.',
+    'toast.importFailed':'Import Failed',
+    'toast.importFailedDesc':'File could not be read. Make sure it is a valid JSON file.',
+    'toast.cleared':'Data Cleared',
+    'toast.clearedDesc':'All data has been successfully deleted.',
+    'toast.importBackupDesc':'The following file will replace all current data:',
+    'toast.importBackupSuccess':'All data has been restored from backup.',
+    'toast.clearConfirmDesc':'This will permanently delete ALL trades, transactions and settings. Cannot be undone!',
+    'toast.resetChecklistDesc':'All checklist items for today will be reset.',
+    // Analysis
+    'analysis.best':'Best',
+    'analysis.setups':'setups',
+    // Mode short
+    'mode.liveShort':'Live',
+    'mode.paperShort':'Paper',
   };
 }
 // Init dictionaries immediately
 initI18N();
 
-// Standalone language variable — updated by setLang, independent of state load order
-let _lang = 'id';
 function t(key) {
   const dict = I18N[_lang] || I18N.id || {};
   return dict[key] !== undefined ? dict[key] : (I18N.id[key] !== undefined ? I18N.id[key] : key);
@@ -1737,22 +1788,25 @@ function t(key) {
 function applyI18N() {
   const lang = _lang;
 
-  // 1. Apply all data-i18n attributes — always update regardless of match
+  // Only update elements that contain ONLY text (no child elements)
+  // Elements with child elements (SVG, span, etc) would have their children destroyed
   document.querySelectorAll('[data-i18n]').forEach(el => {
+    // Skip if element has child ELEMENTS (not just text nodes)
+    if (el.children.length > 0) return;
     const k = el.getAttribute('data-i18n');
     const v = t(k);
     el.textContent = v;
   });
 
-  // 2. Lang button + radio
+  // Lang button + radio
   const langBtn = document.getElementById('langBtn');
   if (langBtn) langBtn.textContent = lang.toUpperCase();
   document.querySelectorAll('input[name="lang"]').forEach(r => { r.checked = (r.value === lang); });
 
-  // 3. Search placeholder
+  // Search placeholder
   document.querySelectorAll('input[id^="srch-"]').forEach(el => { el.placeholder = t('filter.searchPH'); });
 
-  // 4. Filter selects
+  // Filter selects
   document.querySelectorAll('select[id^="fDir-"]').forEach(sel => {
     if (sel.options[0]) sel.options[0].text = t('filter.direction');
   });
@@ -1765,7 +1819,7 @@ function applyI18N() {
     if (sel.options[0]) sel.options[0].text = t('filter.setup');
   });
 
-  // 5. Topbar date locale
+  // Topbar date locale
   const tbDate = document.getElementById('tbDate');
   if (tbDate) tbDate.textContent = new Date().toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {day:'numeric',month:'short',year:'numeric'});
 }
@@ -1937,6 +1991,7 @@ function goPage(pageId, el) {
   const mc = MODE_CFG[currentMode]||MODE_CFG.live;
   document.getElementById('tbTitle').textContent = `${mc.chip.replace('●','').trim()} · ${getPageName(pageId)||pageId}`;
   const chip = document.getElementById('tbChip');
+  chip.style.display = '';
   chip.textContent = mc.chip;
   chip.style.background = mc.bg; chip.style.color = mc.fg; chip.style.borderColor = mc.bdr;
 
@@ -1962,7 +2017,7 @@ function goSinglePage(pageId, el) {
   ['live','bt','pt'].forEach(g=>document.getElementById(`grp-${g}`).classList.remove('active'));
   const chip = document.getElementById('tbChip');
   chip.textContent = '';
-  chip.style.background = 'transparent';
+  chip.style.display = 'none';
   document.getElementById('tbTitle').textContent = getPageName(pageId)||pageId;
   if(pageId==='checklist') renderChecklist();
   if(pageId==='settings') renderSettings();
@@ -2056,7 +2111,7 @@ function openEditTrade(id, mode) {
 function saveTrade() {
   const date   = document.getElementById('fDate').value;
   const pair   = document.getElementById('fPair').value.trim();
-  if(!date||!pair){ showToast('error','Input Tidak Lengkap','Tanggal dan Pair wajib diisi!'); return; }
+  if(!date||!pair){ showToast('error',t('toast.inputError'),t('toast.pairRequired')); return; }
   const time   = document.getElementById('fTime').value||null;
   const session = time ? getSession(time) : null;
   const entry   = parseFloat(document.getElementById('fEntry').value)||null;
@@ -2516,7 +2571,7 @@ function renderAnalysis(mode) {
   if(!Object.keys(map).length){el.innerHTML=`<div class="empty" style="padding:80px 0"><div class="empty-ico">📊</div><div class="empty-t">${t('empty.noSetup')}</div><div class="empty-d">${t('empty.noSetupDesc')}</div></div>`;return;}
   const sorted=Object.entries(map).sort((a,b)=>b[1].pnl-a[1].pnl);
   const best=sorted[0][0],maxP=Math.max(...sorted.map(([,v])=>Math.abs(v.pnl)),1);
-  el.innerHTML=`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px"><span class="badge b-ok" style="height:22px;padding:0 9px;font-size:11px">🏆 Best: ${best}</span><span class="badge b-sec" style="height:22px;padding:0 9px;font-size:11px">${Object.keys(map).length} setup</span></div>
+  el.innerHTML=`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px"><span class="badge b-ok" style="height:22px;padding:0 9px;font-size:11px">🏆 ${t('analysis.best')}: ${best}</span><span class="badge b-sec" style="height:22px;padding:0 9px;font-size:11px">${Object.keys(map).length} ${t('analysis.setups')}</span></div>
   <div class="sc-grid">${sorted.map(([name,d])=>{const wr=d.closed?Math.round(d.wins/d.closed*100):null,avgRR=d.rrs.length?(d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2):null,isBest=name===best,pPct=Math.abs(d.pnl)/maxP*100;return`<div class="sc${isBest?' best':''}"><div class="sc-name">${isBest?'🏆 ':''}${name}</div><div class="sc-prog"><div class="sc-prog-fill" style="width:${pPct}%;background:${d.pnl>=0?'var(--grn)':'var(--red)'}"></div></div><div class="sc-row"><span class="sc-k">Trade</span><span class="sc-v">${d.n}</span></div><div class="sc-row"><span class="sc-k">Win Rate</span><span class="sc-v" style="color:${wr!=null?(wr>=50?'var(--grn)':'var(--red)'):'var(--tx-muted)'}">${wr!=null?wr+'%':'—'}</span></div><div class="sc-row"><span class="sc-k">Avg R:R</span><span class="sc-v">${avgRR?`1:${avgRR}`:'—'}</span></div><div class="sc-row"><span class="sc-k">P&L</span><span class="sc-v" style="color:${d.pnl>0?'var(--grn)':d.pnl<0?'var(--red)':'var(--tx-muted)'}">${fmtUSD(d.pnl,true)}</span></div><div class="sc-wl"><span class="wl-p" style="background:var(--grn-muted);color:var(--grn-fg)">${d.wins}W</span><span class="wl-p" style="background:var(--red-muted);color:var(--red-fg)">${d.losses}L</span><span class="wl-p" style="background:var(--ylw-muted);color:var(--ylw-fg)">${d.bes}BE</span></div></div>`;}).join('')}</div>
   <div class="tbl-wrap"><table class="main-tbl"><thead><tr><th>Setup</th><th>Total</th><th>Win</th><th>Loss</th><th>BE</th><th>Win Rate</th><th>Avg R:R</th><th>P&L</th></tr></thead><tbody>${sorted.map(([name,d])=>{const wr=d.closed?Math.round(d.wins/d.closed*100):null,avgRR=d.rrs.length?(d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2):null;return`<tr><td><span class="badge b-sec">${name}</span>${name===best?' <span class="badge b-ok" style="margin-left:4px">Best</span>':''}</td><td>${d.n}</td><td class="up" style="font-weight:500">${d.wins}</td><td class="dn" style="font-weight:500">${d.losses}</td><td class="warn" style="font-weight:500">${d.bes}</td><td class="${wr!=null&&wr>=50?'up':wr!=null?'dn':''} mono" style="font-weight:600">${wr!=null?wr+'%':'—'}</td><td class="mono">${avgRR?`1:${avgRR}`:'—'}</td><td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-weight:500">${fmtUSD(d.pnl,true)}</td></tr>`;}).join('')}</tbody></table></div>`;
 }
@@ -2535,7 +2590,7 @@ function saveTransaction() {
   const type   = document.querySelector('input[name="txType"]:checked')?.value||'deposit';
   const date   = document.getElementById('txDate').value;
   const amount = parseFloat(document.getElementById('txAmount').value);
-  if(!date||isNaN(amount)||amount<=0){ showToast('error','Input Tidak Lengkap','Tanggal dan Jumlah wajib diisi!'); return; }
+  if(!date||isNaN(amount)||amount<=0){ showToast('error',t('toast.inputError'),t('toast.amountRequired')); return; }
   state.transactions.push({ id:nanoid(), type, date, amount, note:document.getElementById('txNote').value.trim(), createdAt:Date.now() });
   saveState();
   closeMod('mTransaction');
@@ -2712,7 +2767,7 @@ function resetChecklist() {
   openConfirmModal({
     type: 'danger',
     title: t('checklist.resetChecklist')+'?',
-    desc: state.settings.language==='id'?'Semua item checklist hari ini akan direset ke kondisi awal.':'All checklist items for today will be reset.',
+    desc: t('toast.resetChecklistDesc'),
     okLabel: t('btn.reset'),
     cancelLabel: t('btn.cancel'),
     onOk: () => {
@@ -2759,16 +2814,16 @@ function importAllData(event) {
         openConfirmModal({
           type:'info',
           title:t('settings.importAll'),
-          desc:state.settings.language==='id'?`File "${file.name}" akan menggantikan semua data saat ini.`:`File "${file.name}" will replace all current data.`,
+          desc:`${t('toast.importBackupDesc')} "${file.name}"`,
           okLabel:t('import.btn'),
           cancelLabel:t('btn.cancel'),
-          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showToast('success',state.settings.language==='id'?'Import Berhasil':'Import Successful',state.settings.language==='id'?'Semua data berhasil dipulihkan dari backup.':'All data has been restored from backup.'); }
+          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showToast('success',t('toast.importSuccess'),t('toast.importBackupSuccess')); }
         });
       } else {
-        showToast('error','Format Tidak Valid','File tidak dikenali sebagai backup TradeLog.');
+        showToast('error',t('toast.invalidFormat'),t('toast.invalidFormatDesc'));
       }
     } catch {
-      showToast('error','Gagal Import','File tidak bisa dibaca. Pastikan format file JSON yang benar.');
+      showToast('error',t('toast.importFailed'),t('toast.importFailedDesc'));
     }
   };
   reader.readAsText(file); event.target.value='';
@@ -2777,7 +2832,7 @@ function clearAllData() {
   openConfirmModal({
     type:'danger',
     title:t('settings.clearData'),
-    desc:state.settings.language==='id'?'Ini akan menghapus SEMUA trade, transaksi, dan pengaturan secara permanen. Tidak bisa dikembalikan!':'This will permanently delete ALL trades, transactions and settings. Cannot be undone!',
+    desc:t('toast.clearConfirmDesc'),
     okLabel:t('settings.clearBtn'),
     okStyle:'background:var(--red);color:white',
     cancelLabel:t('btn.cancel'),
@@ -2786,7 +2841,7 @@ function clearAllData() {
       localStorage.removeItem('tl_sidebar_mini');
       state={trades:[],transactions:[],checklist:{date:getTodayStr(),items:{}},settings:{language:'id',theme:'light',initialCapital:1000}};
       initApp();
-      showToast('success','Data Dihapus','Semua data berhasil dihapus.');
+      showToast('success',t('toast.cleared'),t('toast.clearedDesc'));
     }
   });
 }
@@ -2797,7 +2852,7 @@ function clearAllData() {
 const CSV_H = ['id','mode','date','entryTime','session','pair','setup','direction','lotSize','entryPrice','stopLoss','takeProfit','closePrice','pnlManual','pnl','result','rr','psychology','notes'];
 function exportCSV(mode) {
   const trades = state.trades.filter(t=>t.mode===mode);
-  if(!trades.length){ showToast('warn','Tidak Ada Data','Tidak ada trade untuk di-export di mode ini.'); return; }
+  if(!trades.length){ showToast('warn',t('toast.noData'),t('toast.noExportData')); return; }
   const rows=[CSV_H.join(',')];
   trades.forEach(tr=>{const row=CSV_H.map(h=>{let v=tr[h]??'';if(h==='psychology')v=(tr.psychology||[]).join('|');if(typeof v==='string'&&(v.includes(',')||v.includes('"')||v.includes('\n')))v=`"${v.replace(/"/g,'""')}"`;return v;});rows.push(row.join(','));});
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'}));a.download=`tradelog_${mode}_${getTodayStr()}.csv`;a.click();
@@ -2851,12 +2906,12 @@ function importCSV(event, mode) {
         closeMod('mImport');
         if(isOverwrite) {
           state.trades = [...state.trades.filter(t=>t.mode!==mode), ...imported];
-          showToast('success','Import Berhasil',`${imported.length} trade berhasil diimpor (timpa semua data ${modeName}).`);
+          showToast('success',t('toast.importSuccess'),`${imported.length} ${t('toast.importOverwriteDesc')} ${modeName}.`);
         } else {
           const ex = new Set(state.trades.map(t=>t.id));
           const newOnes = imported.filter(t=>!ex.has(t.id));
           state.trades = [...state.trades, ...newOnes];
-          showToast('success','Import Berhasil',`${newOnes.length} trade baru ditambahkan. ${imported.length - newOnes.length} trade duplikat dilewati.`);
+          showToast('success',t('toast.importSuccess'),`${newOnes.length} ${t('toast.importMergeDesc')} ${imported.length-newOnes.length} ${t('toast.importSkipped')}`);
         }
         saveState();
         renderJournal(mode); renderDashboard(mode); renderAnalysis(mode);
