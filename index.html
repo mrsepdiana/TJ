@@ -77,7 +77,7 @@ input, select, textarea { font-family: inherit; }
    LAYOUT
 ════════════════════════════════════════ */
 .app { display: flex; min-height: 100vh; }
-.content { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; transition: margin-left .2s; }
+.content { margin-left: var(--sidebar-w); flex: 1; min-width: 0; min-height: 100vh; transition: margin-left .2s; overflow-x: hidden; }
 .app.sb-mini .content { margin-left: var(--sidebar-w-mini); }
 
 /* ════════════════════════════════════════
@@ -226,7 +226,7 @@ input, select, textarea { font-family: inherit; }
   display: flex; align-items: center; gap: 8px;
   padding: 7px 10px;
   border-radius: calc(var(--radius) - 2px);
-  color: var(--tx-muted); font-size: 12px; font-weight: 400;
+  color: var(--tx-muted); font-size: 13px; font-weight: 400;
   cursor: pointer; border: none; background: none; width: 100%; text-align: left;
   transition: background .1s, color .1s; white-space: nowrap;
 }
@@ -238,7 +238,7 @@ input, select, textarea { font-family: inherit; }
   display: flex; align-items: center; gap: 8px;
   padding: 5px 10px;
   border-radius: calc(var(--radius) - 2px);
-  color: var(--tx-muted); font-size: 12px; font-weight: 400;
+  color: var(--tx-muted); font-size: 13px; font-weight: 400;
   cursor: pointer; border: none; background: none; width: 100%; text-align: left;
   transition: background .1s, color .1s; white-space: nowrap;
 }
@@ -319,6 +319,7 @@ input, select, textarea { font-family: inherit; }
 .pg { padding: 24px 28px; display: none; animation: pgIn .15s ease; }
 .pg.on { display: block; }
 @keyframes pgIn { from { opacity: .5; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .pg-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
 .pg-hd-l {}
 .pg-title { font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
@@ -375,23 +376,25 @@ input, select, textarea { font-family: inherit; }
 .dl-pct { font-size: 10px; color: var(--tx-faint); }
 
 /* Bar chart */
-.perf-chart { padding: 14px 18px 0; }
+.perf-chart { padding: 12px 18px 0; }
 .bars { display: flex; gap: 4px; align-items: flex-end; height: 68px; }
 .bc { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .bf { border-radius: 3px 3px 0 0; width: 100%; min-height: 2px; }
 .bl { font-size: 8px; color: var(--tx-faint); white-space: nowrap; }
 .bv { font-size: 8px; font-family: 'JetBrains Mono', monospace; }
 .perf-sep { height: 1px; background: var(--border); margin: 12px 0 0; }
+/* Ensure cur-info strip doesn't overlap chart */
+.cur-info + div { position: relative; }
 
 /* Session cards */
 .sess-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
 .sess-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 15px; box-shadow: var(--shadow-sm); }
 .sess-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.sess-name { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.sess-name { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
 .sess-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sess-time { font-size: 10px; color: var(--tx-faint); font-family: 'JetBrains Mono', monospace; }
 .sess-wr { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
-.sess-sub { font-size: 11px; color: var(--tx-muted); margin-bottom: 8px; }
+.sess-sub { font-size: 12px; color: var(--tx-muted); margin-bottom: 8px; }
 .sess-prog { height: 3px; background: var(--bg-muted); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
 .sess-prog-fill { height: 100%; border-radius: 2px; }
 .sess-wl { display: flex; gap: 4px; }
@@ -399,11 +402,11 @@ input, select, textarea { font-family: inherit; }
 
 /* Asset/Pair chart */
 .asset-bar-wrap { margin-bottom: 8px; }
-.asset-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; }
+.asset-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 13px; }
 .asset-bar-label { width: 80px; font-weight: 500; flex-shrink: 0; }
 .asset-bar-track { flex: 1; height: 8px; background: var(--bg-muted); border-radius: 4px; overflow: hidden; }
 .asset-bar-fill { height: 100%; border-radius: 4px; }
-.asset-bar-val { width: 70px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+.asset-bar-val { width: 70px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; flex-shrink: 0; }
 
 /* ════════════════════════════════════════
    MINI TABLE
@@ -411,7 +414,7 @@ input, select, textarea { font-family: inherit; }
 .mt { width: 100%; border-collapse: collapse; }
 .mt thead th { font-size: 10px; font-weight: 600; color: var(--tx-faint); letter-spacing: .4px; text-transform: uppercase; padding: 7px 18px 5px; text-align: left; background: var(--bg-muted); border-bottom: 1px solid var(--border); }
 .mt thead th:not(:first-child) { text-align: right; }
-.mt tbody td { font-size: 11px; padding: 6px 18px; border-bottom: 1px solid var(--border); color: var(--tx-muted); }
+.mt tbody td { font-size: 12px; padding: 6px 18px; border-bottom: 1px solid var(--border); color: var(--tx-muted); }
 .mt tbody td:not(:first-child) { text-align: right; }
 .mt tbody tr:last-child td { border-bottom: none; }
 .mt tbody tr:hover { background: var(--bg-muted); }
@@ -419,12 +422,12 @@ input, select, textarea { font-family: inherit; }
 /* ════════════════════════════════════════
    MAIN TABLE
 ════════════════════════════════════════ */
-.tbl-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
-table.main-tbl { width: 100%; border-collapse: collapse; }
+.tbl-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; overflow-y: hidden; box-shadow: var(--shadow-sm); -webkit-overflow-scrolling: touch; }
+table.main-tbl { width: 100%; border-collapse: collapse; min-width: 900px; }
 .main-tbl thead tr { background: var(--bg-muted); border-bottom: 1px solid var(--border); }
 .main-tbl thead th { padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 600; color: var(--tx-faint); letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; }
 .main-tbl tbody { background: var(--bg); }
-.main-tbl tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 12px; vertical-align: middle; }
+.main-tbl tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
 .main-tbl tbody tr:last-child td { border-bottom: none; }
 .main-tbl tbody tr:hover { background: var(--bg-muted); }
 
@@ -445,7 +448,7 @@ table.main-tbl { width: 100%; border-collapse: collapse; }
 /* ════════════════════════════════════════
    BUTTONS
 ════════════════════════════════════════ */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 14px; height: 32px; border-radius: calc(var(--radius) - 2px); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: all .12s; white-space: nowrap; letter-spacing: -.1px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 14px; height: 32px; border-radius: calc(var(--radius) - 2px); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all .12s; white-space: nowrap; letter-spacing: -.1px; }
 .btn-primary { background: var(--primary); color: var(--primary-fg); }
 .btn-primary:hover { opacity: .88; }
 .btn-outline { background: transparent; color: var(--tx); border: 1px solid var(--border); }
@@ -466,7 +469,7 @@ table.main-tbl { width: 100%; border-collapse: collapse; }
 .fg { display: flex; flex-direction: column; gap: 5px; }
 .fg.s2 { grid-column: span 2; }
 .fg.s3 { grid-column: span 3; }
-.lbl { font-size: 12px; font-weight: 500; color: var(--tx); }
+.lbl { font-size: 13px; font-weight: 500; color: var(--tx); }
 .lbl-hint { font-weight: 400; color: var(--tx-faint); font-size: 11px; }
 .fi, .fse, .fta {
   width: 100%; border: 1px solid var(--border-strong); border-radius: calc(var(--radius) - 2px);
@@ -488,7 +491,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .pill.on { background: var(--primary); border-color: var(--primary); color: var(--primary-fg); }
 
 /* Computed result */
-.cmp { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: calc(var(--radius) - 2px); font-size: 12px; font-weight: 500; margin-top: 6px; border: 1px solid; }
+.cmp { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: calc(var(--radius) - 2px); font-size: 13px; font-weight: 500; margin-top: 6px; border: 1px solid; }
 .cmp-w { background: var(--grn-muted); color: var(--grn-fg); border-color: var(--grn-border); }
 .cmp-l { background: var(--red-muted);  color: var(--red-fg);  border-color: var(--red-border); }
 .cmp-b { background: var(--ylw-muted);  color: var(--ylw-fg);  border-color: var(--ylw-border); }
@@ -500,9 +503,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .tl { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .srch { display: flex; align-items: center; gap: 7px; border: 1px solid var(--border-strong); border-radius: calc(var(--radius) - 2px); padding: 0 11px; background: var(--bg); height: 32px; transition: border-color .12s; }
 .srch:focus-within { border-color: var(--ring); }
-.srch input { border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--tx); background: none; width: 180px; }
+.srch input { border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--tx); background: none; width: 180px; }
 .srch input::placeholder { color: var(--tx-faint); }
-.fsel { height: 32px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: calc(var(--radius) - 2px); font-family: 'Inter', sans-serif; font-size: 12px; color: var(--tx-muted); background: var(--bg); outline: none; cursor: pointer; }
+.fsel { height: 32px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: calc(var(--radius) - 2px); font-family: 'Inter', sans-serif; font-size: 13px; color: var(--tx-muted); background: var(--bg); outline: none; cursor: pointer; }
 .fsel:focus { border-color: var(--ring); }
 /* CSV bar */
 .csv-bar { display: flex; gap: 8px; align-items: center; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--shadow-sm); }
@@ -515,10 +518,10 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .sc { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 15px; box-shadow: var(--shadow-sm); transition: box-shadow .12s; display: flex; flex-direction: column; }
 .sc:hover { box-shadow: var(--shadow-md); }
 .sc.best { border-color: var(--grn-border); background: var(--grn-muted); }
-.sc-name { font-size: 12px; font-weight: 600; margin-bottom: 9px; }
+.sc-name { font-size: 13px; font-weight: 600; margin-bottom: 9px; }
 .sc-prog { height: 3px; background: var(--bg-muted); border-radius: 2px; overflow: hidden; margin-bottom: 9px; }
 .sc-prog-fill { height: 100%; border-radius: 2px; }
-.sc-row { display: flex; justify-content: space-between; font-size: 11px; margin-top: 3px; }
+.sc-row { display: flex; justify-content: space-between; font-size: 12px; margin-top: 3px; }
 .sc-k { color: var(--tx-muted); } .sc-v { font-weight: 500; font-family: 'JetBrains Mono', monospace; }
 .sc-wl { display: flex; gap: 3px; margin-top: auto; padding-top: 9px; }
 .wl-p { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 3px; }
@@ -541,7 +544,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .cl-content {}
 .cl-title { font-size: 13px; font-weight: 500; }
 .cl-item.done .cl-title { color: var(--grn-fg); }
-.cl-desc { font-size: 11px; color: var(--tx-muted); margin-top: 2px; }
+.cl-desc { font-size: 12px; color: var(--tx-muted); margin-top: 2px; }
 .cl-item.done .cl-desc { color: var(--grn-fg); opacity: .7; }
 
 /* Progress bar */
@@ -587,10 +590,38 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 ════════════════════════════════════════ */
 .settings-section { margin-bottom: 28px; }
 .settings-section-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.perf-cur-toggle { display:flex; gap:2px; background:var(--bg-muted); border:1px solid var(--border); border-radius:6px; padding:2px; }
+.pct-btn { padding:2px 8px; border:none; background:none; border-radius:4px; font-size:11px; font-weight:500; color:var(--tx-muted); cursor:pointer; transition:all .1s; }
+.pct-btn.on { background:var(--bg); color:var(--tx); box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.inst-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px;
+  transition: box-shadow .15s, transform .15s;
+}
+.inst-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.cur-info {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px;
+  background: var(--bg-muted); border-top: 1px solid var(--border);
+  font-size: 10px; color: var(--tx-faint);
+}
+/* Inline version — compact subtitle under card title */
+.cur-info-inline {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--tx-faint); line-height: 1;
+}
+.cur-info-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; transition: background .15s; }
+.cur-info-sess {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 0; margin-bottom: 10px;
+  font-size: 10px; color: var(--tx-faint);
+}
+.settings-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .settings-row:last-child { border-bottom: none; }
+.settings-row > div:first-child { flex: 1; min-width: 0; }
+.settings-row > *:last-child { flex-shrink: 0; }
 .settings-row-label { font-size: 13px; font-weight: 500; }
-.settings-row-desc { font-size: 11px; color: var(--tx-muted); margin-top: 2px; }
+.settings-row-desc { font-size: 11px; color: var(--tx-muted); margin-top: 2px; line-height: 1.5; }
 .stg-nav-item {
   display: flex; align-items: center; gap: 9px; width: 100%; padding: 11px 14px;
   border: none; border-bottom: 1px solid var(--border); background: none; cursor: pointer;
@@ -613,7 +644,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .radio-group { display: flex; gap: 6px; }
 .radio-opt { cursor: pointer; }
 .radio-opt input { display: none; }
-.radio-card { border: 1.5px solid var(--border); border-radius: calc(var(--radius) - 2px); padding: 6px 12px; font-size: 12px; font-weight: 500; color: var(--tx-muted); transition: all .12s; }
+.radio-card { border: 1.5px solid var(--border); border-radius: calc(var(--radius) - 2px); padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--tx-muted); transition: all .12s; }
 .radio-opt input:checked + .radio-card { border-color: var(--primary); background: var(--bg-muted); color: var(--tx); }
 
 /* ════════════════════════════════════════
@@ -629,7 +660,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 ════════════════════════════════════════ */
 .det-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; gap: 12px; }
 .det-row:last-child { border-bottom: none; }
-.det-k { color: var(--tx-muted); font-size: 12px; flex-shrink: 0; }
+.det-k { color: var(--tx-muted); font-size: 13px; flex-shrink: 0; }
 .det-v { font-weight: 500; text-align: right; }
 
 /* Utility colors */
@@ -639,21 +670,69 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 /* ════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════ */
+/* ── MOBILE MENU BUTTON ── */
+.mob-menu-btn { display: none; }
+
 @media(max-width: 1024px) {
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .sess-grid { grid-template-columns: 1fr 1fr; }
   .tf-grid { grid-template-columns: 1fr 1fr; }
   .live-journal-layout { grid-template-columns: 1fr; }
 }
+
 @media(max-width: 768px) {
-  .sb { display: none; }
+  /* Show hamburger, hide desktop sidebar toggle */
+  .mob-menu-btn { display: flex; }
+  .sb-toggle { display: none; }
+
+  /* Sidebar becomes slide-in drawer */
+  .sb {
+    position: fixed; left: -100%; top: 0; height: 100vh;
+    z-index: 200; transition: left .25s cubic-bezier(.4,0,.2,1);
+    box-shadow: 4px 0 24px rgba(0,0,0,.18);
+    width: 260px !important;
+  }
+  .sb.mob-open { left: 0; }
+
+  /* Overlay */
+  .mob-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.4); z-index: 199;
+    backdrop-filter: blur(2px);
+  }
+  .mob-overlay.on { display: block; }
+
+  /* Content full width */
   .content { margin-left: 0 !important; }
-  .pg { padding: 16px; }
+  .pg { padding: 14px 16px; }
+
+  /* Grids */
   .g2,.g3,.g-eq { grid-template-columns: 1fr; }
   .fgrid,.fgrid-3 { grid-template-columns: 1fr; }
   .fg.s2,.fg.s3 { grid-column: span 1; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .sess-grid { grid-template-columns: 1fr 1fr; }
+  .sc-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Settings layout */
+  #pg-settings > div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+  .stg-nav-item { padding: 13px 14px; }
+
+  /* Table horizontal scroll */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Topbar adjustments */
+  .tb-title { font-size: 13px; }
+  #tbDate { display: none; }
+}
+
+@media(max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .sess-grid { grid-template-columns: 1fr; }
+  .sc-grid { grid-template-columns: 1fr; }
+  .pg { padding: 12px; }
 }
 </style>
 </head>
@@ -667,6 +746,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 <button class="sb-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
 </button>
+
+<!-- Mobile sidebar overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobileMenu()"></div>
 
 <aside class="sb" id="sidebar">
 
@@ -682,7 +764,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Live Trading -->
     <div class="sb-section" data-i18n="nav.liveTrading">Live Trading</div>
     <div class="sb-group">
-      <button class="sb-grp-item active open" data-tip="Live Trading" id="grp-live" onclick="toggleGroup('live',this)" onmouseenter="showFlyout('live',this)" onmouseleave="hideFlyout()">
+      <button class="sb-grp-item active open" id="grp-live" onclick="toggleGroup('live',this)" onmouseenter="showFlyout('live',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor" opacity=".7"/></svg>
         <span class="grp-label" data-i18n="nav.liveTrading">Live Trading</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -714,7 +796,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Backtest -->
     <div class="sb-section" style="margin-top:4px">Backtest</div>
     <div class="sb-group">
-      <button class="sb-grp-item" data-tip="Backtest" id="grp-bt" onclick="toggleGroup('bt',this)" onmouseenter="showFlyout('bt',this)" onmouseleave="hideFlyout()">
+      <button class="sb-grp-item" id="grp-bt" onclick="toggleGroup('bt',this)" onmouseenter="showFlyout('bt',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
         <span class="grp-label" data-i18n="nav.backtest">Backtest</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -738,7 +820,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <!-- Paper Trading -->
     <div class="sb-section" style="margin-top:4px">Paper Trading</div>
     <div class="sb-group">
-      <button class="sb-grp-item" data-tip="Paper Trading" id="grp-pt" onclick="toggleGroup('pt',this)" onmouseenter="showFlyout('pt',this)" onmouseleave="hideFlyout()">
+      <button class="sb-grp-item" id="grp-pt" onclick="toggleGroup('pt',this)" onmouseenter="showFlyout('pt',this)" onmouseleave="hideFlyout()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <span class="grp-label" data-i18n="nav.paperTrading">Paper Trading</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -782,7 +864,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="sb-eq">
       <div class="sb-eq-lbl" data-i18n="sidebar.equity">Equity</div>
       <div class="sb-eq-row">
-        <span class="sb-eq-sym">$</span>
+        <span class="sb-eq-sym" id="sb-equity-sym">$</span>
         <span class="sb-eq-val" id="sb-equity-val">0.00</span>
       </div>
     </div>
@@ -799,6 +881,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
   <!-- Topbar -->
   <header class="topbar">
     <div class="tb-left">
+      <button class="btn btn-ghost btn-icon mob-menu-btn" onclick="toggleMobileMenu()" id="mobMenuBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <span class="tb-title" id="tbTitle" data-i18n="nav.liveTrading">Live Trading · Dashboard</span>
       <span class="tb-chip" id="tbChip" style="background:var(--grn-muted);color:var(--grn-fg);border-color:var(--grn-border)">● Live</span>
     </div>
@@ -826,17 +911,58 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="stat-card"><div class="stat-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-i18n="dashboard.avgRr">Avg R:R</span></div><div class="stat-val" id="sRR-live">—</div><div class="stat-hint" data-i18n="dashboard.perTrade">per trade</div></div>
     </div>
     <div class="g-eq">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title" data-i18n="dashboard.equityCurve">Equity Curve</div><div class="card-desc" id="eqRange-live">—</div></div><span class="badge b-sec mono" id="eqDelta-live" style="font-size:10px">—</span></div><div id="eqWrap-live"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="dashboard.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-live"></div></div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.equityCurve">Equity Curve</div>
+            <div class="card-desc" id="eqRange-live">—</div>
+          </div>
+          <span class="badge b-sec mono" id="eqDelta-live" style="font-size:10px">—</span>
+        </div>
+        <div id="eqWrap-live"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div>
+        <div class="eq-axis" id="eqAxis-live"></div>
+      </div>
       <div class="card"><div class="card-hd"><div class="card-title" data-i18n="dashboard.distribution">Distribusi Hasil</div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-live"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-live">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-live"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-live-w"></span><span class="dl-n" id="lw-live">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-live-l"></span><span class="dl-n" id="ll-live">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-live-be"></span><span class="dl-n" id="lbe-live">0</span></div></div></div></div></div></div>
     </div>
+    <div class="sec-lbl" data-i18n="dashboard.instrBreakdown">P&L per Instrumen</div>
+    <div id="inst-breakdown-live" style="margin-bottom:18px"></div>
     <div class="sec-lbl" data-i18n="dashboard.dailyPerf">Performa Harian</div>
     <div class="g2">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.dailyPerf">Harian</div><span style="font-size:11px;color:var(--tx-faint)">10 hari terakhir</span></div><div class="perf-chart"><div id="dBars-live"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-live"></tbody></table></div>
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.monthlyPerf">Bulanan</div></div><div class="perf-chart"><div id="mBars-live"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-live"></tbody></table></div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.daily">Harian</div>
+          </div>
+
+        </div>
+        <div class="perf-chart"><div id="dBars-live"></div></div>
+        <div class="perf-sep"></div>
+        <table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-live"></tbody></table>
+      </div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.monthly">Bulanan</div>
+          </div>
+
+        </div>
+        <div class="perf-chart"><div id="mBars-live"></div></div>
+        <div class="perf-sep"></div>
+        <table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-live"></tbody></table>
+      </div>
     </div>
     <div class="sec-lbl" data-i18n="dashboard.psychology">Psikologi</div>
-    <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-live"><span style="font-size:12px;color:var(--tx-faint)">—</span></div></div></div>
-    <div class="sec-lbl" data-i18n="dashboard.sessions">Sesi Trading</div>
+    <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-live"><span style="font-size:13px;color:var(--tx-faint)">—</span></div></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="sec-lbl" style="margin-bottom:0" data-i18n="dashboard.sessions">Sesi Trading</div>
+      <select class="fsel" id="sess-inst-live" onchange="setSessInst('live',this.value)" style="height:28px;font-size:12px;padding:0 8px;width:auto">
+        <option value="all" data-i18n="filter.all">Semua Instrumen</option>
+        <option value="gold_forex">Gold / Forex</option>
+        <option value="stock_idx">Saham IDX</option>
+        <option value="stock_us">Saham US</option>
+        <option value="crypto">Crypto</option>
+      </select>
+    </div>
     <div id="sess-live" style="margin-bottom:32px"><div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d"><span data-i18n="empty.noSession">Isi jam entry untuk melihat analisis sesi</span></div></div></div>
   </div>
 
@@ -887,10 +1013,44 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       </button>
     </div>
     <!-- Summary cards -->
-    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
-      <div class="stat-card"><div class="stat-lbl" data-i18n="tx.initialCapital">Modal Awal</div><div class="stat-val mono" id="tx-initial">$0.00</div><div class="stat-hint">Set di Pengaturan</div></div>
-      <div class="stat-card"><div class="stat-lbl" data-i18n="tx.totalDeposit">Total Deposit</div><div class="stat-val up mono" id="tx-total-dep">$0.00</div><div class="stat-hint" id="tx-dep-count">0 transaksi</div></div>
-      <div class="stat-card"><div class="stat-lbl" data-i18n="tx.totalWithdrawal">Total Penarikan</div><div class="stat-val dn mono" id="tx-total-wd">$0.00</div><div class="stat-hint" id="tx-wd-count">0 transaksi</div></div>
+    <div class="stats-grid" style="margin-bottom:18px">
+      <div class="stat-card">
+        <div class="stat-lbl" data-i18n="tx.initialCapital">Modal Awal</div>
+        <div class="stat-val mono" id="tx-initial">$0.00</div>
+        <div class="stat-hint" id="tx-initial-hint" data-i18n="tx.settingNote">Set di Pengaturan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl" data-i18n="tx.totalDeposit">Total Deposit</div>
+        <div class="stat-val up mono" id="tx-total-dep">$0.00</div>
+        <div class="stat-hint" id="tx-dep-count">0 transaksi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl" data-i18n="tx.totalWithdrawal">Total Penarikan</div>
+        <div class="stat-val dn mono" id="tx-total-wd">$0.00</div>
+        <div class="stat-hint" id="tx-wd-count">0 transaksi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl" data-i18n="dashboard.equity">Total Equity</div>
+        <div class="stat-val mono" id="tx-equity">$0.00</div>
+        <div class="stat-hint" id="tx-equity-hint">—</div>
+      </div>
+    </div>
+    <!-- IDR P&L from IDX trades (shown only when exists) -->
+    <div id="tx-idr-card" style="display:none;margin-bottom:18px">
+      <div class="card">
+        <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <div>
+            <div class="stat-lbl" style="margin-bottom:4px">
+              🇮🇩 <span data-i18n="inst.stockIDX">Saham IDX</span> — P&L IDR
+            </div>
+            <div class="stat-val mono" id="tx-idr-pnl">Rp0</div>
+          </div>
+          <div style="text-align:right">
+            <div class="stat-hint" id="tx-idr-equiv"></div>
+            <div class="stat-hint" id="tx-idr-rate" style="margin-top:2px"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="tbl-wrap">
       <table class="main-tbl">
@@ -923,17 +1083,58 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.avgRr">Avg R:R</div><div class="stat-val" id="sRR-bt">—</div><div class="stat-hint" data-i18n="dashboard.perTrade">per trade</div></div>
     </div>
     <div class="g-eq">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title"><span data-i18n="dashboard.equityCurve">Equity Curve</span></div><div class="card-desc" id="eqRange-bt">—</div></div><span class="badge b-sec mono" id="eqDelta-bt" style="font-size:10px">—</span></div><div id="eqWrap-bt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-bt"></div></div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.equityCurve">Equity Curve</div>
+            <div class="card-desc" id="eqRange-bt">—</div>
+          </div>
+          <span class="badge b-sec mono" id="eqDelta-bt" style="font-size:10px">—</span>
+        </div>
+        <div id="eqWrap-bt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div>
+        <div class="eq-axis" id="eqAxis-bt"></div>
+      </div>
       <div class="card"><div class="card-hd"><div class="card-title" data-i18n="dashboard.distribution">Distribusi Hasil</div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-bt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-bt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-bt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-w"></span><span class="dl-n" id="lw-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-l"></span><span class="dl-n" id="ll-bt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-bt-be"></span><span class="dl-n" id="lbe-bt">0</span></div></div></div></div></div></div>
     </div>
+    <div class="sec-lbl" data-i18n="dashboard.instrBreakdown">P&L per Instrumen</div>
+    <div id="inst-breakdown-bt" style="margin-bottom:18px"></div>
     <div class="sec-lbl" data-i18n="dashboard.performance">Performa</div>
     <div class="g2">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.daily">Harian</div></div><div class="perf-chart"><div id="dBars-bt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-bt"></tbody></table></div>
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.monthly">Bulanan</div></div><div class="perf-chart"><div id="mBars-bt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-bt"></tbody></table></div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.daily">Harian</div>
+          </div>
+
+        </div>
+        <div class="perf-chart"><div id="dBars-bt"></div></div>
+        <div class="perf-sep"></div>
+        <table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-bt"></tbody></table>
+      </div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.monthly">Bulanan</div>
+          </div>
+
+        </div>
+        <div class="perf-chart"><div id="mBars-bt"></div></div>
+        <div class="perf-sep"></div>
+        <table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-bt"></tbody></table>
+      </div>
     </div>
     <div class="sec-lbl" data-i18n="dashboard.psychology">Psikologi</div>
-    <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-bt"><span style="font-size:12px;color:var(--tx-faint)">—</span></div></div></div>
-    <div class="sec-lbl" data-i18n="dashboard.sessions">Sesi Trading</div>
+    <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-bt"><span style="font-size:13px;color:var(--tx-faint)">—</span></div></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="sec-lbl" style="margin-bottom:0" data-i18n="dashboard.sessions">Sesi Trading</div>
+      <select class="fsel" id="sess-inst-bt" onchange="setSessInst('bt',this.value)" style="height:28px;font-size:12px;padding:0 8px;width:auto">
+        <option value="all" data-i18n="filter.all">Semua Instrumen</option>
+        <option value="gold_forex">Gold / Forex</option>
+        <option value="stock_idx">Saham IDX</option>
+        <option value="stock_us">Saham US</option>
+        <option value="crypto">Crypto</option>
+      </select>
+    </div>
     <div id="sess-bt" style="margin-bottom:32px"></div>
   </div>
 
@@ -961,17 +1162,58 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
       <div class="stat-card"><div class="stat-lbl" data-i18n="dashboard.avgRr">Avg R:R</div><div class="stat-val" id="sRR-pt">—</div><div class="stat-hint" data-i18n="dashboard.perTrade">per trade</div></div>
     </div>
     <div class="g-eq">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div><div class="card-title"><span data-i18n="dashboard.equityCurve">Equity Curve</span></div><div class="card-desc" id="eqRange-pt">—</div></div><span class="badge b-sec mono" id="eqDelta-pt" style="font-size:10px">—</span></div><div id="eqWrap-pt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div><div class="eq-axis" id="eqAxis-pt"></div></div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.equityCurve">Equity Curve</div>
+            <div class="card-desc" id="eqRange-pt">—</div>
+          </div>
+          <span class="badge b-sec mono" id="eqDelta-pt" style="font-size:10px">—</span>
+        </div>
+        <div id="eqWrap-pt"><div class="empty" style="padding:14px 0"><div class="empty-ico">📈</div><div class="empty-d" data-i18n="empty.minTrades">Min. 2 trade</div></div></div>
+        <div class="eq-axis" id="eqAxis-pt"></div>
+      </div>
       <div class="card"><div class="card-hd"><div class="card-title"><span data-i18n="dashboard.distribution">Distribusi Hasil</span></div></div><div class="card-body"><div class="donut-area"><svg width="90" height="90" viewBox="0 0 90 90" id="donut-pt"><circle cx="45" cy="45" r="32" fill="none" stroke="var(--bg-muted)" stroke-width="11"/><text x="45" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="12" font-weight="600" fill="var(--tx)" id="dTxt-pt">—</text><text x="45" y="53" text-anchor="middle" font-family="Inter" font-size="8" fill="var(--tx-muted)" id="dSub-pt"></text></svg><div class="d-leg"><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--grn)"></div>Win</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-w"></span><span class="dl-n" id="lw-pt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--red)"></div>Loss</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-l"></span><span class="dl-n" id="ll-pt">0</span></div></div><div class="dl-row"><div class="dl-left"><div class="dl-dot" style="background:var(--ylw)"></div>BE</div><div class="dl-right"><span class="dl-pct" id="lpct-pt-be"></span><span class="dl-n" id="lbe-pt">0</span></div></div></div></div></div></div>
     </div>
-    <div class="sec-lbl">Performa</div>
+    <div class="sec-lbl" data-i18n="dashboard.instrBreakdown">P&L per Instrumen</div>
+    <div id="inst-breakdown-pt" style="margin-bottom:18px"></div>
+    <div class="sec-lbl" data-i18n="dashboard.performance">Performa</div>
     <div class="g2">
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.daily">Harian</div></div><div class="perf-chart"><div id="dBars-pt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-pt"></tbody></table></div>
-      <div class="card" style="overflow:hidden"><div class="card-hd" style="padding-bottom:10px"><div class="card-title" data-i18n="dashboard.monthly">Bulanan</div></div><div class="perf-chart"><div id="mBars-pt"></div></div><div class="perf-sep"></div><table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-pt"></tbody></table></div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.daily">Harian</div>
+          </div>
+
+        </div>
+        <div class="perf-chart"><div id="dBars-pt"></div></div>
+        <div class="perf-sep"></div>
+        <table class="mt"><thead><tr><th data-i18n="table.date">Tanggal</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="dBody-pt"></tbody></table>
+      </div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-hd" style="padding-bottom:10px">
+          <div>
+            <div class="card-title" data-i18n="dashboard.monthly">Bulanan</div>
+          </div>
+
+        </div>
+        <div class="perf-chart"><div id="mBars-pt"></div></div>
+        <div class="perf-sep"></div>
+        <table class="mt"><thead><tr><th>Bulan</th><th>Trade</th><th>P&L</th><th>WR</th></tr></thead><tbody id="mBody-pt"></tbody></table>
+      </div>
     </div>
     <div class="sec-lbl">Psikologi</div>
-    <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-pt"><span style="font-size:12px;color:var(--tx-faint)">—</span></div></div></div>
-    <div class="sec-lbl">Sesi Trading</div>
+    <div class="card" style="margin-bottom:18px"><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px" id="psych-pt"><span style="font-size:13px;color:var(--tx-faint)">—</span></div></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="sec-lbl" style="margin-bottom:0" data-i18n="dashboard.sessions">Sesi Trading</div>
+      <select class="fsel" id="sess-inst-pt" onchange="setSessInst('pt',this.value)" style="height:28px;font-size:12px;padding:0 8px;width:auto">
+        <option value="all" data-i18n="filter.all">Semua Instrumen</option>
+        <option value="gold_forex">Gold / Forex</option>
+        <option value="stock_idx">Saham IDX</option>
+        <option value="stock_us">Saham US</option>
+        <option value="crypto">Crypto</option>
+      </select>
+    </div>
     <div id="sess-pt" style="margin-bottom:32px"></div>
   </div>
 
@@ -1069,10 +1311,40 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
             <div class="card-hd"><div class="card-title" data-i18n="settings.capitalSection">Modal & Equity</div></div>
             <div class="card-body">
               <div class="settings-row">
+                <div><div class="settings-row-label" data-i18n="settings.defaultCurrency">Mata Uang Default</div><div class="settings-row-desc" data-i18n="settings.defaultCurrencyDesc">Dipakai di seluruh dashboard — equity curve, performa harian & bulanan</div></div>
+                <div class="radio-group">
+                  <label class="radio-opt"><input type="radio" name="defaultCurrency" value="USD" onchange="saveDefaultCurrency(this.value)"><div class="radio-card">$ USD</div></label>
+                  <label class="radio-opt"><input type="radio" name="defaultCurrency" value="IDR" onchange="saveDefaultCurrency(this.value)"><div class="radio-card">Rp IDR</div></label>
+                </div>
+              </div>
+              <div class="settings-row">
                 <div><div class="settings-row-label" data-i18n="settings.initialCapital">Modal Awal</div><div class="settings-row-desc" data-i18n="settings.capitalDesc">Equity awal sebelum trading dimulai</div></div>
                 <div style="display:flex;align-items:center;gap:8px">
                   <span style="color:var(--tx-muted);font-size:13px">$</span>
                   <input class="fi" type="number" id="settings-capital" style="width:120px" min="0" step="1" onchange="saveCapital()" value="1000">
+                </div>
+              </div>
+              <div class="settings-row" style="align-items:flex-start">
+                <div>
+                  <div class="settings-row-label" data-i18n="settings.usdIdr">Kurs USD/IDR</div>
+                  <div class="settings-row-desc" data-i18n="settings.usdIdrDesc">Dipakai untuk konversi P&L IDX</div>
+                  <div id="kurs-last-updated" style="font-size:10px;color:var(--tx-faint);margin-top:4px"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+                  <!-- Auto / Manual toggle -->
+                  <div class="radio-group" style="gap:4px">
+                    <label class="radio-opt"><input type="radio" name="kursMode" value="auto" onchange="setKursMode('auto')"><div class="radio-card" style="padding:5px 10px;font-size:12px" data-i18n="settings.kursAuto">Auto</div></label>
+                    <label class="radio-opt"><input type="radio" name="kursMode" value="manual" onchange="setKursMode('manual')"><div class="radio-card" style="padding:5px 10px;font-size:12px" data-i18n="settings.kursManual">Manual</div></label>
+                  </div>
+                  <!-- Input row -->
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="color:var(--tx-muted);font-size:13px;white-space:nowrap">1 USD =</span>
+                    <input class="fi" type="number" id="settings-usd-idr" style="width:110px" min="1" step="100" onchange="saveUsdIdr()" value="16000">
+                    <span style="color:var(--tx-muted);font-size:12px">IDR</span>
+                    <button class="btn btn-outline btn-sm" id="kurs-refresh-btn" onclick="fetchLiveRate()" title="Refresh kurs">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1138,7 +1410,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="m-body">
       <!-- Mode badge -->
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:9px 12px;background:var(--bg-muted);border-radius:calc(var(--radius) - 2px)">
-        <span style="font-size:12px;color:var(--tx-muted)">Mode:</span>
+        <span style="font-size:13px;color:var(--tx-muted)">Mode:</span>
         <span id="mTradeModeLabel" class="badge">—</span>
       </div>
       <!-- Two columns: form + TF analysis (for live mode) -->
@@ -1156,22 +1428,64 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 <!-- Add Transaction Modal -->
 <div class="ov" id="mTransaction">
   <div class="modal modal-sm">
-    <div class="m-hd"><div class="m-title" data-i18n="tx.addModal">Tambah Transaksi</div><button class="btn btn-ghost btn-icon" onclick="closeMod('mTransaction')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="m-hd">
+      <div class="m-title" data-i18n="tx.addModal">Tambah Transaksi</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeMod('mTransaction')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
     <div class="m-body">
-      <div class="fgrid" style="grid-template-columns:1fr">
+      <div class="fgrid" style="grid-template-columns:1fr;gap:14px">
         <div class="fg">
           <label class="lbl" data-i18n="tx.typeLabel">Tipe Transaksi</label>
           <div class="radio-group" style="gap:8px">
-            <label class="radio-opt" style="flex:1"><input type="radio" name="txType" value="deposit" checked><div class="radio-card" style="text-align:center;padding:8px">💰 Deposit</div></label>
-            <label class="radio-opt" style="flex:1"><input type="radio" name="txType" value="withdrawal"><div class="radio-card" style="text-align:center;padding:8px">💸 Penarikan</div></label>
+            <label class="radio-opt" style="flex:1">
+              <input type="radio" name="txType" value="deposit" checked onchange="updateTxPreview()">
+              <div class="radio-card" style="text-align:center;padding:10px">
+                <div style="font-size:18px;margin-bottom:2px">💰</div>
+                <div data-i18n="tx.deposit">Deposit</div>
+              </div>
+            </label>
+            <label class="radio-opt" style="flex:1">
+              <input type="radio" name="txType" value="withdrawal" onchange="updateTxPreview()">
+              <div class="radio-card" style="text-align:center;padding:10px">
+                <div style="font-size:18px;margin-bottom:2px">💸</div>
+                <div data-i18n="tx.withdrawal">Penarikan</div>
+              </div>
+            </label>
           </div>
         </div>
-        <div class="fg"><label class="lbl">Tanggal</label><input class="fi" type="date" id="txDate"></div>
-        <div class="fg"><label class="lbl" data-i18n="tx.amountLabel">Jumlah (USD)</label><input class="fi" type="number" id="txAmount" placeholder="100.00" min="0.01" step="0.01"></div>
-        <div class="fg"><label class="lbl">Catatan <span class="lbl-hint">(opsional)</span></label><input class="fi" type="text" id="txNote" placeholder="Deposit dari bank..."></div>
+        <div class="fg">
+          <label class="lbl" data-i18n="trade.date">Tanggal</label>
+          <input class="fi" type="date" id="txDate">
+        </div>
+        <div class="fg">
+          <label class="lbl" data-i18n="tx.amountLabel">Jumlah</label>
+          <div style="display:flex;gap:8px">
+            <select class="fi fse" id="txCurrency" onchange="updateTxPreview()" style="width:90px;flex-shrink:0">
+              <option value="USD">$ USD</option>
+              <option value="IDR">Rp IDR</option>
+            </select>
+            <input class="fi" type="number" id="txAmount" placeholder="100.00" min="0.01" step="0.01" oninput="updateTxPreview()">
+          </div>
+        </div>
+        <div class="fg">
+          <label class="lbl">
+            <span data-i18n="tx.noteLabel">Catatan</span>
+            <span class="lbl-hint" data-i18n="trade.lessonHint">opsional</span>
+          </label>
+          <input class="fi" type="text" id="txNote" placeholder="Deposit dari bank...">
+        </div>
+        <!-- Equity preview -->
+        <div id="txPreview" style="display:none;background:var(--bg-muted);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px">
+          <div style="font-size:11px;color:var(--tx-faint);margin-bottom:4px" data-i18n="tx.equityAfter">Equity Setelah</div>
+          <div class="mono" id="txPreviewVal" style="font-size:16px;font-weight:700">$0.00</div>
+          <div id="txPreviewSub" style="font-size:11px;color:var(--tx-faint);margin-top:3px;display:none"></div>
+        </div>
       </div>
     </div>
-    <div class="m-ft"><button class="btn btn-outline" onclick="closeMod('mTransaction')" data-i18n="btn.cancel">Batal</button><button class="btn btn-primary" onclick="saveTransaction()" data-i18n="btn.save">Simpan</button></div>
+    <div class="m-ft">
+      <button class="btn btn-outline" onclick="closeMod('mTransaction')" data-i18n="btn.cancel">Batal</button>
+      <button class="btn btn-primary" onclick="saveTransaction()" data-i18n="btn.save">Simpan</button>
+    </div>
   </div>
 </div>
 
@@ -1234,7 +1548,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
       </div>
       <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mDeleteTitle" data-i18n="delete.trade">Hapus Trade?</div>
-      <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mDeleteDesc">Data yang dihapus tidak dapat dikembalikan.</div>
+      <div style="font-size:13px;color:var(--tx-muted);line-height:1.6" id="mDeleteDesc">Data yang dihapus tidak dapat dikembalikan.</div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:8px">
       <button class="btn btn-outline" onclick="closeMod('mDelete')" data-i18n="btn.cancel">Batal</button>
@@ -1249,7 +1563,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="m-body" style="padding-top:28px;padding-bottom:8px;text-align:center">
       <div id="mConfirmIcon" style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"></div>
       <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mConfirmTitle"></div>
-      <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mConfirmDesc"></div>
+      <div style="font-size:13px;color:var(--tx-muted);line-height:1.6" id="mConfirmDesc"></div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px;gap:8px">
       <button class="btn btn-outline" onclick="closeMod('mConfirm')" id="mConfirmCancelBtn" data-i18n="btn.cancel">Batal</button>
@@ -1264,7 +1578,7 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="m-body" style="padding-top:28px;padding-bottom:8px;text-align:center">
       <div id="mToastIcon" style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"></div>
       <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="mToastTitle"></div>
-      <div style="font-size:12px;color:var(--tx-muted);line-height:1.6" id="mToastDesc"></div>
+      <div style="font-size:13px;color:var(--tx-muted);line-height:1.6" id="mToastDesc"></div>
     </div>
     <div class="m-ft" style="justify-content:center;padding-bottom:20px">
       <button class="btn btn-primary" onclick="closeMod('mToast')" data-i18n="btn.ok">OK</button>
@@ -1282,9 +1596,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
     <div class="m-body">
       <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--blu-muted);border:1px solid var(--blu-border);border-radius:var(--radius);margin-bottom:16px">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span style="font-size:12px;color:var(--blu-fg)" id="mImportInfo"></span>
+        <span style="font-size:13px;color:var(--blu-fg)" id="mImportInfo"></span>
       </div>
-      <p style="font-size:12px;color:var(--tx-muted);margin-bottom:16px">Pilih cara import data:</p>
+      <p style="font-size:13px;color:var(--tx-muted);margin-bottom:16px">Pilih cara import data:</p>
       <div style="display:flex;flex-direction:column;gap:8px">
         <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:background .1s" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background=''">
           <input type="radio" name="importMode" value="merge" checked style="margin-top:2px;flex-shrink:0">
@@ -1363,12 +1677,53 @@ const LS = {
 };
 
 const SESSION_CFG = {
-  asia:      { name:'Asia',       time:'04:00–09:00 WIB', color:'var(--blu)',   bg:'var(--blu-muted)',  fg:'var(--blu-fg)',  badgeClass:'b-info' },
-  london:    { name:'London',     time:'13:00–22:00 WIB', color:'var(--grn)',   bg:'var(--grn-muted)', fg:'var(--grn-fg)', badgeClass:'b-ok'   },
-  newyork:   { name:'New York',   time:'19:00–04:00 WIB', color:'var(--red)',   bg:'var(--red-muted)',  fg:'var(--red-fg)',  badgeClass:'b-err'  },
-  overlap:   { name:'London/NY',  time:'19:00–22:00 WIB', color:'var(--ylw)',   bg:'var(--ylw-muted)', fg:'var(--ylw-fg)', badgeClass:'b-warn' },
-  offmarket: { name:'Off Market', time:'—',               color:'var(--tx-faint)', bg:'var(--bg-muted)', fg:'var(--tx-muted)', badgeClass:'b-sec' },
+  // Forex / Gold (WIB based)
+  asia:      { name:'Asia',       time:'04:00–09:00 WIB', color:'var(--blu)',      bg:'var(--blu-muted)',  fg:'var(--blu-fg)',  badgeClass:'b-info' },
+  london:    { name:'London',     time:'13:00–22:00 WIB', color:'var(--grn)',      bg:'var(--grn-muted)', fg:'var(--grn-fg)', badgeClass:'b-ok'   },
+  newyork:   { name:'New York',   time:'19:00–04:00 WIB', color:'var(--red)',      bg:'var(--red-muted)',  fg:'var(--red-fg)',  badgeClass:'b-err'  },
+  overlap:   { name:'London/NY',  time:'19:00–22:00 WIB', color:'var(--ylw)',      bg:'var(--ylw-muted)', fg:'var(--ylw-fg)', badgeClass:'b-warn' },
+  // IDX Stock
+  idx_pre:   { name:'Pre-Market', time:'08:45–09:00 WIB', color:'var(--blu)',      bg:'var(--blu-muted)',  fg:'var(--blu-fg)',  badgeClass:'b-info' },
+  idx_open:  { name:'Sesi 1',     time:'09:00–12:00 WIB', color:'var(--grn)',      bg:'var(--grn-muted)', fg:'var(--grn-fg)', badgeClass:'b-ok'   },
+  idx_noon:  { name:'Istirahat',  time:'12:00–13:30 WIB', color:'var(--tx-faint)', bg:'var(--bg-muted)',  fg:'var(--tx-muted)', badgeClass:'b-sec' },
+  idx_close: { name:'Sesi 2',     time:'13:30–15:49 WIB', color:'var(--ylw)',      bg:'var(--ylw-muted)', fg:'var(--ylw-fg)', badgeClass:'b-warn' },
+  // US Stock (WIB = ET + 12)
+  us_pre:    { name:'Pre-Market', time:'17:00–21:30 WIB', color:'var(--blu)',      bg:'var(--blu-muted)',  fg:'var(--blu-fg)',  badgeClass:'b-info' },
+  us_open:   { name:'Market',     time:'21:30–04:00 WIB', color:'var(--grn)',      bg:'var(--grn-muted)', fg:'var(--grn-fg)', badgeClass:'b-ok'   },
+  us_after:  { name:'After-Hours','time':'04:00–08:00 WIB', color:'var(--ylw)',    bg:'var(--ylw-muted)', fg:'var(--ylw-fg)', badgeClass:'b-warn' },
+  // Off market (all instruments)
+  offmarket: { name:'Off Market', time:'—',                color:'var(--tx-faint)', bg:'var(--bg-muted)',  fg:'var(--tx-muted)', badgeClass:'b-sec' },
 };
+
+// Returns session key based on instrument type
+function getSession(timeStr, instrumentType) {
+  if(!timeStr) return 'offmarket';
+  const [h,m] = timeStr.split(':').map(Number);
+  const mins = h*60+m;
+  const inR = (a,b) => a<=b ? mins>=a&&mins<b : mins>=a||mins<b;
+
+  if(instrumentType === 'stock_idx') {
+    if(inR(8*60+45, 9*60))        return 'idx_pre';
+    if(inR(9*60, 12*60))           return 'idx_open';
+    if(inR(12*60, 13*60+30))       return 'idx_noon';
+    if(inR(13*60+30, 15*60+49))   return 'idx_close';
+    return 'offmarket';
+  }
+
+  if(instrumentType === 'stock_us') {
+    if(inR(17*60, 21*60+30))       return 'us_pre';
+    if(inR(21*60+30, 24*60)||inR(0, 4*60)) return 'us_open';
+    if(inR(4*60, 8*60))            return 'us_after';
+    return 'offmarket';
+  }
+
+  // Gold / Forex / Crypto — WIB based
+  if(inR(19*60, 22*60)) return 'overlap';
+  if(inR(13*60, 22*60)) return 'london';
+  if(inR(19*60, 24*60)||inR(0, 4*60)) return 'newyork';
+  if(inR(4*60, 9*60))   return 'asia';
+  return 'offmarket';
+}
 
 const MODE_CFG = {
   live: { get label(){ return `🟢 ${t('nav.liveTrading')}`; }, get chip(){ return `● ${t('mode.liveShort')}`; },    bg:'var(--grn-muted)', fg:'var(--grn-fg)', bdr:'var(--grn-border)', badgeClass:'b-ok',  accentColor:'var(--grn)'  },
@@ -1428,7 +1783,7 @@ let state = {
   transactions: [],
   checklist: { date: getTodayStr(), items: {} },
   customChecklist: [], // user-defined checklist items
-  settings: { language:'id', theme:'light', initialCapital:1000 },
+  settings: { language:'id', theme:'light', initialCapital:1000, usdIdr:16000, defaultCurrency:'USD', kursMode:'manual', kursLastFetched:null },
 };
 let editTradeId = null;
 let editTradeMode = null;
@@ -1463,8 +1818,82 @@ function saveState() {
 // ════════════════════════════════════════
 function nanoid() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
 function getTodayStr() { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-function fmtUSD(v, sign=false) {
-  const abs = Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+// ── INSTRUMENT CONFIG ──────────────────────────────────────────────────────
+const INSTRUMENT_CFG = {
+  gold_forex: {
+    get label()    { return t('inst.goldForex'); },
+    currency:      'USD',
+    unitLabel:     () => t('inst.lot'),
+    unitPH:        '0.01',
+    unitStep:      '0.01',
+    unitMin:       '0.001',
+    pricePH:       () => ({ entry:'2300.00', sl:'2290.00', tp:'2320.00' }),
+    contractSize:  100,
+    computePnl(entry, close, dir, unit) {
+      const diff = dir==='BUY' ? close-entry : entry-close;
+      return parseFloat((diff * unit * 100).toFixed(2));
+    },
+    fmtPnl:        (v, sign) => fmtCurrency(v, 'USD', sign),
+  },
+  stock_idx: {
+    get label()    { return t('inst.stockIDX'); },
+    currency:      'IDR',
+    unitLabel:     () => t('inst.lotIDX'),
+    unitPH:        '1',
+    unitStep:      '1',
+    unitMin:       '1',
+    pricePH:       () => ({ entry:'4500', sl:'4400', tp:'4700' }),
+    contractSize:  100, // 1 lot IDX = 100 lembar
+    computePnl(entry, close, dir, unit) {
+      const diff = dir==='BUY' ? close-entry : entry-close;
+      return parseFloat((diff * unit * 100).toFixed(0));
+    },
+    fmtPnl:        (v, sign) => fmtCurrency(v, 'IDR', sign),
+  },
+  stock_us: {
+    get label()    { return t('inst.stockUS'); },
+    currency:      'USD',
+    unitLabel:     () => t('inst.shares'),
+    unitPH:        '10',
+    unitStep:      '1',
+    unitMin:       '1',
+    pricePH:       () => ({ entry:'175.00', sl:'170.00', tp:'185.00' }),
+    contractSize:  1,
+    computePnl(entry, close, dir, unit) {
+      const diff = dir==='BUY' ? close-entry : entry-close;
+      return parseFloat((diff * unit).toFixed(2));
+    },
+    fmtPnl:        (v, sign) => fmtCurrency(v, 'USD', sign),
+  },
+  crypto: {
+    get label()    { return t('inst.crypto'); },
+    currency:      'USD',
+    unitLabel:     () => t('inst.coins'),
+    unitPH:        '0.1',
+    unitStep:      'any',
+    unitMin:       '0.000001',
+    pricePH:       () => ({ entry:'65000', sl:'63000', tp:'70000' }),
+    contractSize:  1,
+    computePnl(entry, close, dir, unit) {
+      const diff = dir==='BUY' ? close-entry : entry-close;
+      return parseFloat((diff * unit).toFixed(2));
+    },
+    fmtPnl:        (v, sign) => fmtCurrency(v, 'USD', sign),
+  },
+};
+
+function getInstrumentCfg(instrumentType) {
+  return INSTRUMENT_CFG[instrumentType] || INSTRUMENT_CFG.gold_forex;
+}
+
+function fmtCurrency(v, currency, sign=false) {
+  if(currency === 'IDR') {
+    const abs = Math.abs(v).toLocaleString('id-ID', {minimumFractionDigits:0, maximumFractionDigits:0});
+    if(sign && v > 0) return `+Rp${abs}`;
+    if(v < 0) return `-Rp${abs}`;
+    return `Rp${abs}`;
+  }
+  const abs = Math.abs(v).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
   if(sign && v > 0) return `+$${abs}`;
   if(v < 0) return `-$${abs}`;
   return `$${abs}`;
@@ -1475,20 +1904,16 @@ function fmtDate(dateStr) {
   const mo = state.settings.language === 'id' ? MONTHS_ID : MONTHS_EN;
   return `${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;
 }
-function getSession(t) {
-  if(!t) return 'offmarket';
-  const [h,m] = t.split(':').map(Number);
-  const mins = h*60+m;
-  const inR = (a,b) => a<=b ? mins>=a&&mins<b : mins>=a||mins<b;
-  if(inR(19*60,22*60)) return 'overlap';
-  if(inR(13*60,22*60)) return 'london';
-  if(inR(19*60,24*60)||inR(0,4*60)) return 'newyork';
-  if(inR(4*60,9*60)) return 'asia';
-  return 'offmarket';
+function fmtUSD(v, sign=false) { return fmtCurrency(v, 'USD', sign); }
+
+function computePnl(entry, close, dir, lot, instrumentType) {
+  return getInstrumentCfg(instrumentType).computePnl(entry, close, dir, lot);
 }
-function computePnl(entry, close, dir, lot) {
-  const diff = dir==='BUY' ? close-entry : entry-close;
-  return parseFloat((diff*lot*100).toFixed(2));
+
+// Format P&L for a trade using its instrument type
+function fmtTradePnl(trade, sign=false) {
+  const cfg = getInstrumentCfg(trade.instrumentType);
+  return cfg.fmtPnl(trade.pnl, sign);
 }
 function computeRR(e,sl,tp) {
   if(sl===e) return null;
@@ -1502,15 +1927,42 @@ function countTodayTrades(mode) {
   const t = getTodayStr();
   return state.trades.filter(x=>x.mode===mode&&x.date===t&&x.result!==null).length;
 }
+function getPnlByCurrency(mode) {
+  const trades = state.trades.filter(t => (mode ? t.mode===mode : true) && t.pnl!==null);
+  const usd = trades.filter(t => getInstrumentCfg(t.instrumentType).currency==='USD').reduce((s,t)=>s+(t.pnl||0),0);
+  const idr = trades.filter(t => getInstrumentCfg(t.instrumentType).currency==='IDR').reduce((s,t)=>s+(t.pnl||0),0);
+  return { usd, idr };
+}
+
 function getEquity() {
-  const cap = state.settings.initialCapital || 1000;
+  const cap   = state.settings.initialCapital || 1000;
   const txPnl = state.transactions.reduce((s,t)=>{
     if(t.type==='deposit') return s+t.amount;
     if(t.type==='withdrawal') return s-t.amount;
     return s;
   },0);
-  const tradePnl = state.trades.filter(t=>t.mode==='live'&&t.pnl!==null).reduce((s,t)=>s+(t.pnl||0),0);
-  return cap + txPnl + tradePnl;
+  const { usd } = getPnlByCurrency('live');
+  return cap + txPnl + usd;
+}
+
+// Convert IDR to USD using saved rate
+function idrToUsd(idr) {
+  const rate = state.settings.usdIdr || 16000;
+  return idr / rate;
+}
+function usdToIdr(usd) {
+  const rate = state.settings.usdIdr || 16000;
+  return usd * rate;
+}
+function getDefaultCurrency() {
+  return state.settings.defaultCurrency || 'USD';
+}
+function pnlInDefaultCur(tr) {
+  const cur    = getDefaultCurrency();
+  const native = getInstrumentCfg(tr.instrumentType).currency;
+  if(native === cur) return tr.pnl || 0;
+  if(cur === 'USD')  return idrToUsd(tr.pnl || 0);
+  return usdToIdr(tr.pnl || 0);
 }
 function bezPath(pts) {
   if(pts.length<2) return pts.map(([x,y],i)=>`${i===0?'M':'L'}${x},${y}`).join(' ');
@@ -1575,7 +2027,7 @@ function initI18N() {
     'dashboard.dailyPerf':'Performa Harian','dashboard.monthlyPerf':'Performa Bulanan',
     'dashboard.daily':'Harian','dashboard.monthly':'Bulanan',
     'dashboard.psychology':'Psikologi','dashboard.sessions':'Sesi Trading',
-    'dashboard.performance':'Performa',
+    'dashboard.instrBreakdown':'P&L per Instrumen','dashboard.performance':'Performa',
     'dashboard.fromCapital':'dari modal awal','dashboard.perTrade':'per trade',
     'dashboard.tradeClosed':'trade closed','dashboard.minTrades':'Min. 2 trade',
     'dashboard.last10days':'10 hari terakhir',
@@ -1587,7 +2039,7 @@ function initI18N() {
     'trade.closePrice':'Harga Close','trade.autoCalc':'auto hitung P&L',
     'trade.pnlManual':'P&L Manual','trade.override':'override close price',
     'trade.psychology':'Kondisi Psikologi','trade.notes':'Catatan / Alasan Entry',
-    'trade.notesPH':'FVG H1, swept SSL, CHoCH M5...','trade.lesson':'Lesson Learned','trade.lessonHint':'optional','trade.lessonPH':'What did you learn from this trade?','trade.lesson':'Lesson Learned','trade.lessonHint':'opsional','trade.lessonPH':'Apa yang kamu pelajari dari trade ini?',
+    'trade.notesPH':'FVG H1, swept SSL, CHoCH M5...','trade.instrumentType':'Instrument Type','inst.allInstruments':'Instrumen','inst.allInstruments':'Instruments','inst.goldForex':'Gold / Forex','inst.stockIDX':'IDX Stock','inst.stockUS':'US Stock','inst.crypto':'Crypto','inst.lot':'Lot Size','inst.lotIDX':'Lot (×100 shares)','inst.shares':'Shares','inst.coins':'Coins','trade.lesson':'Lesson Learned','trade.lessonHint':'optional','trade.lessonPH':'What did you learn from this trade?','trade.instrumentType':'Tipe Instrumen','inst.goldForex':'Gold / Forex','inst.stockIDX':'Saham IDX','inst.stockUS':'Saham US','inst.crypto':'Crypto','inst.lot':'Lot Size','inst.lotIDX':'Lot (×100 lembar)','inst.shares':'Jumlah Shares','inst.coins':'Jumlah Koin','trade.lesson':'Lesson Learned','trade.lessonHint':'opsional','trade.lessonPH':'Apa yang kamu pelajari dari trade ini?',
     'trade.pairPH':'XAUUSD','trade.setupPH':'FVG, AMD, OB...',
     'trade.entryPH':'2300.00','trade.slPH':'2290.00','trade.tpPH':'2320.00',
     'trade.closePH':'kosong = masih open','trade.pnlPH':'Opsional · +50.00 atau -25.00',
@@ -1599,7 +2051,7 @@ function initI18N() {
     'table.psych':'Psikologi',
     // Filter bar
     'filter.searchPH':'Cari pair, setup...','filter.direction':'Arah',
-    'filter.result':'Hasil','filter.setup':'Setup','filter.all':'Semua',
+    'filter.result':'Hasil','filter.setup':'Setup','filter.all':'Semua','cur.usdTip':'Gold · Forex · Saham US · Crypto','cur.idrTip':'Saham IDX (Rp)','cur.allTip':'Semua instrumen',
     'filter.buy':'BUY','filter.sell':'SELL',
     'filter.win':'WIN','filter.loss':'LOSS','filter.be':'BE',
     // Buttons
@@ -1612,7 +2064,7 @@ function initI18N() {
     'tx.totalDeposit':'Total Deposit','tx.totalWithdrawal':'Total Penarikan',
     'tx.history':'Riwayat Transaksi','tx.type':'Tipe','tx.amount':'Jumlah',
     'tx.note':'Catatan','tx.equityAfter':'Equity Setelah',
-    'tx.deposit':'Deposit','tx.withdrawal':'Penarikan',
+    'tx.deposit':'Deposit','tx.withdrawal':'Penarikan','tx.transaction':'transaksi','tx.transactions':'transaksi','tx.settingNote':'Set di Pengaturan','tx.notePH':'Deposit dari bank...',
     'tx.addModal':'Tambah Transaksi','tx.typeLabel':'Tipe Transaksi',
     'tx.amountLabel':'Jumlah (USD)','tx.noteLabel':'Catatan',
     'tx.amountPH':'100.00','tx.notePH':'Deposit dari bank...',
@@ -1652,7 +2104,7 @@ function initI18N() {
     'settings.title':'Pengaturan','settings.appearance':'Tampilan',
     'settings.theme':'Tema','settings.light':'Terang','settings.dark':'Gelap',
     'settings.language':'Bahasa',
-    'settings.capitalSection':'Modal & Equity',
+    'settings.kursAuto':'Auto','settings.kursManual':'Manual','settings.kursUpdated':'Diperbarui:','settings.kursFailed':'Gagal mengambil kurs','settings.kursFallback':'Menggunakan kurs manual','settings.kursFetchHint':'Klik refresh untuk ambil kurs terkini','settings.kursSuccess':'Kurs berhasil diperbarui','settings.defaultCurrency':'Mata Uang Default','settings.defaultCurrencyDesc':'Dipakai di seluruh dashboard — equity curve, performa harian & bulanan','settings.usdIdr':'Kurs USD/IDR','settings.usdIdrDesc':'Dipakai untuk konversi P&L IDX ke USD di dashboard','settings.capitalSection':'Modal & Equity',
     'settings.initialCapital':'Modal Awal','settings.capitalDesc':'Equity awal sebelum trading dimulai',
     'settings.dataSection':'Data',
     'settings.exportAll':'Export Semua Data','settings.exportDesc':'Backup semua trade, transaksi, dan pengaturan',
@@ -1729,7 +2181,7 @@ function initI18N() {
     'dashboard.dailyPerf':'Daily Performance','dashboard.monthlyPerf':'Monthly Performance',
     'dashboard.daily':'Daily','dashboard.monthly':'Monthly',
     'dashboard.psychology':'Psychology','dashboard.sessions':'Trading Sessions',
-    'dashboard.performance':'Performance',
+    'dashboard.instrBreakdown':'P&L by Instrument','dashboard.performance':'Performance',
     'dashboard.fromCapital':'from initial capital','dashboard.perTrade':'per trade',
     'dashboard.tradeClosed':'trade closed','dashboard.minTrades':'Min. 2 trades',
     'dashboard.last10days':'Last 10 days',
@@ -1753,7 +2205,7 @@ function initI18N() {
     'table.psych':'Psychology',
     // Filter bar
     'filter.searchPH':'Search pair, setup...','filter.direction':'Direction',
-    'filter.result':'Result','filter.setup':'Setup','filter.all':'All',
+    'filter.result':'Result','filter.setup':'Setup','filter.all':'All','cur.usdTip':'Gold · Forex · US Stock · Crypto','cur.idrTip':'IDX Stock (Rp)','cur.allTip':'All instruments',
     'filter.buy':'BUY','filter.sell':'SELL',
     'filter.win':'WIN','filter.loss':'LOSS','filter.be':'BE',
     // Buttons
@@ -1766,7 +2218,7 @@ function initI18N() {
     'tx.totalDeposit':'Total Deposit','tx.totalWithdrawal':'Total Withdrawal',
     'tx.history':'Transaction History','tx.type':'Type','tx.amount':'Amount',
     'tx.note':'Note','tx.equityAfter':'Equity After',
-    'tx.deposit':'Deposit','tx.withdrawal':'Withdrawal',
+    'tx.deposit':'Deposit','tx.withdrawal':'Withdrawal','tx.transaction':'transaction','tx.transactions':'transactions','tx.settingNote':'Set in Settings','tx.notePH':'Bank deposit...',
     'tx.addModal':'Add Transaction','tx.typeLabel':'Transaction Type',
     'tx.amountLabel':'Amount (USD)','tx.noteLabel':'Note',
     'tx.amountPH':'100.00','tx.notePH':'Bank deposit...',
@@ -1806,7 +2258,7 @@ function initI18N() {
     'settings.title':'Settings','settings.appearance':'Appearance',
     'settings.theme':'Theme','settings.light':'Light','settings.dark':'Dark',
     'settings.language':'Language',
-    'settings.capitalSection':'Capital & Equity',
+    'settings.kursAuto':'Auto','settings.kursManual':'Manual','settings.kursUpdated':'Updated:','settings.kursFailed':'Failed to fetch rate','settings.kursFallback':'Using manual rate','settings.kursFetchHint':'Click refresh to get latest rate','settings.kursSuccess':'Exchange rate updated','settings.defaultCurrency':'Default Currency','settings.defaultCurrencyDesc':'Used across dashboard — equity curve, daily & monthly performance','settings.usdIdr':'USD/IDR Rate','settings.usdIdrDesc':'Used to convert IDX P&L to USD in dashboard','settings.capitalSection':'Capital & Equity',
     'settings.initialCapital':'Initial Capital','settings.capitalDesc':'Starting equity before trading',
     'settings.dataSection':'Data',
     'settings.exportAll':'Export All Data','settings.exportDesc':'Backup all trades, transactions, and settings',
@@ -1905,6 +2357,25 @@ function applyI18N() {
     if (sel.options[0]) sel.options[0].text = t('filter.setup');
   });
 
+  // Update session instrument dropdown options
+  document.querySelectorAll('[id^="sess-inst-"]').forEach(sel => {
+    if(sel.options[0]) sel.options[0].text = t('filter.all') + ' ' + t('inst.allInstruments');
+    if(sel.options[1]) sel.options[1].text = t('inst.goldForex');
+    if(sel.options[2]) sel.options[2].text = t('inst.stockIDX');
+    if(sel.options[3]) sel.options[3].text = t('inst.stockUS');
+    if(sel.options[4]) sel.options[4].text = t('inst.crypto');
+  });
+
+  // Update currency info chips (both strip and inline versions)
+  document.querySelectorAll('.cur-info[data-cur], .cur-info-inline[data-cur], .cur-info-sess[data-cur]').forEach(el => {
+    const cur = el.getAttribute('data-cur');
+    const label = el.querySelector('.cur-info-label');
+    if(!label) return;
+    if(cur === 'USD')    label.textContent = t('cur.usdTip');
+    else if(cur === 'IDR') label.textContent = t('cur.idrTip');
+    else if(cur === 'all') label.textContent = t('cur.allTip');
+  });
+
   // Topbar date locale
   const tbDate = document.getElementById('tbDate');
   if (tbDate) tbDate.textContent = new Date().toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {day:'numeric',month:'short',year:'numeric'});
@@ -1929,6 +2400,19 @@ function toggleLang() { setLang(state.settings.language==='id'?'en':'id'); }
 // ════════════════════════════════════════
 // SIDEBAR
 // ════════════════════════════════════════
+function toggleMobileMenu() {
+  const sb = document.getElementById('sidebar');
+  const overlay = document.getElementById('mobOverlay');
+  const isOpen = sb.classList.contains('mob-open');
+  if(isOpen) { closeMobileMenu(); }
+  else { sb.classList.add('mob-open'); overlay.classList.add('on'); document.body.style.overflow='hidden'; }
+}
+function closeMobileMenu() {
+  document.getElementById('sidebar').classList.remove('mob-open');
+  document.getElementById('mobOverlay').classList.remove('on');
+  document.body.style.overflow='';
+}
+
 function toggleSidebar() {
   const app = document.getElementById('app');
   app.classList.toggle('sb-mini');
@@ -2064,6 +2548,7 @@ function getPageName(pageId) {
   return map[pageId] || pageId;
 }
 function goPage(pageId, el) {
+  if(window.innerWidth <= 768) closeMobileMenu();
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.sb-sub-item').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.sb-nav-item').forEach(s=>s.classList.remove('on'));
@@ -2095,6 +2580,7 @@ function goPage(pageId, el) {
   else if(pageId==='settings') renderSettings();
 }
 function goSinglePage(pageId, el) {
+  if(window.innerWidth <= 768) closeMobileMenu();
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.sb-sub-item').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.sb-nav-item').forEach(s=>s.classList.remove('on'));
@@ -2119,7 +2605,11 @@ function openMod(id)  { document.getElementById(id).classList.add('on'); }
 // TRADE MODAL
 // ════════════════════════════════════════
 function buildTradeForm(mode) {
-  const leftForm = `
+  const instOptions = Object.entries(INSTRUMENT_CFG).map(([key,cfg])=>
+    `<option value="${key}">${cfg.label}</option>`
+  ).join('');
+
+  return `
     <div style="display:flex;flex-direction:column;gap:0;min-width:0">
       <div class="fgrid">
         <div class="fg"><label class="lbl">${t('trade.date')}</label><input class="fi" type="date" id="fDate"></div>
@@ -2129,11 +2619,16 @@ function buildTradeForm(mode) {
             <span id="sessPreview" style="font-size:11px;white-space:nowrap;flex-shrink:0"></span>
           </div>
         </div>
+        <div class="fg s2"><label class="lbl">${t('trade.instrumentType')}</label>
+          <select class="fi fse" id="fInstrument" onchange="onInstrumentChange()">
+            ${instOptions}
+          </select>
+        </div>
         <div class="fg"><label class="lbl">${t('trade.pair')}</label><input class="fi" type="text" id="fPair" placeholder="${t('trade.pairPH')}" list="pairList"><datalist id="pairList"></datalist></div>
         <div class="fg"><label class="lbl">${t('trade.setup')}</label><input class="fi" type="text" id="fSetup" placeholder="${t('trade.setupPH')}" list="setupList"><datalist id="setupList"></datalist></div>
         <div class="fg"><label class="lbl">${t('trade.direction')}</label><select class="fi fse" id="fDir"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
-        <div class="fg"><label class="lbl">${t('trade.lot')}</label><input class="fi" type="number" id="fLot" placeholder="0.01" step="0.01" min="0.01" oninput="onPriceChange()"></div>
-        <div class="fg"><label class="lbl">${t('trade.entryPrice')}</label><input class="fi" type="number" id="fEntry" placeholder="${t('trade.entryPH')}" step="any" oninput="onPriceChange()"></div>
+        <div class="fg"><label class="lbl" id="fLotLabel">${t('inst.lot')}</label><input class="fi" type="number" id="fLot" placeholder="0.01" step="0.01" min="0.001" oninput="onPriceChange()"></div>
+        <div class="fg"><label class="lbl">${t('trade.entryPrice')} <span class="lbl-hint inst-currency" id="fCurrencyHint">USD</span></label><input class="fi" type="number" id="fEntry" placeholder="${t('trade.entryPH')}" step="any" oninput="onPriceChange()"></div>
         <div class="fg"><label class="lbl">${t('trade.stopLoss')}</label><input class="fi" type="number" id="fSL" placeholder="${t('trade.slPH')}" step="any" oninput="onPriceChange()"></div>
         <div class="fg"><label class="lbl">${t('trade.takeProfit')}</label><input class="fi" type="number" id="fTP" placeholder="${t('trade.tpPH')}" step="any" oninput="onPriceChange()"></div>
         <div class="fg"><label class="lbl">${t('trade.closePrice')} <span class="lbl-hint">${t('trade.autoCalc')}</span></label><input class="fi" type="number" id="fClose" placeholder="${t('trade.closePH')}" step="any" oninput="onPriceChange()"></div>
@@ -2147,8 +2642,24 @@ function buildTradeForm(mode) {
       <div class="fg" style="margin-top:10px"><label class="lbl">${t('trade.lesson')} <span class="lbl-hint">${t('trade.lessonHint')}</span></label><textarea class="fta" id="fLesson" placeholder="${t('trade.lessonPH')}" style="min-height:64px"></textarea></div>
     </div>
   `;
+}
 
-  return leftForm;
+// Called when instrument type changes — updates labels, placeholders, step
+function onInstrumentChange() {
+  const inst = document.getElementById('fInstrument')?.value || 'gold_forex';
+  const cfg  = getInstrumentCfg(inst);
+  const ph   = cfg.pricePH();
+  const lotEl = document.getElementById('fLot');
+  const lotLbl = document.getElementById('fLotLabel');
+  const currEl = document.getElementById('fCurrencyHint');
+  if(lotEl)  { lotEl.placeholder = cfg.unitPH; lotEl.step = cfg.unitStep; lotEl.min = cfg.unitMin; }
+  if(lotLbl) lotLbl.textContent = cfg.unitLabel();
+  if(currEl) currEl.textContent = cfg.currency;
+  document.getElementById('fEntry') && (document.getElementById('fEntry').placeholder = ph.entry);
+  document.getElementById('fSL')    && (document.getElementById('fSL').placeholder    = ph.sl);
+  document.getElementById('fTP')    && (document.getElementById('fTP').placeholder    = ph.tp);
+  updateSessPreview();
+  onPriceChange();
 }
 
 function openAddTrade(mode) {
@@ -2188,6 +2699,8 @@ function openEditTrade(id, mode) {
   document.getElementById('fPnl').value = tr.pnlManual!==null&&tr.pnlManual!==undefined?tr.pnlManual:'';
   document.getElementById('fNotes').value = tr.notes||'';
   const fl = document.getElementById('fLesson'); if(fl) fl.value = tr.lesson||'';
+  const fi = document.getElementById('fInstrument');
+  if(fi) { fi.value = tr.instrumentType||'gold_forex'; onInstrumentChange(); }
   // Psych pills
   document.querySelectorAll('#pPills .pill').forEach(p=>{ if(selPsych.includes(p.textContent.trim())) p.classList.add('on'); });
   updateSessPreview();
@@ -2201,27 +2714,30 @@ function saveTrade() {
   const date   = document.getElementById('fDate').value;
   const pair   = document.getElementById('fPair').value.trim();
   if(!date||!pair){ showToast('error',t('toast.inputError'),t('toast.pairRequired')); return; }
-  const time   = document.getElementById('fTime').value||null;
-  const session = time ? getSession(time) : null;
-  const entry   = parseFloat(document.getElementById('fEntry').value)||null;
-  const sl      = parseFloat(document.getElementById('fSL').value)||null;
-  const tp      = parseFloat(document.getElementById('fTP').value)||null;
-  const lot     = parseFloat(document.getElementById('fLot').value)||null;
-  const cpRaw   = document.getElementById('fClose').value;
+  const inst     = document.getElementById('fInstrument')?.value||'gold_forex';
+  const cfg      = getInstrumentCfg(inst);
+  const time     = document.getElementById('fTime').value||null;
+  const session  = time ? getSession(time, inst) : null;
+  const entry    = parseFloat(document.getElementById('fEntry').value)||null;
+  const sl       = parseFloat(document.getElementById('fSL').value)||null;
+  const tp       = parseFloat(document.getElementById('fTP').value)||null;
+  const lot      = parseFloat(document.getElementById('fLot').value)||null;
+  const cpRaw    = document.getElementById('fClose').value;
   const closePrice = cpRaw!==''?parseFloat(cpRaw):null;
-  const pmRaw   = document.getElementById('fPnl').value;
+  const pmRaw    = document.getElementById('fPnl').value;
   const pnlManual = pmRaw!==''?parseFloat(pmRaw):null;
-  const dir     = document.getElementById('fDir').value;
+  const dir      = document.getElementById('fDir').value;
 
   let pnl = null;
   if(pnlManual!==null) pnl = pnlManual;
-  else if(closePrice!==null&&entry!==null&&lot!==null) pnl = computePnl(entry,closePrice,dir,lot);
+  else if(closePrice!==null&&entry!==null&&lot!==null) pnl = cfg.computePnl(entry,closePrice,dir,lot);
   const result = pnl!==null?(pnl>0?'WIN':pnl<0?'LOSS':'BE'):null;
   const rr = (entry&&sl&&tp&&sl!==entry)?computeRR(entry,sl,tp):null;
 
   const tr = {
     id: editTradeId||nanoid(),
     mode: editTradeMode,
+    instrumentType: inst,
     date, entryTime:time, session, pair,
     setup: document.getElementById('fSetup').value.trim()||null,
     direction: dir, lotSize:lot, entryPrice:entry, stopLoss:sl, takeProfit:tp,
@@ -2350,7 +2866,7 @@ function openDetail(id, mode) {
     ['Stop Loss', tr.stopLoss?`<span class="dn mono">${tr.stopLoss}</span>`:'—'],
     ['Take Profit', tr.takeProfit?`<span class="up mono">${tr.takeProfit}</span>`:'—'],
     ['Close Price', tr.closePrice!==null&&tr.closePrice!==undefined?`<span class="mono">${tr.closePrice}</span>`:'—'],
-    ['P&L', tr.pnl!==null?`<span class="${tr.pnl>0?'up':tr.pnl<0?'dn':'warn'} mono">${fmtUSD(tr.pnl,true)}</span>`:'—'],
+    ['P&L', tr.pnl!==null?`<span class="${tr.pnl>0?'up':tr.pnl<0?'dn':'warn'} mono">${fmtTradePnl(tr,true)}</span>`:'—'],
     ['Hasil', resultBadge(tr.result)],
     ['R:R', tr.rr?`1:${tr.rr}`:'—'],
     [t('trade.psychology'), tr.psychology?.join(', ')||'—'],
@@ -2370,10 +2886,11 @@ function tpill(el) {
 }
 
 function updateSessPreview() {
-  const ti = document.getElementById('fTime'); if(!ti) return;
-  const sk = getSession(ti.value);
-  const s = SESSION_CFG[sk];
-  const el = document.getElementById('sessPreview'); if(!el) return;
+  const ti   = document.getElementById('fTime'); if(!ti) return;
+  const inst = document.getElementById('fInstrument')?.value || 'gold_forex';
+  const sk   = getSession(ti.value, inst);
+  const s    = SESSION_CFG[sk] || SESSION_CFG.offmarket;
+  const el   = document.getElementById('sessPreview'); if(!el) return;
   if(!ti.value){ el.innerHTML=''; return; }
   el.innerHTML = `<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;background:${s.bg};color:${s.fg};font-weight:500;font-size:11px"><span style="width:6px;height:6px;border-radius:50%;background:${s.color};display:inline-block"></span>${s.name}</span>`;
 }
@@ -2386,19 +2903,32 @@ function onPriceChange() {
   const lt  = parseFloat(document.getElementById('fLot')?.value)||null;
   const pm  = parseFloat(document.getElementById('fPnl')?.value);
   const dir = document.getElementById('fDir')?.value||'BUY';
-  const el  = document.getElementById('cmpResult'); if(!el) return;
+  const inst = document.getElementById('fInstrument')?.value||'gold_forex';
+  const cfg  = getInstrumentCfg(inst);
+  const el   = document.getElementById('cmpResult'); if(!el) return;
 
   let pnl = null;
   if(!isNaN(pm)) pnl = pm;
-  else if(!isNaN(cl)&&e!==null&&lt!==null) pnl = computePnl(e,cl,dir,lt);
+  else if(!isNaN(cl)&&e!==null&&lt!==null) pnl = cfg.computePnl(e,cl,dir,lt);
   if(pnl===null){ el.style.display='none'; return; }
 
   const rr = (e&&sl&&tp&&sl!==e)?computeRR(e,sl,tp):null;
-  let cls,lbl;
-  if(pnl>0){cls='cmp-w';lbl=`✅ WIN · ${fmtUSD(pnl,true)}`;}
-  else if(pnl<0){cls='cmp-l';lbl=`❌ LOSS · ${fmtUSD(pnl)}`;}
+  const pnlFmt = cfg.fmtPnl(pnl, true);
+  const pnlFmtAbs = cfg.fmtPnl(Math.abs(pnl), false);
+  let cls, lbl;
+  if(pnl>0){cls='cmp-w';lbl=`✅ WIN · ${pnlFmt}`;}
+  else if(pnl<0){cls='cmp-l';lbl=`❌ LOSS · ${pnlFmtAbs}`;}
   else{cls='cmp-b';lbl='⚖️ Break Even';}
-  el.innerHTML=`<div class="cmp ${cls}">${lbl}${rr?`<span style="opacity:.6;margin-left:8px">R:R 1:${rr}</span>`:''}</div>`;
+
+  // For IDX (IDR), show USD equivalent
+  let usdEquiv = '';
+  if(cfg.currency === 'IDR') {
+    const rate = state.settings.usdIdr || 16000;
+    const usd  = idrToUsd(pnl);
+    usdEquiv = `<span style="opacity:.6;margin-left:8px;font-size:11px">≈ ${fmtUSD(usd,true)} (Rp${rate.toLocaleString('id-ID')})</span>`;
+  }
+
+  el.innerHTML=`<div class="cmp ${cls}">${lbl}${usdEquiv}${rr?`<span style="opacity:.6;margin-left:8px">R:R 1:${rr}</span>`:''}</div>`;
   el.style.display='block';
 }
 
@@ -2442,27 +2972,27 @@ function renderJournal(mode) {
   empty.style.display='none';
 
   body.innerHTML = filtered.map((tr,i)=>{
-    const pH = tr.pnl!==null?`<span class="${tr.pnl>0?'up':tr.pnl<0?'dn':'warn'} mono">${fmtUSD(tr.pnl,true)}</span>`:'<span style="color:var(--tx-faint)">—</span>';
+    const pH = tr.pnl!==null?`<span class="${tr.pnl>0?'up':tr.pnl<0?'dn':'warn'} mono">${fmtTradePnl(tr,true)}</span>`:'<span style="color:var(--tx-faint)">—</span>';
     const sH = tr.setup?`<span class="badge b-sec">${tr.setup}</span>`:'<span style="color:var(--tx-faint)">—</span>';
-    const psH = tr.psychology?.length?`<span style="font-size:11px;color:var(--tx-muted)">${tr.psychology[0]}${tr.psychology.length>1?` +${tr.psychology.length-1}`:''}</span>`:'—';
-    const cH = tr.closePrice!=null?`<span class="mono" style="font-size:11px">${tr.closePrice}</span>`:'<span style="color:var(--tx-faint)">—</span>';
-    const jamH = tr.entryTime?`<span class="mono" style="font-size:11px">${tr.entryTime}</span>`:'<span style="color:var(--tx-faint)">—</span>';
+    const psH = tr.psychology?.length?`<span style="color:var(--tx-muted)">${tr.psychology[0]}${tr.psychology.length>1?` +${tr.psychology.length-1}`:''}</span>`:'—';
+    const cH = tr.closePrice!=null?`<span class="mono">${tr.closePrice}</span>`:'<span style="color:var(--tx-faint)">—</span>';
+    const jamH = tr.entryTime?`<span class="mono">${tr.entryTime}</span>`:'<span style="color:var(--tx-faint)">—</span>';
     return `<tr>
-      <td style="color:var(--tx-faint);font-size:11px">${i+1}</td>
-      <td class="mono" style="font-size:11px;white-space:nowrap">${tr.date}</td>
+      <td style="color:var(--tx-faint)">${i+1}</td>
+      <td class="mono" style="white-space:nowrap">${tr.date}</td>
       <td>${jamH}</td>
       <td>${sessionBadge(tr.session)}</td>
       <td style="font-weight:500">${tr.pair||'—'}</td>
       <td>${sH}</td>
       <td><span class="badge ${tr.direction==='BUY'?'b-info':'b-err'}">${tr.direction}</span></td>
-      <td class="mono" style="font-size:11px">${tr.entryPrice||'—'}</td>
-      <td class="mono dn" style="font-size:11px">${tr.stopLoss||'—'}</td>
-      <td class="mono up" style="font-size:11px">${tr.takeProfit||'—'}</td>
+      <td class="mono">${tr.entryPrice||'—'}</td>
+      <td class="mono dn">${tr.stopLoss||'—'}</td>
+      <td class="mono up">${tr.takeProfit||'—'}</td>
       <td>${cH}</td>
-      <td class="mono" style="font-size:11px">${tr.lotSize||'—'}</td>
+      <td class="mono">${tr.lotSize||'—'}</td>
       <td>${pH}</td>
       <td>${resultBadge(tr.result)}</td>
-      <td class="mono" style="font-size:11px">${tr.rr?`1:${tr.rr}`:'—'}</td>
+      <td class="mono">${tr.rr?`1:${tr.rr}`:'—'}</td>
       <td>${psH}</td>
       <td style="white-space:nowrap">
         <button class="btn btn-ghost btn-icon" onclick="openDetail('${tr.id}','${mode}')" style="width:26px;height:26px">
@@ -2484,32 +3014,99 @@ function renderJournal(mode) {
 // ════════════════════════════════════════
 function renderDashboard(mode) {
   const closed = state.trades.filter(t=>t.mode===mode&&t.pnl!==null&&t.result);
-  const totalPnl = closed.reduce((s,t)=>s+(t.pnl||0),0);
-  // For live mode, equity includes transactions
-  const equity = mode==='live' ? getEquity() : (1000 + totalPnl);
-  const wins   = closed.filter(t=>t.result==='WIN').length;
-  const losses = closed.filter(t=>t.result==='LOSS').length;
-  const bes    = closed.filter(t=>t.result==='BE').length;
-  const wr     = closed.length?((wins/closed.length)*100).toFixed(1):null;
-  const rrs    = closed.filter(t=>t.rr);
-  const avgRR  = rrs.length?(rrs.reduce((s,t)=>s+t.rr,0)/rrs.length).toFixed(2):null;
+  const cur    = getDefaultCurrency();
+  const isIDR  = cur === 'IDR';
+  const rate   = state.settings.usdIdr || 16000;
 
-  // Stats
-  const eqEl = document.getElementById(`sEq-${mode}`);
-  if(eqEl){ eqEl.textContent=fmtUSD(mode==='live'?equity:totalPnl); eqEl.className=`stat-val${totalPnl>0?' up':totalPnl<0?' dn':''}`; }
+  // P&L grouped by currency
+  const pnlByCurrency = {};
+  closed.forEach(tr => {
+    const c = getInstrumentCfg(tr.instrumentType).currency;
+    pnlByCurrency[c] = (pnlByCurrency[c]||0) + (tr.pnl||0);
+  });
+  const totalPnlUSD = pnlByCurrency['USD']||0;
+  const totalPnlIDR = pnlByCurrency['IDR']||0;
+  const hasIDR = closed.some(tr => getInstrumentCfg(tr.instrumentType).currency==='IDR');
+  const hasUSD = closed.some(tr => getInstrumentCfg(tr.instrumentType).currency==='USD');
+
+  // Total P&L converted to defaultCurrency (ALL trades)
+  const totalPnlInCur = closed.reduce((s,tr) => s + pnlInDefaultCur(tr), 0);
+
+  // Equity in defaultCurrency
+  const capitalInCur = isIDR ? usdToIdr(state.settings.initialCapital||1000) : (state.settings.initialCapital||1000);
+  const primaryEq    = mode==='live' ? capitalInCur + totalPnlInCur : totalPnlInCur;
+  const primaryPnl   = totalPnlInCur;
+
+  const wins  = closed.filter(t=>t.result==='WIN').length;
+  const losses= closed.filter(t=>t.result==='LOSS').length;
+  const bes   = closed.filter(t=>t.result==='BE').length;
+  const wr    = closed.length?((wins/closed.length)*100).toFixed(1):null;
+  const rrs   = closed.filter(t=>t.rr);
+  const avgRR = rrs.length?(rrs.reduce((s,t)=>s+t.rr,0)/rrs.length).toFixed(2):null;
+
+  // ── Equity card ──
+  const eqEl  = document.getElementById(`sEq-${mode}`);
   const eqHEl = document.getElementById(`sEqH-${mode}`);
-  if(eqHEl) eqHEl.textContent = totalPnl!==0?`${fmtUSD(totalPnl,true)} ${t('dashboard.fromCapital')}`:t('empty.minTrades').replace('Min. 2 trade','—');
+  if(eqEl) {
+    eqEl.textContent = fmtCurrency(primaryEq, cur, false);
+    eqEl.className   = `stat-val mono${primaryPnl>0?' up':primaryPnl<0?' dn':''}`;
+    eqEl.style.fontSize = '';
+  }
+  if(eqHEl) {
+    if(mode==='live') {
+      const d    = primaryEq - capitalInCur;
+      const pct  = capitalInCur ? ((d / capitalInCur) * 100).toFixed(2) : '0.00';
+      const sign = d >= 0 ? '+' : '';
+      const clr  = d > 0 ? 'var(--grn)' : d < 0 ? 'var(--red)' : 'var(--tx-muted)';
+      eqHEl.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="color:var(--tx-faint);font-size:11px">${t('dashboard.fromCapital')}</span>
+          <span style="color:${clr};font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace">${sign}${fmtCurrency(d,cur,false)}</span>
+          <span style="color:${clr};font-size:11px;background:${d>0?'var(--grn-muted)':d<0?'var(--red-muted)':'var(--bg-muted)'};padding:1px 6px;border-radius:4px">${sign}${pct}%</span>
+        </div>`;
+    } else {
+      eqHEl.textContent = '—';
+    }
+  }
+
+  // ── Win Rate card ──
   const wrEl = document.getElementById(`sWR-${mode}`);
   if(wrEl){ wrEl.textContent=wr?`${wr}%`:'—'; wrEl.className=`stat-val${wr>=50?' up':wr!==null?' dn':''}`; }
   const nEl = document.getElementById(`sN-${mode}`); if(nEl) nEl.textContent=closed.length;
-  const pEl = document.getElementById(`sPnl-${mode}`);
-  if(pEl){ pEl.textContent=fmtUSD(totalPnl,true); pEl.className=`stat-val${totalPnl>0?' up':totalPnl<0?' dn':''}`; }
+
+  // ── Total P&L card ──
+  const pEl  = document.getElementById(`sPnl-${mode}`);
+  const pHEl = document.getElementById(`sPnlH-${mode}`);
+  if(pEl) {
+    pEl.textContent = fmtCurrency(primaryPnl, cur, true);
+    pEl.className   = `stat-val mono${primaryPnl>0?' up':primaryPnl<0?' dn':''}`;
+    pEl.style.fontSize = '';
+  }
+  if(pHEl) {
+    const hasAny = hasIDR || hasUSD;
+    if(!isIDR && hasAny) {
+      // Default USD — subtitle: total semua dalam IDR equiv
+      const totalIDRequiv = totalPnlIDR + usdToIdr(totalPnlUSD);
+      pHEl.textContent = totalIDRequiv !== 0
+        ? `≈ ${fmtCurrency(totalIDRequiv,'IDR',true)}`
+        : '—';
+    } else if(isIDR && hasAny) {
+      // Default IDR — subtitle: total semua dalam USD equiv
+      const totalUSDequiv = totalPnlUSD + idrToUsd(totalPnlIDR);
+      pHEl.textContent = totalUSDequiv !== 0
+        ? `≈ ${fmtUSD(totalUSDequiv,true)}`
+        : '—';
+    } else {
+      pHEl.textContent = '—';
+    }
+  }
+
+  // ── Avg R:R card ──
   const rrEl = document.getElementById(`sRR-${mode}`); if(rrEl) rrEl.textContent=avgRR?`1:${avgRR}`:'—';
-  // Date
-  const dateEl = document.getElementById(`${mode==='live'?'live':mode}-dash-date`); if(dateEl) dateEl.textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
   renderDonut(mode,wins,losses,bes,closed.length);
   renderEquityCurve(mode,closed);
+  renderInstrumentBreakdown(mode);
   renderDailyPerf(mode,closed);
   renderMonthlyPerf(mode,closed);
   renderPsychGrid(mode);
@@ -2518,46 +3115,120 @@ function renderDashboard(mode) {
 }
 
 function updateSidebarEquity() {
-  const eq = getEquity();
-  document.getElementById('sb-equity-val').textContent = eq.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const cur    = getDefaultCurrency();
+  const isIDR  = cur === 'IDR';
+  const symEl  = document.getElementById('sb-equity-sym');
+  const valEl  = document.getElementById('sb-equity-val');
+  if(!valEl) return;
+
+  const closed = state.trades.filter(t => t.mode==='live' && t.pnl!==null && t.result);
+  const totalPnlInCur = closed.reduce((s,tr) => s + pnlInDefaultCur(tr), 0);
+  const capitalInCur  = isIDR
+    ? usdToIdr(state.settings.initialCapital || 1000)
+    : (state.settings.initialCapital || 1000);
+  const equity = capitalInCur + totalPnlInCur;
+
+  if(symEl) symEl.textContent = isIDR ? 'Rp' : '$';
+  valEl.textContent = isIDR
+    ? Math.round(equity).toLocaleString('id-ID')
+    : equity.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
 // bezier equity curve
+// Update currency info chip when toggle changes
+function updateCurInfo(infoId, cur) {
+  const el = document.getElementById(infoId); if(!el) return;
+  el.setAttribute('data-cur', cur);
+  const dot   = el.querySelector('.cur-info-dot');
+  const label = el.querySelector('.cur-info-label');
+  if(cur === 'USD') {
+    if(dot) dot.style.background = 'var(--blu)';
+    if(label) label.textContent = t('cur.usdTip');
+  } else if(cur === 'IDR') {
+    if(dot) dot.style.background = 'var(--grn)';
+    if(label) label.textContent = t('cur.idrTip');
+  } else {
+    if(dot) dot.style.background = 'var(--tx-faint)';
+    if(label) label.textContent = t('cur.allTip');
+  }
+}
+function setEqCur(mode, cur, btn) { /* removed - using defaultCurrency */ }
+
 function renderEquityCurve(mode, sorted) {
   const wrap  = document.getElementById(`eqWrap-${mode}`);
   const axis  = document.getElementById(`eqAxis-${mode}`);
   const delta = document.getElementById(`eqDelta-${mode}`);
   const range = document.getElementById(`eqRange-${mode}`);
-  const base  = mode==='live' ? state.settings.initialCapital : 1000;
+
+  const cur   = getDefaultCurrency();
+  const isIDR = cur === 'IDR';
+  const fmt   = (v, sign=false) => fmtCurrency(v, cur, sign);
+  const sym   = isIDR ? 'Rp' : '$';
+
+  // Use ALL trades, convert each P&L to defaultCurrency
+  // Base: USD mode uses initialCapital; IDR mode starts from 0
+  const base = !isIDR && mode==='live' ? state.settings.initialCapital : 0;
 
   if(!wrap) return;
-  if(sorted.length<2){
+  if(sorted.length < 2) {
     wrap.innerHTML=`<div class="empty" style="padding:12px 0"><div class="empty-ico">📈</div><div class="empty-d">${t('empty.minTrades')}</div></div>`;
-    if(delta) delta.textContent='—'; if(axis) axis.innerHTML=''; if(range) range.textContent='—';
+    if(delta) delta.textContent='—';
+    if(axis)  axis.innerHTML='';
+    if(range) range.textContent='—';
     return;
   }
-  const byDate = [...sorted].sort((a,b)=>a.date.localeCompare(b.date));
-  let eq = base;
-  const pts = [{eq,label:'Start'}];
-  byDate.forEach(tr=>{ eq+=tr.pnl; pts.push({eq,label:tr.date.slice(5)}); });
 
-  const W=600,H=108,PX=0,PY=10,PAD=0.12;
-  const eqs=pts.map(p=>p.eq),minE=Math.min(...eqs),maxE=Math.max(...eqs),rng=maxE-minE||10;
-  const xs=pts.map((_,i)=>PX+i*((W-PX*2)/(pts.length-1)));
-  const ys=pts.map(p=>PY+(1-((p.eq-minE)/rng*(1-PAD*2))-PAD)*(H-PY*2));
-  const coords=xs.map((x,i)=>[x,ys[i]]);
-  const lineD=bezPath(coords);
-  const areaD=lineD+` L${xs[xs.length-1]},${H+2} L${PX},${H+2} Z`;
-  const d=pts[pts.length-1].eq-base;
-  if(delta){ delta.textContent=`${d>=0?'+':''}${fmtUSD(d)}`; delta.className=`badge mono ${d>=0?'b-ok':'b-err'}`; }
-  if(range) range.textContent=`${fmtUSD(minE)} – ${fmtUSD(maxE)}`;
-  const isUp=d>=0,col=isUp?'var(--grn)':'var(--red)',cr=isUp?'34,197,94':'239,68,68';
+  const byDate = [...sorted].sort((a,b) => a.date.localeCompare(b.date));
+  let eq = base;
+  const pts = [{eq, label:'Start'}];
+  byDate.forEach(tr => { eq += pnlInDefaultCur(tr); pts.push({eq, label:tr.date.slice(5)}); });
+
+  const W=600, H=108, PX=0, PY=10, PAD=0.12;
+  const eqs = pts.map(p=>p.eq);
+  const minE = Math.min(...eqs), maxE = Math.max(...eqs), rng = maxE-minE||10;
+  const xs = pts.map((_,i) => PX + i*((W-PX*2)/(pts.length-1)));
+  const ys = pts.map(p => PY + (1-((p.eq-minE)/rng*(1-PAD*2))-PAD)*(H-PY*2));
+  const coords = xs.map((x,i) => [x,ys[i]]);
+  const lineD  = bezPath(coords);
+  const areaD  = lineD+` L${xs[xs.length-1]},${H+2} L${PX},${H+2} Z`;
+  const d = pts[pts.length-1].eq - base;
+
+  if(delta){ delta.textContent=`${d>=0?'+':''}${fmt(d)}`; delta.className=`badge mono ${d>=0?'b-ok':'b-err'}`; }
+  if(range) range.textContent=`${fmt(minE)} – ${fmt(maxE)}`;
+
+  const isUp=d>=0, col=isUp?'var(--grn)':'var(--red)', cr=isUp?'34,197,94':'239,68,68';
+
+  // Grid lines with currency-aware labels
   let grids='';
-  [.25,.5,.75].forEach(f=>{const gy=PY+f*(H-PY*2),v=maxE-f*rng;grids+=`<line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="var(--border)" stroke-width=".6" stroke-dasharray="4,4"/><text x="4" y="${gy-2}" font-size="7" fill="var(--tx-faint)" font-family="JetBrains Mono">$${v.toFixed(0)}</text>`;});
-  const dots=coords.slice(1,-1).map(c=>`<circle cx="${c[0]}" cy="${c[1]}" r="1.5" fill="${col}" opacity=".4"/>`).join('');
-  const lx=coords[coords.length-1][0],ly=coords[coords.length-1][1];
-  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="eq-svg" style="overflow:visible"><defs><linearGradient id="eg-${mode}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgb(${cr})" stop-opacity=".14"/><stop offset="85%" stop-color="rgb(${cr})" stop-opacity=".02"/><stop offset="100%" stop-color="rgb(${cr})" stop-opacity="0"/></linearGradient></defs>${grids}<path d="${areaD}" fill="url(#eg-${mode})"/><path d="${lineD}" fill="none" stroke="${col}" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>${dots}<circle cx="${lx}" cy="${ly}" r="4" fill="${col}" opacity=".18"/><circle cx="${lx}" cy="${ly}" r="2.5" fill="${col}"/></svg>`;
-  if(axis){ const show=[0,Math.floor(pts.length/2),pts.length-1]; axis.innerHTML=show.map(i=>`<span>${pts[i].label}</span>`).join(''); }
+  [.25,.5,.75].forEach(f=>{
+    const gy=PY+f*(H-PY*2), v=maxE-f*rng;
+    const vFmt = isIDR
+      ? `${sym}${(v/1000).toFixed(0)}k`
+      : `${sym}${v.toFixed(0)}`;
+    grids+=`<line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="var(--border)" stroke-width=".6" stroke-dasharray="4,4"/><text x="4" y="${gy-2}" font-size="7" fill="var(--tx-faint)" font-family="JetBrains Mono">${vFmt}</text>`;
+  });
+
+  const dots = coords.slice(1,-1).map(c=>`<circle cx="${c[0]}" cy="${c[1]}" r="1.5" fill="${col}" opacity=".4"/>`).join('');
+  const lx=coords[coords.length-1][0], ly=coords[coords.length-1][1];
+
+  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" class="eq-svg" style="overflow:visible">
+    <defs><linearGradient id="eg-${mode}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgb(${cr})" stop-opacity=".14"/>
+      <stop offset="85%" stop-color="rgb(${cr})" stop-opacity=".02"/>
+      <stop offset="100%" stop-color="rgb(${cr})" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${grids}
+    <path d="${areaD}" fill="url(#eg-${mode})"/>
+    <path d="${lineD}" fill="none" stroke="${col}" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}
+    <circle cx="${lx}" cy="${ly}" r="4" fill="${col}" opacity=".18"/>
+    <circle cx="${lx}" cy="${ly}" r="2.5" fill="${col}"/>
+  </svg>`;
+
+  if(axis){
+    const show=[0, Math.floor(pts.length/2), pts.length-1];
+    axis.innerHTML=show.map(i=>`<span>${pts[i].label}</span>`).join('');
+  }
 }
 
 function renderDonut(mode,w,l,be,total) {
@@ -2576,64 +3247,141 @@ function renderDonut(mode,w,l,be,total) {
   setVal(`lpct-${mode}-be`,total?Math.round(be/total*100)+'%':'');
 }
 
-function miniBar(data,elId) {
-  const el=document.getElementById(elId); if(!el) return;
-  if(!data.length){el.innerHTML='<div style="color:var(--tx-faint);font-size:11px;padding-bottom:6px">—</div>';return;}
-  const maxA=Math.max(...data.map(d=>Math.abs(d.val)),1);
-  el.innerHTML=`<div class="bars">${data.map(d=>{const h=Math.max(2,Math.abs(d.val)/maxA*60),col=d.val>=0?'var(--grn)':'var(--red)',v=d.val!==0?(d.val>0?'+':'')+Math.round(d.val):'0';return`<div class="bc"><div class="bv" style="color:${col}">${v}</div><div class="bf" style="height:${h}px;background:${col};opacity:.7"></div><div class="bl">${d.label}</div></div>`;}).join('')}</div>`;
+function miniBar(data, elId) {
+  const el = document.getElementById(elId); if(!el) return;
+  if(!data.length){el.innerHTML='<div style="color:var(--tx-faint);padding-bottom:6px">—</div>';return;}
+  const isIDR = getDefaultCurrency() === 'IDR';
+  const maxA  = Math.max(...data.map(d=>Math.abs(d.val)),1);
+  el.innerHTML=`<div class="bars">${data.map(d=>{
+    const h   = Math.max(2,Math.abs(d.val)/maxA*60);
+    const col = d.val>=0?'var(--grn)':'var(--red)';
+    const v   = d.val!==0
+      ? (isIDR
+        ? (d.val>0?'+':'')+Math.round(d.val/1000)+'k'
+        : (d.val>0?'+':'')+Math.round(d.val))
+      : '0';
+    return`<div class="bc"><div class="bv" style="color:${col}">${v}</div><div class="bf" style="height:${h}px;background:${col};opacity:.7"></div><div class="bl">${d.label}</div></div>`;
+  }).join('')}</div>`;
 }
 
-function renderDailyPerf(mode,closed) {
-  const map={};
-  closed.forEach(tr=>{if(!map[tr.date])map[tr.date]={pnl:0,wins:0,n:0};map[tr.date].pnl+=tr.pnl;map[tr.date].n++;if(tr.result==='WIN')map[tr.date].wins++;});
-  const sorted=Object.entries(map).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,10);
-  miniBar(sorted.slice(0,10).reverse().map(([d,v])=>({val:v.pnl,label:d.slice(8)})),`dBars-${mode}`);
-  const tb=document.getElementById(`dBody-${mode}`); if(!tb) return;
-  tb.innerHTML=sorted.map(([date,d])=>`<tr><td class="mono" style="font-size:11px">${date.slice(5)}</td><td>${d.n}</td><td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono">${fmtUSD(d.pnl,true)}</td><td>${d.n?Math.round(d.wins/d.n*100)+'%':'—'}</td></tr>`).join('');
+function setPerfCur(type, mode, cur, btn) { /* removed - using defaultCurrency */ }
+
+// Convert any trade's P&L to the defaultCurrency
+function renderDailyPerf(mode, closed) {
+  const cur  = getDefaultCurrency();
+  const isIDR = cur === 'IDR';
+
+  const map = {};
+  closed.forEach(tr => {
+    if(!map[tr.date]) map[tr.date] = {pnl:0, wins:0, n:0};
+    map[tr.date].pnl += pnlInDefaultCur(tr);
+    map[tr.date].n++;
+    if(tr.result==='WIN') map[tr.date].wins++;
+  });
+  const sorted = Object.entries(map).sort((a,b) => b[0].localeCompare(a[0]));
+  miniBar(sorted.slice(0,10).reverse().map(([d,v]) => ({val:v.pnl, label:d.slice(8)})), `dBars-${mode}`);
+  const tb = document.getElementById(`dBody-${mode}`); if(!tb) return;
+  tb.innerHTML = sorted.map(([date,d]) =>
+    `<tr><td class="mono">${date.slice(5)}</td><td>${d.n}</td>
+    <td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono">${fmtCurrency(d.pnl, cur, true)}</td>
+    <td>${d.n?Math.round(d.wins/d.n*100)+'%':'—'}</td></tr>`
+  ).join('');
 }
 
-function renderMonthlyPerf(mode,closed) {
-  const MN=state.settings.language==='id'?MONTHS_ID:MONTHS_EN;
-  const map={};
-  closed.forEach(tr=>{const m=tr.date.slice(0,7);if(!map[m])map[m]={pnl:0,wins:0,n:0};map[m].pnl+=tr.pnl;map[m].n++;if(tr.result==='WIN')map[m].wins++;});
-  const sorted=Object.entries(map).sort((a,b)=>b[0].localeCompare(a[0]));
-  miniBar(sorted.slice(0,6).reverse().map(([m,v])=>({val:v.pnl,label:MN[parseInt(m.split('-')[1])-1]})),`mBars-${mode}`);
-  const tb=document.getElementById(`mBody-${mode}`); if(!tb) return;
-  tb.innerHTML=sorted.map(([ym,d])=>{const[y,mo]=ym.split('-');return`<tr><td style="font-weight:500;font-size:11px">${MN[parseInt(mo)-1]} ${y}</td><td>${d.n}</td><td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono">${fmtUSD(d.pnl,true)}</td><td>${d.n?Math.round(d.wins/d.n*100)+'%':'—'}</td></tr>`;}).join('');
+function renderMonthlyPerf(mode, closed) {
+  const cur  = getDefaultCurrency();
+  const isIDR = cur === 'IDR';
+  const MN   = _lang==='id' ? MONTHS_ID : MONTHS_EN;
+
+  const map = {};
+  closed.forEach(tr => {
+    const m = tr.date.slice(0,7);
+    if(!map[m]) map[m] = {pnl:0, wins:0, n:0};
+    map[m].pnl += pnlInDefaultCur(tr);
+    map[m].n++;
+    if(tr.result==='WIN') map[m].wins++;
+  });
+  const sorted = Object.entries(map).sort((a,b) => b[0].localeCompare(a[0]));
+  miniBar(sorted.slice(0,6).reverse().map(([m,v]) => ({val:v.pnl, label:MN[parseInt(m.split('-')[1])-1]})), `mBars-${mode}`);
+  const tb = document.getElementById(`mBody-${mode}`); if(!tb) return;
+  tb.innerHTML = sorted.map(([ym,d]) => {
+    const [y,mo] = ym.split('-');
+    return`<tr><td style="font-weight:500">${MN[parseInt(mo)-1]} ${y}</td><td>${d.n}</td>
+    <td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono">${fmtCurrency(d.pnl, cur, true)}</td>
+    <td>${d.n?Math.round(d.wins/d.n*100)+'%':'—'}</td></tr>`;
+  }).join('');
 }
 
 function renderPsychGrid(mode) {
   const map={};
   state.trades.filter(t=>t.mode===mode).forEach(tr=>(tr.psychology||[]).forEach(p=>{if(!map[p])map[p]={n:0,wins:0,total:0};map[p].n++;if(tr.result){map[p].total++;if(tr.result==='WIN')map[p].wins++;}}));
   const el=document.getElementById(`psych-${mode}`); if(!el) return;
-  if(!Object.keys(map).length){el.innerHTML='<span style="font-size:12px;color:var(--tx-faint)">—</span>';return;}
+  if(!Object.keys(map).length){el.innerHTML='<span style="font-size:13px;color:var(--tx-faint)">—</span>';return;}
   el.innerHTML=Object.entries(map).sort((a,b)=>b[1].n-a[1].n).map(([k,v])=>{
     const wr=v.total?Math.round(v.wins/v.total*100):null;
     const wrc=wr!=null?(wr>=50?'var(--grn)':'var(--red)'):'var(--tx-muted)';
     return`<div style="background:var(--bg-muted);border:1px solid var(--border);border-radius:var(--radius);padding:11px 13px;min-width:114px;flex:0 0 auto">
       <div style="font-size:13px;margin-bottom:3px">${k}</div>
-      <div style="font-size:11px;color:var(--tx-muted)">${v.n}× muncul</div>
-      ${wr!=null?`<div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:8px"><div style="height:100%;border-radius:2px;width:${wr}%;background:${wrc}"></div></div><div style="font-size:11px;font-weight:600;color:${wrc};margin-top:4px">WR ${wr}%</div>`:''}
+      <div style="font-size:12px;color:var(--tx-muted)">${v.n}× muncul</div>
+      ${wr!=null?`<div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:8px"><div style="height:100%;border-radius:2px;width:${wr}%;background:${wrc}"></div></div><div style="font-size:12px;font-weight:600;color:${wrc};margin-top:4px">WR ${wr}%</div>`:''}
     </div>`;
   }).join('');
 }
 
-function renderSessionGrid(mode,closed) {
-  const el=document.getElementById(`sess-${mode}`); if(!el) return;
-  const withSess=closed.filter(t=>t.session&&t.result);
-  if(!withSess.length){el.innerHTML=`<div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d">${t('empty.noSession')}</div></div>`;return;}
-  const map={};
-  Object.keys(SESSION_CFG).forEach(k=>{map[k]={wins:0,losses:0,bes:0,pnl:0,rrs:[]};});
-  withSess.forEach(tr=>{const s=tr.session||'offmarket';if(!map[s])map[s]={wins:0,losses:0,bes:0,pnl:0,rrs:[]};if(tr.result==='WIN'){map[s].wins++;if(tr.rr)map[s].rrs.push(tr.rr);}else if(tr.result==='LOSS')map[s].losses++;else map[s].bes++;if(tr.pnl!=null)map[s].pnl+=tr.pnl;});
-  const active=Object.entries(map).filter(([,v])=>v.wins+v.losses+v.bes>0);
-  el.innerHTML=`<div class="sess-grid">${active.map(([sk,d])=>{
-    const s=SESSION_CFG[sk]||SESSION_CFG.offmarket;
-    const total=d.wins+d.losses+d.bes;
-    const wr=total?Math.round(d.wins/total*100):null;
-    const avgRR=d.rrs.length?(d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2):null;
-    const wrc=wr!=null?(wr>=50?'var(--grn)':'var(--red)'):'var(--tx-muted)';
-    return`<div class="sess-card">
-      <div class="sess-hd"><div class="sess-name"><div class="sess-dot" style="background:${s.color}"></div>${s.name}</div><span class="sess-time">${s.time}</span></div>
+const sessCurState = {}; // 'live' -> 'all'|instrument key
+
+function setSessInst(mode, inst) {
+  sessCurState[mode] = inst;
+  const closed = state.trades.filter(t => t.mode===mode && t.pnl!==null && t.result);
+  renderSessionGrid(mode, closed);
+}
+
+function renderSessionGrid(mode, closed) {
+  const el = document.getElementById(`sess-${mode}`); if(!el) return;
+  const inst = sessCurState[mode] || 'all';
+
+  // Filter by instrument type
+  const filtered = inst === 'all'
+    ? closed.filter(t => t.session && t.result)
+    : closed.filter(t => t.session && t.result && (t.instrumentType||'gold_forex') === inst);
+
+  if(!filtered.length) {
+    el.innerHTML=`<div class="empty" style="padding:24px 0"><div class="empty-ico" style="font-size:22px">🕐</div><div class="empty-d">${t('empty.noSession')}</div></div>`;
+    return;
+  }
+
+  const map = {};
+  filtered.forEach(tr => {
+    const sk = tr.session || 'offmarket';
+    if(!map[sk]) map[sk] = {wins:0, losses:0, bes:0, pnlUSD:0, pnlIDR:0, rrs:[]};
+    if(tr.result==='WIN')        { map[sk].wins++;   if(tr.rr) map[sk].rrs.push(tr.rr); }
+    else if(tr.result==='LOSS')    map[sk].losses++;
+    else                           map[sk].bes++;
+    const cur = getInstrumentCfg(tr.instrumentType).currency;
+    if(cur==='IDR') map[sk].pnlIDR += (tr.pnl||0);
+    else            map[sk].pnlUSD += (tr.pnl||0);
+  });
+
+  const active = Object.entries(map).filter(([,v]) => v.wins+v.losses+v.bes > 0);
+  const isIDR = inst === 'stock_idx';
+
+  el.innerHTML = `<div class="sess-grid">${active.map(([sk, d]) => {
+    const s     = SESSION_CFG[sk] || SESSION_CFG.offmarket;
+    const total = d.wins + d.losses + d.bes;
+    const wr    = total ? Math.round(d.wins/total*100) : null;
+    const avgRR = d.rrs.length ? (d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2) : null;
+    const wrc   = wr!=null ? (wr>=50?'var(--grn)':'var(--red)') : 'var(--tx-muted)';
+    const pnlDisplay = isIDR
+      ? fmtCurrency(d.pnlIDR, 'IDR', true)
+      : d.pnlIDR!==0 && d.pnlUSD!==0
+        ? `${fmtCurrency(d.pnlUSD,'USD',true)} / ${fmtCurrency(d.pnlIDR,'IDR',true)}`
+        : fmtCurrency(d.pnlUSD, 'USD', true);
+
+    return `<div class="sess-card">
+      <div class="sess-hd">
+        <div class="sess-name"><div class="sess-dot" style="background:${s.color}"></div>${s.name}</div>
+        <span class="sess-time">${s.time}</span>
+      </div>
       <div class="sess-wr" style="color:${wrc}">${wr!=null?wr+'%':'—'}</div>
       <div class="sess-sub">${total} trade${avgRR?` · avg RR 1:${avgRR}`:''}</div>
       <div class="sess-prog"><div class="sess-prog-fill" style="width:${wr??0}%;background:${wrc}"></div></div>
@@ -2641,7 +3389,7 @@ function renderSessionGrid(mode,closed) {
         <span class="sess-wl-p" style="background:var(--grn-muted);color:var(--grn-fg)">${d.wins}W</span>
         <span class="sess-wl-p" style="background:var(--red-muted);color:var(--red-fg)">${d.losses}L</span>
         <span class="sess-wl-p" style="background:var(--ylw-muted);color:var(--ylw-fg)">${d.bes}BE</span>
-        <span class="sess-wl-p" style="background:var(--bg-muted);color:var(--tx-muted);margin-left:auto">${fmtUSD(d.pnl,true)}</span>
+        <span class="sess-wl-p" style="background:var(--bg-muted);color:var(--tx-muted);margin-left:auto">${pnlDisplay}</span>
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -2651,38 +3399,180 @@ function renderSessionGrid(mode,closed) {
 // ANALYSIS (Setup)
 // ════════════════════════════════════════
 function renderAnalysis(mode) {
-  const el=document.getElementById(`analysis-${mode}`); if(!el) return;
-  const map={};
-  state.trades.filter(t=>t.mode===mode&&t.setup).forEach(tr=>{
-    const s=tr.setup;
-    if(!map[s])map[s]={n:0,closed:0,wins:0,losses:0,bes:0,pnl:0,rrs:[]};
+  const el = document.getElementById(`analysis-${mode}`); if(!el) return;
+
+  // Get current instrument filter from dropdown (if exists)
+  const instSel = document.getElementById(`analysis-inst-${mode}`);
+  const instFilter = instSel ? instSel.value : 'all';
+
+  // Filter trades
+  let trades = state.trades.filter(t => t.mode===mode && t.setup);
+  if(instFilter !== 'all') trades = trades.filter(t => (t.instrumentType||'gold_forex') === instFilter);
+
+  if(!trades.length) {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        ${buildAnalysisToolbar(mode, instFilter)}
+      </div>
+      <div class="empty" style="padding:80px 0"><div class="empty-ico">📊</div><div class="empty-t">${t('empty.noSetup')}</div><div class="empty-d">${t('empty.noSetupDesc')}</div></div>`;
+    bindAnalysisDropdown(mode);
+    return;
+  }
+
+  // Build map grouped by setup
+  const map = {};
+  trades.forEach(tr => {
+    const s = tr.setup;
+    const cfg = getInstrumentCfg(tr.instrumentType);
+    if(!map[s]) map[s] = {n:0, closed:0, wins:0, losses:0, bes:0, pnlUSD:0, pnlIDR:0, rrs:[], instrument: tr.instrumentType||'gold_forex'};
     map[s].n++;
-    if(tr.result){map[s].closed++;if(tr.result==='WIN'){map[s].wins++;if(tr.rr)map[s].rrs.push(tr.rr);}if(tr.result==='LOSS')map[s].losses++;if(tr.result==='BE')map[s].bes++;if(tr.pnl!=null)map[s].pnl+=tr.pnl;}
+    if(tr.result) {
+      map[s].closed++;
+      if(tr.result==='WIN') { map[s].wins++; if(tr.rr) map[s].rrs.push(tr.rr); }
+      if(tr.result==='LOSS') map[s].losses++;
+      if(tr.result==='BE')   map[s].bes++;
+      if(tr.pnl!=null) {
+        if(cfg.currency==='IDR') map[s].pnlIDR += tr.pnl;
+        else                     map[s].pnlUSD += tr.pnl;
+      }
+    }
   });
-  if(!Object.keys(map).length){el.innerHTML=`<div class="empty" style="padding:80px 0"><div class="empty-ico">📊</div><div class="empty-t">${t('empty.noSetup')}</div><div class="empty-d">${t('empty.noSetupDesc')}</div></div>`;return;}
-  const sorted=Object.entries(map).sort((a,b)=>b[1].pnl-a[1].pnl);
-  const best=sorted[0][0],maxP=Math.max(...sorted.map(([,v])=>Math.abs(v.pnl)),1);
-  el.innerHTML=`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px"><span class="badge b-ok" style="height:22px;padding:0 9px;font-size:11px">🏆 ${t('analysis.best')}: ${best}</span><span class="badge b-sec" style="height:22px;padding:0 9px;font-size:11px">${Object.keys(map).length} ${t('analysis.setups')}</span></div>
-  <div class="sc-grid">${sorted.map(([name,d])=>{const wr=d.closed?Math.round(d.wins/d.closed*100):null,avgRR=d.rrs.length?(d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2):null,isBest=name===best,pPct=Math.abs(d.pnl)/maxP*100;return`<div class="sc${isBest?' best':''}"><div class="sc-name">${isBest?'🏆 ':''}${name}</div><div class="sc-prog"><div class="sc-prog-fill" style="width:${pPct}%;background:${d.pnl>=0?'var(--grn)':'var(--red)'}"></div></div><div class="sc-row"><span class="sc-k">Trade</span><span class="sc-v">${d.n}</span></div><div class="sc-row"><span class="sc-k">Win Rate</span><span class="sc-v" style="color:${wr!=null?(wr>=50?'var(--grn)':'var(--red)'):'var(--tx-muted)'}">${wr!=null?wr+'%':'—'}</span></div><div class="sc-row"><span class="sc-k">Avg R:R</span><span class="sc-v">${avgRR?`1:${avgRR}`:'—'}</span></div><div class="sc-row"><span class="sc-k">P&L</span><span class="sc-v" style="color:${d.pnl>0?'var(--grn)':d.pnl<0?'var(--red)':'var(--tx-muted)'}">${fmtUSD(d.pnl,true)}</span></div><div class="sc-wl"><span class="wl-p" style="background:var(--grn-muted);color:var(--grn-fg)">${d.wins}W</span><span class="wl-p" style="background:var(--red-muted);color:var(--red-fg)">${d.losses}L</span><span class="wl-p" style="background:var(--ylw-muted);color:var(--ylw-fg)">${d.bes}BE</span></div></div>`;}).join('')}</div>
-  <div class="tbl-wrap"><table class="main-tbl"><thead><tr><th>Setup</th><th>Total</th><th>Win</th><th>Loss</th><th>BE</th><th>Win Rate</th><th>Avg R:R</th><th>P&L</th></tr></thead><tbody>${sorted.map(([name,d])=>{const wr=d.closed?Math.round(d.wins/d.closed*100):null,avgRR=d.rrs.length?(d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2):null;return`<tr><td><span class="badge b-sec">${name}</span>${name===best?' <span class="badge b-ok" style="margin-left:4px">Best</span>':''}</td><td>${d.n}</td><td class="up" style="font-weight:500">${d.wins}</td><td class="dn" style="font-weight:500">${d.losses}</td><td class="warn" style="font-weight:500">${d.bes}</td><td class="${wr!=null&&wr>=50?'up':wr!=null?'dn':''} mono" style="font-weight:600">${wr!=null?wr+'%':'—'}</td><td class="mono">${avgRR?`1:${avgRR}`:'—'}</td><td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-weight:500">${fmtUSD(d.pnl,true)}</td></tr>`;}).join('')}</tbody></table></div>`;
+
+  // Sort by P&L descending (USD, fallback IDR converted)
+  const sorted = Object.entries(map).sort((a,b) => {
+    const pA = a[1].pnlUSD + idrToUsd(a[1].pnlIDR);
+    const pB = b[1].pnlUSD + idrToUsd(b[1].pnlIDR);
+    return pB - pA;
+  });
+
+  const best = sorted[0][0];
+  const maxP = Math.max(...sorted.map(([,v]) => Math.abs(v.pnlUSD + idrToUsd(v.pnlIDR))), 1);
+
+  // Format P&L for a setup entry
+  const fmtSetupPnl = (d, sign=true) => {
+    if(d.pnlIDR !== 0 && d.pnlUSD === 0) return fmtCurrency(d.pnlIDR, 'IDR', sign);
+    if(d.pnlIDR !== 0 && d.pnlUSD !== 0) return `${fmtUSD(d.pnlUSD, sign)} / ${fmtCurrency(d.pnlIDR,'IDR',sign)}`;
+    return fmtUSD(d.pnlUSD, sign);
+  };
+  const pnlColor = d => (d.pnlUSD + d.pnlIDR) > 0 ? 'var(--grn)' : (d.pnlUSD + d.pnlIDR) < 0 ? 'var(--red)' : 'var(--tx-muted)';
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      ${buildAnalysisToolbar(mode, instFilter)}
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="badge b-ok" style="height:22px;padding:0 9px;font-size:11px">🏆 ${t('analysis.best')}: ${best}</span>
+        <span class="badge b-sec" style="height:22px;padding:0 9px;font-size:11px">${Object.keys(map).length} ${t('analysis.setups')}</span>
+      </div>
+    </div>
+    <div class="sc-grid">${sorted.map(([name,d]) => {
+      const wr     = d.closed ? Math.round(d.wins/d.closed*100) : null;
+      const avgRR  = d.rrs.length ? (d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2) : null;
+      const isBest = name === best;
+      const pPct   = Math.abs(d.pnlUSD + idrToUsd(d.pnlIDR)) / maxP * 100;
+      const instCfg = getInstrumentCfg(d.instrument);
+      const instIcon = {gold_forex:'💰',stock_idx:'🇮🇩',stock_us:'🇺🇸',crypto:'🔗'}[d.instrument]||'📊';
+      return `<div class="sc${isBest?' best':''}">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+          <div class="sc-name" style="margin-bottom:0">${isBest?'🏆 ':''}${name}</div>
+          <span style="font-size:10px;color:var(--tx-faint)" title="${instCfg.label}">${instIcon}</span>
+        </div>
+        <div class="sc-prog"><div class="sc-prog-fill" style="width:${pPct}%;background:${(d.pnlUSD+d.pnlIDR)>=0?'var(--grn)':'var(--red)'}"></div></div>
+        <div class="sc-row"><span class="sc-k">Trade</span><span class="sc-v">${d.n}</span></div>
+        <div class="sc-row"><span class="sc-k">Win Rate</span><span class="sc-v" style="color:${wr!=null?(wr>=50?'var(--grn)':'var(--red)'):'var(--tx-muted)'}">${wr!=null?wr+'%':'—'}</span></div>
+        <div class="sc-row"><span class="sc-k">Avg R:R</span><span class="sc-v">${avgRR?`1:${avgRR}`:'—'}</span></div>
+        <div class="sc-row"><span class="sc-k">P&L</span><span class="sc-v" style="color:${pnlColor(d)}">${fmtSetupPnl(d)}</span></div>
+        <div class="sc-wl">
+          <span class="wl-p" style="background:var(--grn-muted);color:var(--grn-fg)">${d.wins}W</span>
+          <span class="wl-p" style="background:var(--red-muted);color:var(--red-fg)">${d.losses}L</span>
+          <span class="wl-p" style="background:var(--ylw-muted);color:var(--ylw-fg)">${d.bes}BE</span>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+
+  bindAnalysisDropdown(mode);
+}
+
+function buildAnalysisToolbar(mode, selected) {
+  return `<select class="fsel" id="analysis-inst-${mode}" onchange="renderAnalysis('${mode}')" style="height:30px;font-size:12px;width:auto">
+    <option value="all"${selected==='all'?' selected':''}>${t('filter.all')} ${t('inst.allInstruments')}</option>
+    <option value="gold_forex"${selected==='gold_forex'?' selected':''}>${t('inst.goldForex')}</option>
+    <option value="stock_idx"${selected==='stock_idx'?' selected':''}>${t('inst.stockIDX')}</option>
+    <option value="stock_us"${selected==='stock_us'?' selected':''}>${t('inst.stockUS')}</option>
+    <option value="crypto"${selected==='crypto'?' selected':''}>${t('inst.crypto')}</option>
+  </select>`;
+}
+
+function bindAnalysisDropdown(mode) {
+  // Dropdown already wired via onchange in HTML, no extra binding needed
 }
 
 // ════════════════════════════════════════
 // TRANSACTIONS (Live only)
 // ════════════════════════════════════════
 function openAddTransaction() {
-  document.getElementById('txDate').value = getTodayStr();
-  document.getElementById('txAmount').value = '';
-  document.getElementById('txNote').value = '';
+  document.getElementById('txDate').value    = getTodayStr();
+  document.getElementById('txAmount').value  = '';
+  document.getElementById('txNote').value    = '';
+  document.getElementById('txNote').placeholder = t('tx.notePH');
+  document.getElementById('txCurrency').value = 'USD';
   document.querySelector('input[name="txType"][value="deposit"]').checked = true;
+  const radios = document.querySelectorAll('input[name="txType"]');
+  radios.forEach(r => {
+    const lbl = r.parentElement.querySelector('[data-i18n]');
+    if(lbl) lbl.textContent = t(lbl.getAttribute('data-i18n'));
+  });
+  updateTxPreview();
   openMod('mTransaction');
 }
+
+function updateTxPreview() {
+  const amount   = parseFloat(document.getElementById('txAmount')?.value) || 0;
+  const type     = document.querySelector('input[name="txType"]:checked')?.value || 'deposit';
+  const currency = document.getElementById('txCurrency')?.value || 'USD';
+  const prev     = document.getElementById('txPreview');
+  const prevVal  = document.getElementById('txPreviewVal');
+  const prevSub  = document.getElementById('txPreviewSub');
+  if(!prev || !prevVal) return;
+  if(!amount) { prev.style.display='none'; return; }
+
+  // Convert to USD for equity calculation
+  const amountUSD = currency === 'IDR' ? idrToUsd(amount) : amount;
+  const currentEq = getEquity();
+  const newEq     = type==='deposit' ? currentEq + amountUSD : currentEq - amountUSD;
+
+  prevVal.textContent = fmtUSD(newEq);
+  prevVal.style.color = newEq >= (state.settings.initialCapital||1000) ? 'var(--grn)' : 'var(--red)';
+
+  // Show conversion info for IDR
+  if(prevSub) {
+    if(currency === 'IDR') {
+      const rate = state.settings.usdIdr || 16000;
+      prevSub.textContent = `${fmtCurrency(amount,'IDR',false)} ≈ ${fmtUSD(amountUSD)} (kurs Rp${rate.toLocaleString('id-ID')})`;
+      prevSub.style.display = '';
+    } else {
+      prevSub.style.display = 'none';
+    }
+  }
+  prev.style.display = '';
+}
 function saveTransaction() {
-  const type   = document.querySelector('input[name="txType"]:checked')?.value||'deposit';
-  const date   = document.getElementById('txDate').value;
-  const amount = parseFloat(document.getElementById('txAmount').value);
-  if(!date||isNaN(amount)||amount<=0){ showToast('error',t('toast.inputError'),t('toast.amountRequired')); return; }
-  state.transactions.push({ id:nanoid(), type, date, amount, note:document.getElementById('txNote').value.trim(), createdAt:Date.now() });
+  const type     = document.querySelector('input[name="txType"]:checked')?.value||'deposit';
+  const date     = document.getElementById('txDate').value;
+  const currency = document.getElementById('txCurrency')?.value || 'USD';
+  const rawAmt   = parseFloat(document.getElementById('txAmount').value);
+  if(!date||isNaN(rawAmt)||rawAmt<=0){ showToast('error',t('toast.inputError'),t('toast.amountRequired')); return; }
+
+  // Store original amount + currency, compute USD equivalent
+  const amountUSD = currency === 'IDR' ? idrToUsd(rawAmt) : rawAmt;
+
+  state.transactions.push({
+    id: nanoid(), type, date,
+    amount: amountUSD,        // always stored in USD for equity calc
+    origAmount: rawAmt,       // original input amount
+    origCurrency: currency,   // original currency
+    note: document.getElementById('txNote').value.trim(),
+    createdAt: Date.now()
+  });
   saveState();
   closeMod('mTransaction');
   renderTransactions();
@@ -2690,45 +3580,78 @@ function saveTransaction() {
   updateSidebarEquity();
 }
 function renderTransactions() {
-  const deps = state.transactions.filter(t=>t.type==='deposit');
-  const wds  = state.transactions.filter(t=>t.type==='withdrawal');
+  const deps     = state.transactions.filter(t=>t.type==='deposit');
+  const wds      = state.transactions.filter(t=>t.type==='withdrawal');
   const totalDep = deps.reduce((s,t)=>s+t.amount,0);
   const totalWd  = wds.reduce((s,t)=>s+t.amount,0);
-  document.getElementById('tx-initial').textContent  = fmtUSD(state.settings.initialCapital||1000);
-  document.getElementById('tx-total-dep').textContent = fmtUSD(totalDep);
-  document.getElementById('tx-dep-count').textContent = `${deps.length} transaksi`;
-  document.getElementById('tx-total-wd').textContent  = fmtUSD(totalWd);
-  document.getElementById('tx-wd-count').textContent  = `${wds.length} transaksi`;
-  const body  = document.getElementById('tx-body');
-  const empty = document.getElementById('tx-empty');
+  const txWord   = n => `${n} ${t(n===1?'tx.transaction':'tx.transactions')}`;
+
+  // Stat cards
+  document.getElementById('tx-initial').textContent       = fmtUSD(state.settings.initialCapital||1000);
+  const txInitHint = document.getElementById('tx-initial-hint');
+  if(txInitHint) txInitHint.textContent = t('tx.settingNote');
+  document.getElementById('tx-total-dep').textContent     = fmtUSD(totalDep);
+  document.getElementById('tx-dep-count').textContent     = txWord(deps.length);
+  document.getElementById('tx-total-wd').textContent      = fmtUSD(totalWd);
+  document.getElementById('tx-wd-count').textContent      = txWord(wds.length);
+
+  // Total equity card
+  const equity = getEquity();
+  const eqEl   = document.getElementById('tx-equity');
+  const eqHint = document.getElementById('tx-equity-hint');
+  if(eqEl) { eqEl.textContent = fmtUSD(equity); eqEl.className = `stat-val mono${equity>=(state.settings.initialCapital||1000)?' up':' dn'}`; }
+  if(eqHint) { const d=equity-(state.settings.initialCapital||1000); eqHint.textContent=`${fmtUSD(d,true)} ${t('dashboard.fromCapital')}`; }
+
+  // IDR P&L card
+  const { idr: idrPnl } = getPnlByCurrency('live');
+  const idrCard = document.getElementById('tx-idr-card');
+  if(idrCard) {
+    if(Math.abs(idrPnl) > 0) {
+      idrCard.style.display = '';
+      document.getElementById('tx-idr-pnl').textContent   = fmtCurrency(idrPnl, 'IDR', true);
+      document.getElementById('tx-idr-equiv').textContent = `≈ ${fmtCurrency(idrToUsd(idrPnl),'USD',true)}`;
+      const rate = state.settings.usdIdr||16000;
+      document.getElementById('tx-idr-rate').textContent  = `1 USD = Rp${rate.toLocaleString('id-ID')}`;
+    } else { idrCard.style.display = 'none'; }
+  }
+
+  // Table
+  const body   = document.getElementById('tx-body');
+  const empty  = document.getElementById('tx-empty');
   const sorted = [...state.transactions].sort((a,b)=>b.date.localeCompare(a.date));
   if(!sorted.length){ body.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
-  // Compute running equity
-  let runEq = state.settings.initialCapital||1000;
-  const tradePnlByDate = {};
-  state.trades.filter(t=>t.mode==='live'&&t.pnl!==null).forEach(t=>{
-    tradePnlByDate[t.date] = (tradePnlByDate[t.date]||0) + t.pnl;
-  });
-  // Compute equity after each tx
+
   const txsAsc = [...state.transactions].sort((a,b)=>a.createdAt-b.createdAt);
   let eq = state.settings.initialCapital||1000;
   const eqAfter = {};
   txsAsc.forEach(tx=>{ if(tx.type==='deposit') eq+=tx.amount; else eq-=tx.amount; eqAfter[tx.id]=eq; });
-  // Add live P&L
-  const totalTradePnl = state.trades.filter(t=>t.mode==='live'&&t.pnl!==null).reduce((s,t)=>s+(t.pnl||0),0);
+  const totalUsdPnl = state.trades.filter(t=>t.mode==='live'&&t.pnl!==null&&getInstrumentCfg(t.instrumentType).currency==='USD').reduce((s,t)=>s+(t.pnl||0),0);
 
   body.innerHTML = sorted.map((tx,i)=>{
-    const isDep = tx.type==='deposit';
-    const badge = isDep?'<span class="badge b-ok">💰 Deposit</span>':'<span class="badge b-err">💸 Penarikan</span>';
-    const eqA = (eqAfter[tx.id]||0) + totalTradePnl;
+    const isDep   = tx.type==='deposit';
+    const typeLbl = isDep ? `💰 ${t('tx.deposit')}` : `💸 ${t('tx.withdrawal')}`;
+    const badge   = `<span class="badge ${isDep?'b-ok':'b-err'}">${typeLbl}</span>`;
+    const eqA     = (eqAfter[tx.id]||0) + totalUsdPnl;
+
+    // Amount display: show original currency if available
+    const hasOrig  = tx.origAmount && tx.origCurrency && tx.origCurrency !== 'USD';
+    const amtPrim  = hasOrig
+      ? fmtCurrency(tx.origAmount, tx.origCurrency, false)
+      : fmtUSD(tx.amount);
+    const amtSub   = hasOrig
+      ? `<div style="font-size:11px;color:var(--tx-faint)">≈ ${fmtUSD(tx.amount)}</div>`
+      : '';
+
     return`<tr>
-      <td style="color:var(--tx-faint);font-size:11px">${i+1}</td>
-      <td class="mono" style="font-size:11px">${tx.date}</td>
+      <td style="color:var(--tx-faint)">${i+1}</td>
+      <td class="mono">${tx.date}</td>
       <td>${badge}</td>
-      <td class="${isDep?'up':'dn'} mono" style="font-weight:500">${isDep?'+':'−'}${fmtUSD(tx.amount)}</td>
-      <td style="font-size:12px;color:var(--tx-muted)">${tx.note||'—'}</td>
-      <td class="mono" style="font-size:11px">${fmtUSD(eqA)}</td>
+      <td class="${isDep?'up':'dn'} mono" style="font-weight:500">
+        ${isDep?'+':'−'}${amtPrim}${amtSub}
+      </td>
+      <td style="color:var(--tx-muted)">${tx.note||'—'}</td>
+      <td class="mono">${fmtUSD(eqA)}</td>
       <td><button class="btn btn-del btn-icon" onclick="deleteTransaction('${tx.id}')" style="width:26px;height:26px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></td>
     </tr>`;
   }).join('');
@@ -2775,7 +3698,7 @@ function renderAssets() {
       const col = d.pnl>0?'var(--grn)':d.pnl<0?'var(--red)':'var(--ylw)';
       return`<div class="asset-bar-wrap">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <span style="font-size:12px;font-weight:600">${pair}</span>
+          <span style="font-size:13px;font-weight:600">${pair}</span>
           <div style="display:flex;gap:6px;align-items:center">
             <span class="badge b-sec" style="font-size:10px">WR ${wr}%</span>
             <span class="badge b-sec" style="font-size:10px">${d.trades} trade</span>
@@ -2788,7 +3711,7 @@ function renderAssets() {
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <div class="asset-bar-track"><div class="asset-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-          <span class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-size:12px;font-weight:600;width:80px;text-align:right">${fmtUSD(d.pnl,true)}</span>
+          <span class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-size:13px;font-weight:600;width:80px;text-align:right">${fmtUSD(d.pnl,true)}</span>
         </div>
       </div>`;
     }).join('<hr style="border:none;border-top:1px solid var(--border);margin:12px 0">')}
@@ -2916,8 +3839,8 @@ function renderClSettings() {
           ${sItems.map((item,idx) => `
             <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--bg)" onmouseenter="this.style.background='var(--bg-muted)'" onmouseleave="this.style.background='var(--bg)'">
               <div style="flex:1;min-width:0">
-                <div style="font-size:12px;font-weight:500">${item.title}</div>
-                ${item.desc?`<div style="font-size:11px;color:var(--tx-muted);margin-top:1px">${item.desc}</div>`:''}
+                <div style="font-size:13px;font-weight:500">${item.title}</div>
+                ${item.desc?`<div style="font-size:12px;color:var(--tx-muted);margin-top:1px">${item.desc}</div>`:''}
               </div>
               <div style="display:flex;gap:4px;flex-shrink:0">
                 <button class="btn btn-ghost btn-icon" onclick="openEditClItem('${item.id}')" style="width:26px;height:26px">
@@ -3032,14 +3955,218 @@ function switchSettingsTab(tab, btn) {
 
 function renderSettings() {
   document.getElementById('settings-capital').value = state.settings.initialCapital||1000;
+  const usdIdrEl = document.getElementById('settings-usd-idr');
+  if(usdIdrEl) {
+    usdIdrEl.value    = state.settings.usdIdr||16000;
+    usdIdrEl.disabled = (state.settings.kursMode === 'auto');
+  }
   document.querySelectorAll('input[name="theme"]').forEach(r=>{ r.checked=(r.value===state.settings.theme); });
   document.querySelectorAll('input[name="lang"]').forEach(r=>{ r.checked=(r.value===state.settings.language); });
-  // Always start on General tab
+  document.querySelectorAll('input[name="defaultCurrency"]').forEach(r=>{ r.checked=(r.value===(state.settings.defaultCurrency||'USD')); });
+  document.querySelectorAll('input[name="kursMode"]').forEach(r=>{ r.checked=(r.value===(state.settings.kursMode||'manual')); });
+
+  // Refresh btn visibility
+  const btn = document.getElementById('kurs-refresh-btn');
+  if(btn) btn.style.display = state.settings.kursMode==='auto' ? 'inline-flex' : 'none';
+
+  // Last updated label
+  const lbl = document.getElementById('kurs-last-updated');
+  if(lbl && state.settings.kursLastFetched) {
+    const d = new Date(state.settings.kursLastFetched);
+    lbl.textContent = `${t('settings.kursUpdated')} ${d.toLocaleString(_lang==='id'?'id-ID':'en-US',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}`;
+  } else if(lbl) {
+    lbl.textContent = state.settings.kursMode==='auto' ? t('settings.kursFetchHint') : '';
+  }
+
   switchSettingsTab('general', document.querySelector('.stg-nav-item'));
 }
+function saveDefaultCurrency(cur) {
+  state.settings.defaultCurrency = cur;
+  saveState();
+  ['live','bt','pt'].forEach(mode => renderDashboard(mode));
+}
+
+function setKursMode(mode) {
+  state.settings.kursMode = mode;
+  saveState();
+  const input = document.getElementById('settings-usd-idr');
+  const btn   = document.getElementById('kurs-refresh-btn');
+  if(input) input.disabled = (mode === 'auto');
+  if(btn)   btn.style.display = (mode === 'auto') ? 'inline-flex' : 'none';
+  if(mode === 'auto') fetchLiveRate();
+}
+
+async function fetchLiveRate() {
+  const btn = document.getElementById('kurs-refresh-btn');
+  const lbl = document.getElementById('kurs-last-updated');
+  if(btn) { btn.disabled = true; btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="animation:spin .8s linear infinite"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>'; }
+  try {
+    const res  = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
+    const data = await res.json();
+    const rate = Math.round(data.usd?.idr);
+    if(!rate || rate < 1000) throw new Error('Invalid rate');
+    state.settings.usdIdr = rate;
+    state.settings.kursLastFetched = Date.now();
+    saveState();
+    const input = document.getElementById('settings-usd-idr');
+    if(input) input.value = rate;
+    if(lbl) lbl.textContent = `${t('settings.kursUpdated')} ${new Date().toLocaleTimeString(_lang==='id'?'id-ID':'en-US',{hour:'2-digit',minute:'2-digit'})}`;
+    ['live','bt','pt'].forEach(m => renderDashboard(m));
+    showToast('success', t('settings.kursSuccess'), `1 USD = Rp${rate.toLocaleString('id-ID')}`);
+  } catch(e) {
+    if(lbl) lbl.textContent = t('settings.kursFailed');
+    showToast('error', t('settings.kursFailed'), t('settings.kursFallback'));
+  } finally {
+    if(btn) { btn.disabled = false; btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>'; }
+  }
+}
+
 function saveCapital() {
   const v = parseFloat(document.getElementById('settings-capital').value);
   if(!isNaN(v)&&v>=0){ state.settings.initialCapital=v; saveState(); updateSidebarEquity(); renderDashboard('live'); renderTransactions(); }
+}
+function saveUsdIdr() {
+  const v = parseFloat(document.getElementById('settings-usd-idr').value);
+  if(!isNaN(v)&&v>0){ state.settings.usdIdr=v; saveState(); ['live','bt','pt'].forEach(m=>renderDashboard(m)); }
+}
+
+// ── Instrument breakdown card ──────────────────────────────────────────────
+function renderInstrumentBreakdown(mode) {
+  const el = document.getElementById(`inst-breakdown-${mode}`); if(!el) return;
+  const closed = state.trades.filter(t=>t.mode===mode&&t.pnl!==null&&t.result);
+
+  const map = {};
+  closed.forEach(tr=>{
+    const inst = tr.instrumentType||'gold_forex';
+    if(!map[inst]) map[inst]={n:0,wins:0,losses:0,bes:0,pnlUSD:0,pnlIDR:0,rrs:[]};
+    map[inst].n++;
+    if(tr.result==='WIN'){map[inst].wins++;if(tr.rr)map[inst].rrs.push(tr.rr);}
+    else if(tr.result==='LOSS') map[inst].losses++;
+    else map[inst].bes++;
+    const cur = getInstrumentCfg(inst).currency;
+    if(cur==='IDR') map[inst].pnlIDR+=(tr.pnl||0);
+    else            map[inst].pnlUSD+=(tr.pnl||0);
+  });
+
+  const entries = Object.entries(map);
+  if(!entries.length){ el.innerHTML=`<div style="color:var(--tx-faint);padding:8px 0">—</div>`; return; }
+
+  const rate     = state.settings.usdIdr||16000;
+  const totalUSD = entries.reduce((s,[,d])=>s+d.pnlUSD+idrToUsd(d.pnlIDR),0);
+
+  // Accent colors per instrument
+  const INST_STYLE = {
+    gold_forex: { color:'#f59e0b', bg:'rgba(245,158,11,.1)', label:'Gold / Forex',  icon:'💰' },
+    stock_idx:  { color:'#e11d48', bg:'rgba(225,29,72,.1)',  label:'Saham IDX',     icon:'🇮🇩' },
+    stock_us:   { color:'#3b82f6', bg:'rgba(59,130,246,.1)', label:'Saham US',      icon:'🇺🇸' },
+    crypto:     { color:'#8b5cf6', bg:'rgba(139,92,246,.1)', label:'Crypto',        icon:'🔗' },
+  };
+
+  const defCur = getDefaultCurrency();
+
+  const cards = entries.map(([inst,d])=>{
+    const cfg    = getInstrumentCfg(inst);
+    const style  = INST_STYLE[inst]||{color:'var(--primary)',bg:'var(--bg-muted)',label:cfg.label,icon:'📊'};
+    const wr     = d.n ? Math.round(d.wins/d.n*100) : 0;
+    const avgRR  = d.rrs.length?(d.rrs.reduce((a,b)=>a+b,0)/d.rrs.length).toFixed(2):null;
+    const wrcl   = wr>=60?'var(--grn)':wr>=40?'var(--ylw-fg)':'var(--red)';
+
+    // Native P&L of this instrument
+    const nativePnl = cfg.currency==='IDR' ? d.pnlIDR : d.pnlUSD;
+    const nativeCur = cfg.currency;
+
+    // Primary display logic:
+    // IDR instruments (IDX) → always show native IDR as primary, show converted as subtitle
+    // USD instruments → show in defaultCurrency as primary, show native as subtitle if different
+    let pnlPrimary, pnlPrimaryCur, equivTxt;
+
+    if(nativeCur === 'IDR') {
+      // Always show IDR native as primary for IDR instruments
+      pnlPrimary    = nativePnl;
+      pnlPrimaryCur = 'IDR';
+      // Subtitle: show USD equiv
+      equivTxt = `≈ ${fmtCurrency(idrToUsd(nativePnl),'USD',true)}`;
+    } else {
+      // USD instrument: show in defaultCurrency
+      if(defCur === 'IDR') {
+        pnlPrimary    = usdToIdr(d.pnlUSD);
+        pnlPrimaryCur = 'IDR';
+        equivTxt      = fmtCurrency(d.pnlUSD,'USD',true);
+      } else {
+        pnlPrimary    = d.pnlUSD;
+        pnlPrimaryCur = 'USD';
+        equivTxt      = '';
+      }
+    }
+
+    const pnlTxt = fmtCurrency(pnlPrimary, pnlPrimaryCur, true);
+    const pnlClr = pnlPrimary>0?'var(--grn)':pnlPrimary<0?'var(--red)':'var(--tx-muted)';
+
+    return `<div class="inst-card">
+      <!-- Top accent bar -->
+      <div style="height:3px;background:${style.color};border-radius:3px 3px 0 0;margin:-14px -14px 12px"></div>
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:7px">
+          <div style="width:28px;height:28px;border-radius:8px;background:${style.bg};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${style.icon}</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--tx)">${style.label}</div>
+            <div style="font-size:10px;color:var(--tx-faint)">${d.n} trade</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${pnlClr};line-height:1">${pnlTxt}</div>
+          ${equivTxt?`<div style="font-size:10px;color:var(--tx-faint);margin-top:2px">${equivTxt}</div>`:''}
+        </div>
+      </div>
+      <!-- Win Rate bar -->
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:10px;color:var(--tx-faint)">Win Rate</span>
+          <span style="font-size:11px;font-weight:600;color:${wrcl}">${wr}%</span>
+        </div>
+        <div style="height:4px;background:var(--bg-muted);border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:${wr}%;background:${wrcl};border-radius:2px;transition:width .3s"></div>
+        </div>
+      </div>
+      <!-- Stats row -->
+      <div style="display:flex;align-items:center;gap:4px">
+        <span style="flex:1;text-align:center;background:var(--grn-muted);color:var(--grn-fg);border-radius:4px;padding:3px 0;font-size:11px;font-weight:600">${d.wins}W</span>
+        <span style="flex:1;text-align:center;background:var(--red-muted);color:var(--red-fg);border-radius:4px;padding:3px 0;font-size:11px;font-weight:600">${d.losses}L</span>
+        <span style="flex:1;text-align:center;background:var(--ylw-muted);color:var(--ylw-fg);border-radius:4px;padding:3px 0;font-size:11px;font-weight:600">${d.bes}BE</span>
+        ${avgRR?`<span style="margin-left:auto;font-size:10px;color:var(--tx-faint);white-space:nowrap">RR 1:${avgRR}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Total card (only if multiple instruments)
+  // Primary: defaultCurrency total (USD instruments in USD/IDR, IDR instruments converted)
+  const sumUSD = entries.reduce((s,[,d])=>s+d.pnlUSD,0);
+  const sumIDR = entries.reduce((s,[,d])=>s+d.pnlIDR,0);
+  const totalInDefCur = defCur === 'IDR'
+    ? sumIDR + usdToIdr(sumUSD)
+    : sumUSD + idrToUsd(sumIDR);
+  // Subtitle: always show both USD and IDR components
+  const totalSubtitle = sumIDR !== 0
+    ? `${fmtCurrency(sumIDR,'IDR',true)} + ${fmtUSD(sumUSD,true)}`
+    : `1 USD = Rp${rate.toLocaleString('id-ID')}`;
+  const totalClr = totalInDefCur>0?'var(--grn)':totalInDefCur<0?'var(--red)':'var(--tx-muted)';
+
+  const totalCard = entries.length>1 ? `<div class="inst-card" style="background:var(--bg-muted)">
+    <div style="height:3px;background:var(--primary);border-radius:3px 3px 0 0;margin:-14px -14px 12px"></div>
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px">
+      <div style="width:28px;height:28px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px">Σ</div>
+      <div>
+        <div style="font-size:12px;font-weight:600">Total</div>
+        <div style="font-size:10px;color:var(--tx-faint)">${defCur} equiv.</div>
+      </div>
+    </div>
+    <div style="font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${totalClr};margin-bottom:4px">${fmtCurrency(totalInDefCur,defCur,true)}</div>
+    <div style="font-size:10px;color:var(--tx-faint);margin-bottom:4px">${totalSubtitle}</div>
+    <div style="font-size:10px;color:var(--tx-faint)">1 USD = Rp${rate.toLocaleString('id-ID')}</div>
+  </div>` : '';
+
+  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px">${cards}${totalCard}</div>`;
 }
 function exportAllData() {
   const blob = new Blob([JSON.stringify({state,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});
@@ -3233,6 +4360,11 @@ function initApp() {
   updateSidebarEquity();
   updateSidebarAlerts();
 
+  // Auto-fetch kurs jika mode auto dan sudah lebih dari 1 jam
+  if(state.settings.kursMode === 'auto') {
+    const lastFetch = state.settings.kursLastFetched || 0;
+    if(Date.now() - lastFetch > 60 * 60 * 1000) fetchLiveRate();
+  }
 
   // Show daily alerts on load if not met
   setTimeout(()=>{
