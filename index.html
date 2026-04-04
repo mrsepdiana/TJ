@@ -593,10 +593,28 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 .perf-cur-toggle { display:flex; gap:2px; background:var(--bg-muted); border:1px solid var(--border); border-radius:6px; padding:2px; }
 .pct-btn { padding:2px 8px; border:none; background:none; border-radius:4px; font-size:11px; font-weight:500; color:var(--tx-muted); cursor:pointer; transition:all .1s; }
 .pct-btn.on { background:var(--bg); color:var(--tx); box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.snackbar-wrap { position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; pointer-events:none; align-items:flex-end; }
+.snackbar {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px; border-radius:var(--radius);
+  background:var(--bg); border:1px solid var(--border);
+  box-shadow:0 4px 16px rgba(0,0,0,.12);
+  font-size:13px; min-width:220px; max-width:320px;
+  pointer-events:all; cursor:pointer;
+  animation: snackIn .22s cubic-bezier(.4,0,.2,1);
+}
+.snackbar.out { animation: snackOut .2s ease forwards; }
+.snackbar-icon { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.snackbar-body { flex:1; min-width:0; }
+.snackbar-title { font-weight:600; line-height:1.3; }
+.snackbar-desc  { font-size:11px; color:var(--tx-faint); margin-top:1px; }
+@keyframes snackIn  { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@keyframes snackOut { to   { opacity:0; transform:translateY(6px); } }
 .inst-card {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 14px;
   transition: box-shadow .15s, transform .15s;
+}
 }
 .inst-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .cur-info {
@@ -737,6 +755,9 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
 </style>
 </head>
 <body>
+<!-- Snackbar container -->
+<div class="snackbar-wrap" id="snackbar-wrap"></div>
+
 <div class="app" id="app">
 
 <!-- ══════════════════════════════════════
@@ -2132,7 +2153,7 @@ function initI18N() {
     // Sidebar
     'sidebar.equity':'Modal Equity',
     // Toast messages
-    'toast.inputError':'Input Tidak Lengkap',
+    'toast.tradeAdded':'Trade Ditambahkan','toast.tradeUpdated':'Trade Diperbarui','toast.tradeDeleted':'Trade Dihapus','toast.txAdded':'Transaksi Ditambahkan','toast.txDeleted':'Transaksi Dihapus','toast.inputError':'Input Tidak Lengkap',
     'toast.pairRequired':'Tanggal dan Pair wajib diisi!',
     'toast.amountRequired':'Tanggal dan Jumlah wajib diisi!',
     'toast.noData':'Tidak Ada Data',
@@ -2288,7 +2309,7 @@ function initI18N() {
     // Sidebar
     'sidebar.equity':'Equity',
     // Toast messages
-    'toast.inputError':'Incomplete Input',
+    'toast.tradeAdded':'Trade Added','toast.tradeUpdated':'Trade Updated','toast.tradeDeleted':'Trade Deleted','toast.txAdded':'Transaction Added','toast.txDeleted':'Transaction Deleted','toast.inputError':'Incomplete Input',
     'toast.pairRequired':'Date and Pair are required!',
     'toast.amountRequired':'Date and Amount are required!',
     'toast.noData':'No Data',
@@ -2713,7 +2734,7 @@ function openEditTrade(id, mode) {
 function saveTrade() {
   const date   = document.getElementById('fDate').value;
   const pair   = document.getElementById('fPair').value.trim();
-  if(!date||!pair){ showToast('error',t('toast.inputError'),t('toast.pairRequired')); return; }
+  if(!date||!pair){ showSnack('error',t('toast.inputError'),t('toast.pairRequired')); return; }
   const inst     = document.getElementById('fInstrument')?.value||'gold_forex';
   const cfg      = getInstrumentCfg(inst);
   const time     = document.getElementById('fTime').value||null;
@@ -2748,6 +2769,7 @@ function saveTrade() {
     createdAt: editTradeId ? state.trades.find(x=>x.id===editTradeId)?.createdAt : Date.now(),
   };
 
+  const isEdit = !!editTradeId;
   if(editTradeId) state.trades = state.trades.map(x=>x.id===editTradeId?tr:x);
   else state.trades.push(tr);
 
@@ -2764,6 +2786,9 @@ function saveTrade() {
   updateSidebarEquity();
   updateSidebarAlerts();
   updateChecklistBadge();
+  showSnack('success',
+    isEdit ? t('toast.tradeUpdated') : t('toast.tradeAdded'),
+    `${tr.pair||''} · ${tr.date}${tr.pnl!==null?' · '+fmtTradePnl(tr,true):''}`);
 }
 
 // ── DELETE CONFIRMATION MODAL ──
@@ -2778,25 +2803,35 @@ function openDeleteModal(title, desc, onConfirm) {
 }
 
 // ── TOAST / INFO MODAL ──
-function showToast(type, title, desc) {
-  // type: 'success' | 'error' | 'info' | 'warn'
-  const cfg = {
-    success: { bg:'var(--grn-muted)', border:'var(--grn-border)', stroke:'var(--grn)',
-      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>` },
-    error:   { bg:'var(--red-muted)',  border:'var(--red-border)',  stroke:'var(--red)',
-      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>` },
-    info:    { bg:'var(--blu-muted)',  border:'var(--blu-border)',  stroke:'var(--blu)',
-      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>` },
-    warn:    { bg:'var(--ylw-muted)',  border:'var(--ylw-border)',  stroke:'var(--ylw)',
-      icon:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ylw)" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` },
+function showSnack(type, title, desc, duration=3500) {
+  const wrap = document.getElementById('snackbar-wrap'); if(!wrap) return;
+  const colors = {
+    success: { bg:'var(--grn)',  icon:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>` },
+    error:   { bg:'var(--red)',  icon:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>` },
+    info:    { bg:'var(--blu)',  icon:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>` },
+    warn:    { bg:'var(--ylw)', icon:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` },
   };
-  const c = cfg[type]||cfg.info;
-  document.getElementById('mToastIcon').style.cssText = `width:48px;height:48px;border-radius:50%;background:${c.bg};border:2px solid ${c.border};display:flex;align-items:center;justify-content:center;margin:0 auto 14px`;
-  document.getElementById('mToastIcon').innerHTML = c.icon;
-  document.getElementById('mToastTitle').textContent = title;
-  document.getElementById('mToastDesc').textContent = desc;
-  openMod('mToast');
+  const c   = colors[type] || colors.info;
+  const el  = document.createElement('div');
+  el.className = 'snackbar';
+  el.innerHTML = `
+    <div class="snackbar-icon" style="background:${c.bg}">${c.icon}</div>
+    <div class="snackbar-body">
+      <div class="snackbar-title">${title}</div>
+      ${desc ? `<div class="snackbar-desc">${desc}</div>` : ''}
+    </div>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--tx-faint);flex-shrink:0"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  el.onclick = () => dismiss(el);
+  wrap.appendChild(el);
+
+  const dismiss = (node) => {
+    node.classList.add('out');
+    setTimeout(() => node.remove(), 200);
+  };
+  setTimeout(() => { if(el.isConnected) dismiss(el); }, duration);
 }
+
+function showToast(type, title, desc) { showSnack(type, title, desc); }
 
 // ── GENERIC CONFIRM MODAL ──
 function openConfirmModal(opts) {
@@ -2833,6 +2868,7 @@ function deleteTrade(id, mode) {
       renderJournal(mode); renderDashboard(mode); renderAnalysis(mode);
       if(mode==='live'){ renderTransactions(); renderAssets(); }
       updateSidebarEquity(); updateSidebarAlerts(); updateChecklistBadge();
+      showSnack('info', t('toast.tradeDeleted'), label);
     }
   );
 }
@@ -2847,6 +2883,7 @@ function deleteTransaction(id) {
       state.transactions = state.transactions.filter(x=>x.id!==id);
       saveState();
       renderTransactions(); renderDashboard('live'); updateSidebarEquity();
+      showSnack('info', t('toast.txDeleted'), label);
     }
   );
 }
@@ -3032,9 +3069,15 @@ function renderDashboard(mode) {
   // Total P&L converted to defaultCurrency (ALL trades)
   const totalPnlInCur = closed.reduce((s,tr) => s + pnlInDefaultCur(tr), 0);
 
-  // Equity in defaultCurrency
+  // Transactions (always in USD, convert if needed)
+  const txPnl    = state.transactions.reduce((s,tx) => {
+    const v = tx.type==='deposit' ? tx.amount : -tx.amount;
+    return s + (isIDR ? usdToIdr(v) : v);
+  }, 0);
+
+  // Equity in defaultCurrency = capital + transactions + trade P&L
   const capitalInCur = isIDR ? usdToIdr(state.settings.initialCapital||1000) : (state.settings.initialCapital||1000);
-  const primaryEq    = mode==='live' ? capitalInCur + totalPnlInCur : totalPnlInCur;
+  const primaryEq    = mode==='live' ? capitalInCur + txPnl + totalPnlInCur : totalPnlInCur;
   const primaryPnl   = totalPnlInCur;
 
   const wins  = closed.filter(t=>t.result==='WIN').length;
@@ -3123,10 +3166,12 @@ function updateSidebarEquity() {
 
   const closed = state.trades.filter(t => t.mode==='live' && t.pnl!==null && t.result);
   const totalPnlInCur = closed.reduce((s,tr) => s + pnlInDefaultCur(tr), 0);
-  const capitalInCur  = isIDR
-    ? usdToIdr(state.settings.initialCapital || 1000)
-    : (state.settings.initialCapital || 1000);
-  const equity = capitalInCur + totalPnlInCur;
+  const txPnl = state.transactions.reduce((s,tx) => {
+    const v = tx.type==='deposit' ? tx.amount : -tx.amount;
+    return s + (isIDR ? usdToIdr(v) : v);
+  }, 0);
+  const capitalInCur = isIDR ? usdToIdr(state.settings.initialCapital||1000) : (state.settings.initialCapital||1000);
+  const equity = capitalInCur + txPnl + totalPnlInCur;
 
   if(symEl) symEl.textContent = isIDR ? 'Rp' : '$';
   valEl.textContent = isIDR
@@ -3560,7 +3605,7 @@ function saveTransaction() {
   const date     = document.getElementById('txDate').value;
   const currency = document.getElementById('txCurrency')?.value || 'USD';
   const rawAmt   = parseFloat(document.getElementById('txAmount').value);
-  if(!date||isNaN(rawAmt)||rawAmt<=0){ showToast('error',t('toast.inputError'),t('toast.amountRequired')); return; }
+  if(!date||isNaN(rawAmt)||rawAmt<=0){ showSnack('error',t('toast.inputError'),t('toast.amountRequired')); return; }
 
   // Store original amount + currency, compute USD equivalent
   const amountUSD = currency === 'IDR' ? idrToUsd(rawAmt) : rawAmt;
@@ -3578,29 +3623,44 @@ function saveTransaction() {
   renderTransactions();
   renderDashboard('live');
   updateSidebarEquity();
+  showSnack('success', t('toast.txAdded'),
+    `${type==='deposit'?t('tx.deposit'):t('tx.withdrawal')} · ${fmtCurrency(rawAmt, currency, true)}`);
 }
 function renderTransactions() {
+  const cur    = getDefaultCurrency();
+  const isIDR  = cur === 'IDR';
+  const fmtTx  = (v, sign=false) => fmtCurrency(v, cur, sign);
+  const toDisp = (usd) => isIDR ? usdToIdr(usd) : usd; // convert USD amount to display currency
+
   const deps     = state.transactions.filter(t=>t.type==='deposit');
   const wds      = state.transactions.filter(t=>t.type==='withdrawal');
   const totalDep = deps.reduce((s,t)=>s+t.amount,0);
   const totalWd  = wds.reduce((s,t)=>s+t.amount,0);
   const txWord   = n => `${n} ${t(n===1?'tx.transaction':'tx.transactions')}`;
 
-  // Stat cards
-  document.getElementById('tx-initial').textContent       = fmtUSD(state.settings.initialCapital||1000);
+  // Stat cards — show in defaultCurrency
+  document.getElementById('tx-initial').textContent   = fmtTx(toDisp(state.settings.initialCapital||1000));
   const txInitHint = document.getElementById('tx-initial-hint');
   if(txInitHint) txInitHint.textContent = t('tx.settingNote');
-  document.getElementById('tx-total-dep').textContent     = fmtUSD(totalDep);
-  document.getElementById('tx-dep-count').textContent     = txWord(deps.length);
-  document.getElementById('tx-total-wd').textContent      = fmtUSD(totalWd);
-  document.getElementById('tx-wd-count').textContent      = txWord(wds.length);
+  document.getElementById('tx-total-dep').textContent = fmtTx(toDisp(totalDep));
+  document.getElementById('tx-dep-count').textContent = txWord(deps.length);
+  document.getElementById('tx-total-wd').textContent  = fmtTx(toDisp(totalWd));
+  document.getElementById('tx-wd-count').textContent  = txWord(wds.length);
 
-  // Total equity card
-  const equity = getEquity();
+  // Total equity card — use same logic as dashboard
+  const closed = state.trades.filter(t=>t.mode==='live'&&t.pnl!==null&&t.result);
+  const totalPnlInCur = closed.reduce((s,tr) => s + pnlInDefaultCur(tr), 0);
+  const txPnl = state.transactions.reduce((s,tx) => {
+    const v = tx.type==='deposit' ? tx.amount : -tx.amount;
+    return s + (isIDR ? usdToIdr(v) : v);
+  }, 0);
+  const capitalInCur = isIDR ? usdToIdr(state.settings.initialCapital||1000) : (state.settings.initialCapital||1000);
+  const equity = capitalInCur + txPnl + totalPnlInCur;
+
   const eqEl   = document.getElementById('tx-equity');
   const eqHint = document.getElementById('tx-equity-hint');
-  if(eqEl) { eqEl.textContent = fmtUSD(equity); eqEl.className = `stat-val mono${equity>=(state.settings.initialCapital||1000)?' up':' dn'}`; }
-  if(eqHint) { const d=equity-(state.settings.initialCapital||1000); eqHint.textContent=`${fmtUSD(d,true)} ${t('dashboard.fromCapital')}`; }
+  if(eqEl) { eqEl.textContent = fmtTx(equity); eqEl.className = `stat-val mono${equity>=capitalInCur?' up':' dn'}`; }
+  if(eqHint) { const d=equity-capitalInCur; eqHint.textContent=`${fmtTx(d,true)} ${t('dashboard.fromCapital')}`; }
 
   // IDR P&L card
   const { idr: idrPnl } = getPnlByCurrency('live');
@@ -3622,36 +3682,31 @@ function renderTransactions() {
   if(!sorted.length){ body.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display='none';
 
+  // Running equity per tx (always in USD internally, convert for display)
   const txsAsc = [...state.transactions].sort((a,b)=>a.createdAt-b.createdAt);
-  let eq = state.settings.initialCapital||1000;
+  let eqRun = state.settings.initialCapital||1000;
   const eqAfter = {};
-  txsAsc.forEach(tx=>{ if(tx.type==='deposit') eq+=tx.amount; else eq-=tx.amount; eqAfter[tx.id]=eq; });
+  txsAsc.forEach(tx=>{ if(tx.type==='deposit') eqRun+=tx.amount; else eqRun-=tx.amount; eqAfter[tx.id]=eqRun; });
   const totalUsdPnl = state.trades.filter(t=>t.mode==='live'&&t.pnl!==null&&getInstrumentCfg(t.instrumentType).currency==='USD').reduce((s,t)=>s+(t.pnl||0),0);
 
   body.innerHTML = sorted.map((tx,i)=>{
     const isDep   = tx.type==='deposit';
     const typeLbl = isDep ? `💰 ${t('tx.deposit')}` : `💸 ${t('tx.withdrawal')}`;
     const badge   = `<span class="badge ${isDep?'b-ok':'b-err'}">${typeLbl}</span>`;
-    const eqA     = (eqAfter[tx.id]||0) + totalUsdPnl;
+    const eqA     = (eqAfter[tx.id]||0) + totalUsdPnl; // running equity in USD
 
-    // Amount display: show original currency if available
-    const hasOrig  = tx.origAmount && tx.origCurrency && tx.origCurrency !== 'USD';
-    const amtPrim  = hasOrig
-      ? fmtCurrency(tx.origAmount, tx.origCurrency, false)
-      : fmtUSD(tx.amount);
-    const amtSub   = hasOrig
-      ? `<div style="font-size:11px;color:var(--tx-faint)">≈ ${fmtUSD(tx.amount)}</div>`
-      : '';
+    // Amount: show original currency if available
+    const hasOrig = tx.origAmount && tx.origCurrency && tx.origCurrency !== 'USD';
+    const amtPrim = hasOrig ? fmtCurrency(tx.origAmount, tx.origCurrency, false) : fmtTx(toDisp(tx.amount));
+    const amtSub  = hasOrig ? `<div style="font-size:11px;color:var(--tx-faint)">≈ ${fmtTx(toDisp(tx.amount))}</div>` : '';
 
     return`<tr>
       <td style="color:var(--tx-faint)">${i+1}</td>
       <td class="mono">${tx.date}</td>
       <td>${badge}</td>
-      <td class="${isDep?'up':'dn'} mono" style="font-weight:500">
-        ${isDep?'+':'−'}${amtPrim}${amtSub}
-      </td>
+      <td class="${isDep?'up':'dn'} mono" style="font-weight:500">${isDep?'+':'−'}${amtPrim}${amtSub}</td>
       <td style="color:var(--tx-muted)">${tx.note||'—'}</td>
-      <td class="mono">${fmtUSD(eqA)}</td>
+      <td class="mono">${fmtTx(toDisp(eqA))}</td>
       <td><button class="btn btn-del btn-icon" onclick="deleteTransaction('${tx.id}')" style="width:26px;height:26px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></td>
     </tr>`;
   }).join('');
@@ -3661,7 +3716,9 @@ function renderTransactions() {
 // ASSETS / PAIR ANALYSIS (Live only)
 // ════════════════════════════════════════
 function renderAssets() {
+  const cur       = getDefaultCurrency();
   const liveTrades = state.trades.filter(t=>t.mode==='live'&&t.pnl!==null&&t.pair);
+
   const map = {};
   liveTrades.forEach(tr=>{
     const p = tr.pair;
@@ -3670,10 +3727,12 @@ function renderAssets() {
     if(tr.result==='WIN')map[p].wins++;
     else if(tr.result==='LOSS')map[p].losses++;
     else map[p].bes++;
-    map[p].pnl += tr.pnl;
+    map[p].pnl += pnlInDefaultCur(tr);
   });
+
   const pairs = Object.keys(map);
   document.getElementById('asset-pairs-count').textContent = pairs.length;
+
   if(!pairs.length){
     document.getElementById('asset-best-pair').textContent='—';
     document.getElementById('asset-best-pnl').textContent='—';
@@ -3682,18 +3741,21 @@ function renderAssets() {
     document.getElementById('asset-content').innerHTML=`<div class="empty" style="padding:48px 0"><div class="empty-ico">📊</div><div class="empty-t">${t('empty.noAsset')}</div></div>`;
     return;
   }
+
   const sorted = Object.entries(map).sort((a,b)=>b[1].pnl-a[1].pnl);
-  const best = sorted[0], worst = sorted[sorted.length-1];
+  const best   = sorted[0];
+  const worst  = sorted[sorted.length-1];
+
   document.getElementById('asset-best-pair').textContent = best[0];
-  document.getElementById('asset-best-pnl').textContent = fmtUSD(best[1].pnl,true);
+  document.getElementById('asset-best-pnl').textContent  = fmtCurrency(best[1].pnl, cur, true);
   document.getElementById('asset-worst-pair').textContent = worst[0];
-  document.getElementById('asset-worst-pnl').textContent = fmtUSD(worst[1].pnl,true);
+  document.getElementById('asset-worst-pnl').textContent  = fmtCurrency(worst[1].pnl, cur, true);
 
   const maxAbsPnl = Math.max(...sorted.map(([,v])=>Math.abs(v.pnl)),1);
   const el = document.getElementById('asset-content');
   el.innerHTML = `<div class="card"><div class="card-body">
     ${sorted.map(([pair,d])=>{
-      const wr = d.trades?Math.round(d.wins/d.trades*100):0;
+      const wr  = d.trades?Math.round(d.wins/d.trades*100):0;
       const pct = Math.abs(d.pnl)/maxAbsPnl*100;
       const col = d.pnl>0?'var(--grn)':d.pnl<0?'var(--red)':'var(--ylw)';
       return`<div class="asset-bar-wrap">
@@ -3711,15 +3773,11 @@ function renderAssets() {
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <div class="asset-bar-track"><div class="asset-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-          <span class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-size:13px;font-weight:600;width:80px;text-align:right">${fmtUSD(d.pnl,true)}</span>
+          <span class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-size:13px;font-weight:600;width:100px;text-align:right">${fmtCurrency(d.pnl,cur,true)}</span>
         </div>
       </div>`;
     }).join('<hr style="border:none;border-top:1px solid var(--border);margin:12px 0">')}
-  </div></div>
-  <div class="tbl-wrap" style="margin-top:14px"><table class="main-tbl">
-    <thead><tr><th>Pair</th><th>Total Trade</th><th>Win</th><th>Loss</th><th>BE</th><th>Win Rate</th><th>Total P&L</th></tr></thead>
-    <tbody>${sorted.map(([pair,d])=>{const wr=d.trades?Math.round(d.wins/d.trades*100):0;return`<tr><td style="font-weight:500">${pair}</td><td>${d.trades}</td><td class="up" style="font-weight:500">${d.wins}</td><td class="dn" style="font-weight:500">${d.losses}</td><td class="warn" style="font-weight:500">${d.bes}</td><td class="${wr>=50?'up':'dn'} mono" style="font-weight:600">${wr}%</td><td class="${d.pnl>0?'up':d.pnl<0?'dn':'warn'} mono" style="font-weight:500">${fmtUSD(d.pnl,true)}</td></tr>`;}).join('')}</tbody>
-  </table></div>`;
+  </div></div>`;
 }
 
 // ════════════════════════════════════════
@@ -3880,7 +3938,7 @@ function openEditClItem(id) {
 
 function saveClItem() {
   const title = document.getElementById('cl-item-title').value.trim();
-  if(!title) { showToast('error','Input Kosong','Judul item wajib diisi!'); return; }
+  if(!title) { showSnack('error','Input Kosong','Judul item wajib diisi!'); return; }
   const section = document.getElementById('cl-item-section').value;
   const desc    = document.getElementById('cl-item-desc').value.trim();
 
@@ -3901,7 +3959,7 @@ function saveClItem() {
   closeMod('mClItem');
   renderClSettings();
   renderChecklist();
-  showToast('success', editClItemId ? 'Item Diperbarui' : 'Item Ditambahkan', `"${title}" berhasil ${editClItemId?'diperbarui':'ditambahkan'}.`);
+  showSnack('success', editClItemId ? 'Item Diperbarui' : 'Item Ditambahkan', `"${title}" berhasil ${editClItemId?'diperbarui':'ditambahkan'}.`);
   editClItemId = null;
 }
 
@@ -4012,10 +4070,10 @@ async function fetchLiveRate() {
     if(input) input.value = rate;
     if(lbl) lbl.textContent = `${t('settings.kursUpdated')} ${new Date().toLocaleTimeString(_lang==='id'?'id-ID':'en-US',{hour:'2-digit',minute:'2-digit'})}`;
     ['live','bt','pt'].forEach(m => renderDashboard(m));
-    showToast('success', t('settings.kursSuccess'), `1 USD = Rp${rate.toLocaleString('id-ID')}`);
+    showSnack('success', t('settings.kursSuccess'), `1 USD = Rp${rate.toLocaleString('id-ID')}`);
   } catch(e) {
     if(lbl) lbl.textContent = t('settings.kursFailed');
-    showToast('error', t('settings.kursFailed'), t('settings.kursFallback'));
+    showSnack('error', t('settings.kursFailed'), t('settings.kursFallback'));
   } finally {
     if(btn) { btn.disabled = false; btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>'; }
   }
@@ -4103,20 +4161,14 @@ function renderInstrumentBreakdown(mode) {
     const pnlClr = pnlPrimary>0?'var(--grn)':pnlPrimary<0?'var(--red)':'var(--tx-muted)';
 
     return `<div class="inst-card">
-      <!-- Top accent bar -->
-      <div style="height:3px;background:${style.color};border-radius:3px 3px 0 0;margin:-14px -14px 12px"></div>
-      <!-- Header -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="display:flex;align-items:center;gap:7px">
-          <div style="width:28px;height:28px;border-radius:8px;background:${style.bg};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${style.icon}</div>
-          <div>
-            <div style="font-size:12px;font-weight:600;color:var(--tx)">${style.label}</div>
-            <div style="font-size:10px;color:var(--tx-faint)">${d.n} trade</div>
-          </div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${pnlClr};line-height:1">${pnlTxt}</div>
-          ${equivTxt?`<div style="font-size:10px;color:var(--tx-faint);margin-top:2px">${equivTxt}</div>`:''}
+      <div style="height:3px;background:${style.color};border-radius:3px 3px 0 0;margin:-14px -14px 10px"></div>
+      <div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:10px">
+        <div style="width:26px;height:26px;border-radius:7px;background:${style.bg};display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">${style.icon}</div>
+        <div style="min-width:0;flex:1">
+          <div style="font-size:12px;font-weight:600">${style.label}</div>
+          <div style="font-size:10px;color:var(--tx-faint)">${d.n} trade</div>
+          <div style="font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${pnlClr};margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${pnlTxt}</div>
+          ${equivTxt?`<div style="font-size:10px;color:var(--tx-faint)">${equivTxt}</div>`:''}
         </div>
       </div>
       <!-- Win Rate bar -->
@@ -4134,7 +4186,7 @@ function renderInstrumentBreakdown(mode) {
         <span style="flex:1;text-align:center;background:var(--grn-muted);color:var(--grn-fg);border-radius:4px;padding:3px 0;font-size:11px;font-weight:600">${d.wins}W</span>
         <span style="flex:1;text-align:center;background:var(--red-muted);color:var(--red-fg);border-radius:4px;padding:3px 0;font-size:11px;font-weight:600">${d.losses}L</span>
         <span style="flex:1;text-align:center;background:var(--ylw-muted);color:var(--ylw-fg);border-radius:4px;padding:3px 0;font-size:11px;font-weight:600">${d.bes}BE</span>
-        ${avgRR?`<span style="margin-left:auto;font-size:10px;color:var(--tx-faint);white-space:nowrap">RR 1:${avgRR}</span>`:''}
+        ${avgRR?`<span style="margin-left:auto;font-size:10px;color:var(--tx-faint);white-space:nowrap;padding-left:6px">RR 1:${avgRR}</span>`:''}
       </div>
     </div>`;
   }).join('');
@@ -4166,7 +4218,7 @@ function renderInstrumentBreakdown(mode) {
     <div style="font-size:10px;color:var(--tx-faint)">1 USD = Rp${rate.toLocaleString('id-ID')}</div>
   </div>` : '';
 
-  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px">${cards}${totalCard}</div>`;
+  el.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px">${cards}${totalCard}</div>`;
 }
 function exportAllData() {
   const blob = new Blob([JSON.stringify({state,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});
@@ -4185,13 +4237,13 @@ function importAllData(event) {
           desc:`${t('toast.importBackupDesc')} "${file.name}"`,
           okLabel:t('import.btn'),
           cancelLabel:t('btn.cancel'),
-          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showToast('success',t('toast.importSuccess'),t('toast.importBackupSuccess')); }
+          onOk:()=>{ state={...state,...d.state}; saveState(); initApp(); showSnack('success',t('toast.importSuccess'),t('toast.importBackupSuccess')); }
         });
       } else {
-        showToast('error',t('toast.invalidFormat'),t('toast.invalidFormatDesc'));
+        showSnack('error',t('toast.invalidFormat'),t('toast.invalidFormatDesc'));
       }
     } catch {
-      showToast('error',t('toast.importFailed'),t('toast.importFailedDesc'));
+      showSnack('error',t('toast.importFailed'),t('toast.importFailedDesc'));
     }
   };
   reader.readAsText(file); event.target.value='';
@@ -4209,7 +4261,7 @@ function clearAllData() {
       localStorage.removeItem('tl_sidebar_mini');
       state={trades:[],transactions:[],checklist:{date:getTodayStr(),items:{}},settings:{language:'id',theme:'light',initialCapital:1000}};
       initApp();
-      showToast('success',t('toast.cleared'),t('toast.clearedDesc'));
+      showSnack('success',t('toast.cleared'),t('toast.clearedDesc'));
     }
   });
 }
@@ -4220,7 +4272,7 @@ function clearAllData() {
 const CSV_H = ['id','mode','date','entryTime','session','pair','setup','direction','lotSize','entryPrice','stopLoss','takeProfit','closePrice','pnlManual','pnl','result','rr','psychology','notes','lesson'];
 function exportCSV(mode) {
   const trades = state.trades.filter(t=>t.mode===mode);
-  if(!trades.length){ showToast('warn',t('toast.noData'),t('toast.noExportData')); return; }
+  if(!trades.length){ showSnack('warn',t('toast.noData'),t('toast.noExportData')); return; }
   const rows=[CSV_H.join(',')];
   trades.forEach(tr=>{const row=CSV_H.map(h=>{let v=tr[h]??'';if(h==='psychology')v=(tr.psychology||[]).join('|');if(typeof v==='string'&&(v.includes(',')||v.includes('"')||v.includes('\n')))v=`"${v.replace(/"/g,'""')}"`;return v;});rows.push(row.join(','));});
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'}));a.download=`tradelog_${mode}_${getTodayStr()}.csv`;a.click();
@@ -4256,7 +4308,7 @@ function importCSV(event, mode) {
       }
 
       if(!imported.length) {
-        showToast('error','Tidak Ada Data','File tidak mengandung data trade yang valid.');
+        showSnack('error','Tidak Ada Data','File tidak mengandung data trade yang valid.');
         event.target.value=''; return;
       }
 
@@ -4275,12 +4327,12 @@ function importCSV(event, mode) {
         closeMod('mImport');
         if(isOverwrite) {
           state.trades = [...state.trades.filter(t=>t.mode!==mode), ...imported];
-          showToast('success',t('toast.importSuccess'),`${imported.length} ${t('toast.importOverwriteDesc')} ${modeName}.`);
+          showSnack('success',t('toast.importSuccess'),`${imported.length} ${t('toast.importOverwriteDesc')} ${modeName}.`);
         } else {
           const ex = new Set(state.trades.map(t=>t.id));
           const newOnes = imported.filter(t=>!ex.has(t.id));
           state.trades = [...state.trades, ...newOnes];
-          showToast('success',t('toast.importSuccess'),`${newOnes.length} ${t('toast.importMergeDesc')} ${imported.length-newOnes.length} ${t('toast.importSkipped')}`);
+          showSnack('success',t('toast.importSuccess'),`${newOnes.length} ${t('toast.importMergeDesc')} ${imported.length-newOnes.length} ${t('toast.importSkipped')}`);
         }
         saveState();
         renderJournal(mode); renderDashboard(mode); renderAnalysis(mode);
@@ -4290,7 +4342,7 @@ function importCSV(event, mode) {
 
       openMod('mImport');
     } catch(err) {
-      showToast('error','Gagal Import',`Terjadi kesalahan saat membaca file: ${err.message}`);
+      showSnack('error','Gagal Import',`Terjadi kesalahan saat membaca file: ${err.message}`);
     }
     event.target.value='';
   };
