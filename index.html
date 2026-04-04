@@ -1852,7 +1852,10 @@ const INSTRUMENT_CFG = {
     contractSize:  100,
     computePnl(entry, close, dir, unit) {
       const diff = dir==='BUY' ? close-entry : entry-close;
-      return parseFloat((diff * unit * 100).toFixed(2));
+      // Gold: harga > 100, contract size 100 oz/lot
+      // Forex: harga < 100, contract size 100.000 unit/lot
+      const contractSize = entry > 100 ? 100 : 100000;
+      return parseFloat((diff * unit * contractSize).toFixed(2));
     },
     fmtPnl:        (v, sign) => fmtCurrency(v, 'USD', sign),
   },
@@ -1926,6 +1929,12 @@ function fmtDate(dateStr) {
   return `${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;
 }
 function fmtUSD(v, sign=false) { return fmtCurrency(v, 'USD', sign); }
+
+// Parse number that may use comma as decimal separator (e.g. "1,13136" → 1.13136)
+function parseNum(str) {
+  if(str === null || str === undefined || str === '') return NaN;
+  return parseFloat(String(str).replace(/,/g, '.'));
+}
 
 function computePnl(entry, close, dir, lot, instrumentType) {
   return getInstrumentCfg(instrumentType).computePnl(entry, close, dir, lot);
@@ -2739,14 +2748,14 @@ function saveTrade() {
   const cfg      = getInstrumentCfg(inst);
   const time     = document.getElementById('fTime').value||null;
   const session  = time ? getSession(time, inst) : null;
-  const entry    = parseFloat(document.getElementById('fEntry').value)||null;
-  const sl       = parseFloat(document.getElementById('fSL').value)||null;
-  const tp       = parseFloat(document.getElementById('fTP').value)||null;
-  const lot      = parseFloat(document.getElementById('fLot').value)||null;
+  const entry    = parseNum(document.getElementById('fEntry').value)||null;
+  const sl       = parseNum(document.getElementById('fSL').value)||null;
+  const tp       = parseNum(document.getElementById('fTP').value)||null;
+  const lot      = parseNum(document.getElementById('fLot').value)||null;
   const cpRaw    = document.getElementById('fClose').value;
-  const closePrice = cpRaw!==''?parseFloat(cpRaw):null;
+  const closePrice = cpRaw!==''?parseNum(cpRaw):null;
   const pmRaw    = document.getElementById('fPnl').value;
-  const pnlManual = pmRaw!==''?parseFloat(pmRaw):null;
+  const pnlManual = pmRaw!==''?parseNum(pmRaw):null;
   const dir      = document.getElementById('fDir').value;
 
   let pnl = null;
@@ -2933,12 +2942,12 @@ function updateSessPreview() {
 }
 
 function onPriceChange() {
-  const e   = parseFloat(document.getElementById('fEntry')?.value)||null;
-  const sl  = parseFloat(document.getElementById('fSL')?.value)||null;
-  const tp  = parseFloat(document.getElementById('fTP')?.value)||null;
-  const cl  = parseFloat(document.getElementById('fClose')?.value);
-  const lt  = parseFloat(document.getElementById('fLot')?.value)||null;
-  const pm  = parseFloat(document.getElementById('fPnl')?.value);
+  const e   = parseNum(document.getElementById('fEntry')?.value)||null;
+  const sl  = parseNum(document.getElementById('fSL')?.value)||null;
+  const tp  = parseNum(document.getElementById('fTP')?.value)||null;
+  const cl  = parseNum(document.getElementById('fClose')?.value);
+  const lt  = parseNum(document.getElementById('fLot')?.value)||null;
+  const pm  = parseNum(document.getElementById('fPnl')?.value);
   const dir = document.getElementById('fDir')?.value||'BUY';
   const inst = document.getElementById('fInstrument')?.value||'gold_forex';
   const cfg  = getInstrumentCfg(inst);
